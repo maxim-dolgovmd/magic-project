@@ -1,0 +1,148 @@
+import React from "react";
+import Image from "next/image";
+
+// function HarcodeIllustration() {
+//     return [
+
+//     ]
+// }
+
+const harcodeIllustration = [
+  {
+    id: 0,
+    largePhoto: "/illustration/crator/cratorLarge.png",
+    normalPhoto: "/illustration/crator/cratorLarge.png",
+    mobilePhoto: "/illustration/crator/cratorLarge.png",
+    price: 20,
+    nameItem: "Краторная булка N-200i",
+    quantity: 1,
+  },
+  {
+    id: 1,
+    largePhoto: "/illustration/bun/bunLarge.png",
+    normalPhoto: "/illustration/bun/bunLarge.png",
+    mobilePhoto: "/illustration/bun/bunLarge.png",
+    price: 20,
+    nameItem: "Флюоресцентная булка R2-D3",
+    quantity: 1,
+  },
+  {
+    id: 2,
+    largePhoto: "/illustration/file/fileLarge.png",
+    normalPhoto: "/illustration/file/fileLarge.png",
+    mobilePhoto: "/illustration/file/fileLarge.png",
+    price: 300,
+    nameItem: "Филе Люминесцентного тетраодонтимформа",
+    quantity: 1,
+  },
+  {
+    id: 3,
+    largePhoto: "/illustration/meat/meatLarge.png",
+    normalPhoto: "/illustration/meat/meatLarge.png",
+    mobilePhoto: "/illustration/meat/meatLarge.png",
+    price: 300,
+    nameItem: "Мясо бессмертных моллюсков Protostomia",
+    quantity: 1,
+  },
+  {
+    id: 4,
+    largePhoto: "/illustration/meteorite/meteoriteLarge.png",
+    normalPhoto: "/illustration/meteorite/meteoriteLarge.png",
+    mobilePhoto: "/illustration/meteorite/meteoriteLarge.png",
+    price: 300,
+    nameItem: "Говяжий метеорит (отбивная)",
+    quantity: 1,
+  },
+  {
+    id: 5,
+    largePhoto: "/illustration/bioCutlet/bioCutletLarge.png",
+    normalPhoto: "/illustration/bioCutlet/bioCutletLarge.png",
+    mobilePhoto: "/illustration/bioCutlet/bioCutletLarge.png",
+    price: 300,
+    nameItem: "Биокотлета из марсианской Магнолии",
+    quantity: 1,
+  },
+  {
+    id: 6,
+    largePhoto: "/illustration/sauce/sauceLarge.png",
+    normalPhoto: "/illustration/sauce/sauceLarge.png",
+    mobilePhoto: "/illustration/sauce/sauceLarge.png",
+    price: 30,
+    nameItem: "Соус Spicy-X",
+    quantity: 1,
+  },
+  {
+    id: 7,
+    largePhoto: "/illustration/spiceSauce/spiceSauceLarge.png",
+    normalPhoto: "/illustration/spiceSauce/spiceSauceLarge.png",
+    mobilePhoto: "/illustration/spiceSauce/spiceSauceLarge.png",
+    price: 30,
+    nameItem: "Соус фирменный Space Sauce",
+    quantity: 1,
+  },
+  {
+    id: 8,
+    largePhoto: "/illustration/space/spaceLarge.png",
+    normalPhoto: "/illustration/space/spaceLarge.png",
+    mobilePhoto: "/illustration/space/spaceLarge.png",
+    price: 30,
+    nameItem: "Соус традиционный галактический",
+    quantity: 1,
+  },
+  {
+    id: 9,
+    largePhoto: "/illustration/traditionalSauce/traditionalSauceLarge.png",
+    normalPhoto: "/illustration/traditionalSauce/traditionalSauceLarge.png",
+    mobilePhoto: "/illustration/traditionalSauce/traditionalSauceLarge.png",
+    price: 30,
+    nameItem: "Соус с шипами Антарианского плоскоходца",
+    quantity: 1,
+  },
+  {
+    id: 10,
+    largePhoto: "/illustration/fruit/fruitLarge.png",
+    normalPhoto: "/illustration/fruit/fruitLarge.png",
+    mobilePhoto: "/illustration/fruit/fruitLarge.png",
+    price: 80,
+    nameItem: "Плоды фалленианского дерева",
+    quantity: 1,
+  },
+  {
+    id: 11,
+    largePhoto: "/illustration/crystals/crystalsLarge.png",
+    normalPhoto: "/illustration/crystals/crystalsLarge.png",
+    mobilePhoto: "/illustration/crystals/crystalsLarge.png",
+    price: 80,
+    nameItem: "Кристаллы марсианских альфа-сахаридов",
+    quantity: 1,
+  },
+  {
+    id: 12,
+    largePhoto: "/illustration/mineral/mineralLarge.png",
+    normalPhoto: "/illustration/mineral/mineralLarge.png",
+    mobilePhoto: "/illustration/mineral/mineralLarge.png",
+    price: 80,
+    nameItem: "Хрустящие минеральные кольца",
+    quantity: 1,
+  },
+  {
+    id: 13,
+    largePhoto: "/illustration/salad/saladLarge.png",
+    normalPhoto: "/illustration/salad/saladLarge.png",
+    mobilePhoto: "/illustration/salad/saladLarge.png",
+    price: 80,
+    nameItem: "Мини-салат Экзо-Плантаго",
+    quantity: 1,
+  },
+  {
+    id: 14,
+    largePhoto: "/illustration/cheese/cheeseLarge.png",
+    normalPhoto: "/illustration/cheese/cheeseLarge.png",
+    mobilePhoto: "/illustration/cheese/cheeseLarge.png",
+    price: 80,
+    nameItem: "Сыр с астероидной плесенью",
+    quantity: 1,
+  },
+];
+
+export default harcodeIllustration;
