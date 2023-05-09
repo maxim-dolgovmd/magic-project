@@ -7,6 +7,7 @@ const Button = styled.button`
     justify-content: center;
     border-radius: 64px;
     background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+    box-shadow: 0px 0px 16px 8px rgba(51, 51, 255, 0.25), 0px 0px 8px 8px rgba(51, 51, 255, 0.25);
 
     border-radius: 8px;
 
@@ -19,9 +20,10 @@ const Button = styled.button`
         switch(props.size) {
             case 'small':
                 return {
+                    borderRadius: '32px',
                     padding: '20px 40px',
 
-                    width: '138px',
+                    // width: '138px',
                     height: '64px',
                 }
             case 'medium':
@@ -30,7 +32,7 @@ const Button = styled.button`
 
                     padding: '16px 40px',
 
-                    width: '138px',
+                    // width: '138px',
                     height: '56px',
                 }
             case 'large':
@@ -39,7 +41,7 @@ const Button = styled.button`
 
                     padding: '10px 32px',
 
-                    width: '115px',
+                    // width: '115px',
                     height: '40px',
                 }
         }

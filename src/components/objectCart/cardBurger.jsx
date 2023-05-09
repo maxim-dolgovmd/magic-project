@@ -1,17 +1,18 @@
 import React from "react";
 
-import hardcodeillustration from '../json/hardcodeillustration'
+import {harcodeIllustration} from '../json/hardcodeillustration'
 import IngredientBurger from '../ingridient/ingridientBurger'
 
 const cardBurger = () => {
-    
-    return hardcodeillustration.map((obj) => {
+
+    return harcodeIllustration.map((obj) => {
+        // console.log(Object(obj))
         return (
             <IngredientBurger 
                 key={obj.id}
-                photo={obj.mobilePhoto}
-                nameItem={obj.nameItem}
-                price={obj.price}
+                photo={obj?.mobilePhoto}
+                nameItem={obj?.nameItem}
+                price={obj?.price}
             />
         )
     })

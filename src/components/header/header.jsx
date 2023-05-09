@@ -2,14 +2,14 @@ import React from "react";
 import styled from 'styled-components'
 
 import Burger from '../../assets/icon/burger.svg'
-import ViewList from '../../assets/icon/Name=view-list.svg'
-import Profile from '../../assets/icon/Name=profile.svg'
-import Logo from './logo/logo.svg'
-import Tab from '../tubs/tub'
+import ViewList from '../../assets/icon/view-list.svg'
+import Profile from '../../assets/icon/profile.svg'
+import Logo from '../../assets/icon/logo.svg'
+import Tab from '../tabs/tab'
+import Container from '../container/container'
 
-const HeaderWrapper = styled.header`
-    padding-top: 40px;
-`
+
+
 
 const Wrapper = styled.div`
     background-color: #1C1C21;
@@ -18,10 +18,6 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
-const Container = styled.div`
-    max-width: 1280px;
-    margin: 0 auto;
-`
 
 const Grid = styled.div`
     display: grid;
@@ -62,31 +58,29 @@ const BoxLogo = styled.div`
 const Header = () => {
 
     return (
-        <HeaderWrapper>
-            <Wrapper> 
-                <Container>
-                    <Grid>
-                        <Box>
-                            <BoxBlock >
-                                <Burger />
-                                <div>Конструктор</div>
-                            </BoxBlock>
-                            <BoxBlock>
-                                <ViewList />
-                                <div>Лента заказов</div>
-                            </BoxBlock>
-                        </Box>
-                        <BoxLogo>
-                            <Logo />
-                        </BoxLogo>
-                        <BoxBlock>
-                            <Profile />
-                            <div>Личный кабинет</div>
+        <Wrapper> 
+            <Container>
+                <Grid>
+                    <Box>
+                        <BoxBlock >
+                            <Burger />
+                            <div>Конструктор</div>
                         </BoxBlock>
-                    </Grid>
-                </Container>
-            </Wrapper>
-        </HeaderWrapper>
+                        <BoxBlock>
+                            <ViewList />
+                            <div>Лента заказов</div>
+                        </BoxBlock>
+                    </Box>
+                    <BoxLogo>
+                        <Logo />
+                    </BoxLogo>
+                    <BoxBlock>
+                        <Profile />
+                        <div>Личный кабинет</div>
+                    </BoxBlock>
+                </Grid>
+            </Container>
+        </Wrapper>
     )
 }
 

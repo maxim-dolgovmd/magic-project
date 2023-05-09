@@ -29,10 +29,11 @@ const BoxImage = styled.div`
     position: relative;
 `
 
+
 const Counter = styled.div`
     position: absolute;
     top: 0;
-    right: -16px;
+    right: 0px;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -66,12 +67,13 @@ function Ingridient({
         <Wrapper>
             <Block>
                 <BoxImage>
-                    <Counter>
-                        {quantity}
-                    </Counter>
                     <div>
                         <Image src={photo} width={240} height={120} alt="Crator" unoptimized />
                     </div>
+                
+                    <Counter>
+                        {quantity}
+                    </Counter>
                 </BoxImage>
                 <Box>
                     <div>{price}</div>

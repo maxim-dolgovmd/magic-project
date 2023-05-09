@@ -5,11 +5,12 @@ import Image from "next/image"
 
 const Wrapper = styled.div`
     display: flex;
-    padding: 20px 0;
+    gap: 16px;
 `
 
 const Block = styled.div`
     display: flex;
+    align-items: center;
     background: #1C1C21;
     border-radius: 88px 88px 40px 40px;
     padding: 16px 24px;

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-    max-width: 1370px;
+    max-width: 1280px;
     padding: 0 15px;
     box-sizing: content-box;
     margin: 0 auto;
@@ -10,7 +10,7 @@ const Container = styled.div`
     flex: 1 1 auto;
 
     @media (min-width: '767.97px') {
-        max-width: 1390px;
+        max-width: 1300px;
         padding: 0 24px;
     }
 `

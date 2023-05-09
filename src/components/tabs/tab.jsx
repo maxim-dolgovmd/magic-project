@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components'
 
-const Tub = styled.button`
+const Tab = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,6 +24,7 @@ const Tub = styled.button`
             case 'noactive':
                 return {
                     color: '#8585AD',
+                    boxShadow: 'inset 0px -2px 0px #2F2F37',
                     padding: '16px 40px',
                     
                     fontWeight: '400',
@@ -33,5 +34,5 @@ const Tub = styled.button`
         }
     }};
 `
-export default React.memo(Tub)
+export default React.memo(Tab)
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import harcodeIllustration from "../json/hardcodeillustration";
+import {harcodeIllustration} from "../json/hardcodeillustration";
 import Ingridient from '../ingridient/ingridient'
 
 const cardDesktop = () => {
