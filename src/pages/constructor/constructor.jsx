@@ -21,7 +21,7 @@ const Title = styled.h1`
 
 const GridTab = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     padding: 0 0 40px 0;
 `
 
@@ -76,26 +76,30 @@ const BoxSum = styled.div`
 
 
 
-const hardcodeIngredient = [ "Булки", "Соусы", "Начинки" ]
-const hardcode = [
+// const hardcodeIngredient = [ "Булки", "Соусы", "Начинки" ]
+const hardcodeObjIngr = [
     {
         id: 0,
-        nameObj: 'Булки'
+        nameObj: 'Все'
     },
     {
         id: 1,
-        nameObj: 'Соусы'
+        nameObj: 'Булки'
     },
     {
         id: 2,
+        nameObj: 'Соусы'
+    },
+    {
+        id: 3,
         nameObj: 'Начинки'
     }
 ]
 
 const Constructor = () => {
 
-    const [active, setActive] = React.useState(0)
-    const [sortTitle, setSortTitle] = React.useState('Булки')
+    // const [active, setActive] = React.useState(0)
+    const [filterIngr, setFilterIngr] = React.useState(hardcodeObjIngr[0])
     
 
     return(
@@ -104,25 +108,29 @@ const Constructor = () => {
             <GridColumns>
                 <div>
                     <GridTab>
-                        {hardcode.map((obj, index) => {
+                        {hardcodeObjIngr.map((obj, index) => {
                             return (
-                                <Tab key={index} status={active===obj.id ? 'active' : 'noactive'} onClick={() => (setActive(index), setSortTitle(obj.nameObj))}>
+                                <Tab 
+                                    key={index} 
+                                    status={filterIngr.id===obj.id ? 'active' : 'noactive'} 
+                                    onClick={() => {
+                                        setFilterIngr(obj)
+                                    }}>
                                     {obj.nameObj}
                                 </Tab>
                             )
                         })}
                     </GridTab>
                     {/* {hardcodeIngredient.map((title, index) => {
-                        // sort((a, b) => a.title < b.sortTitle ? 1 : -1)
                         return (
-                            <> */}
+                            <>
+                            <OverlayScrollbarsComponent> */}
                             <OverlayScrollbarsComponent>
-                                <div style={{height: '440px'}}>
-                                        <TitleBlock>{sortTitle}</TitleBlock>
-                                        <GridMenu>
-                                            {harcodeIllustration
-                                                .filter((obj) => obj.type === sortTitle)
-                                                // .sort((a, b) => a.title < b.sortTitle ? 1 : -1)
+                                <div style={{height: '460px'}}>
+                                    <TitleBlock>{filterIngr.nameObj}</TitleBlock>
+                                    <GridMenu>
+                                        {filterIngr.nameObj === 'Все' ? 
+                                            harcodeIllustration
                                                 .map((objIngredient, index) =>  {
                                                 
                                                 return (
@@ -136,10 +144,27 @@ const Constructor = () => {
                                                         />
                                                     </>
                                                 )
-                                            })}
-                                        </GridMenu>
-                                    </div>
+                                            }) : harcodeIllustration
+                                                    .filter((obj) => obj.type === filterIngr.nameObj)
+                                                    .map((objIngredient, index) =>  {
+                                                
+                                                        return (
+                                                            <>
+                                                                <Ingridient
+                                                                    key={objIngredient.id}
+                                                                    nameItem={objIngredient?.nameItem}
+                                                                    photo={objIngredient?.largePhoto}
+                                                                    price={objIngredient?.price}
+                                                                    quantity={objIngredient?.quantity}
+                                                                />
+                                                            </>
+                                                        )
+                                                    })
+                                        }
+                                    </GridMenu>
+                                </div>
                             </OverlayScrollbarsComponent>
+                            {/* </OverlayScrollbarsComponent> */}
                             {/* </>
                         )
                     })} */}
