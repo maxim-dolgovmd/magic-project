@@ -38,20 +38,16 @@ const cardBurger = ({setDeleteIngrSum, deleteIngrSum}) => {
     const addProduct = useSelector((state) => state.addCart.addProduct)
 
     return addProduct.map((obj, index) => {
-        // console.log(Object(obj))
-        const firstElem = addProduct[0]
-        const lastElem = addProduct[addProduct.length-1]
-        
+      
         return (
             // eslint-disable-next-line react/jsx-key
-            <BoxBorder borderFirst={firstElem===obj.id} borderLast={lastElem===obj.id}>
+            <BoxBorder borderFirst={index===0} borderLast={index === addProduct.length-1}>
                 <IngredientBurger 
                     key={obj.id}
                     photo={obj?.mobilePhoto}
                     nameItem={obj?.nameItem}
                     price={obj?.price}
                     obj={obj}
-                    border = {firstElem === obj.id }
                     index={index}
                     setDeleteIngrSum={setDeleteIngrSum}
                     deleteIngrSum={deleteIngrSum}

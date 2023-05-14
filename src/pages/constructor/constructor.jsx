@@ -201,7 +201,8 @@ const Constructor = () => {
                     <HeaderCard>Корзина</HeaderCard>
                     <OverlayScrollbarsComponent>
                         <GridBurger>
-                            {addProduct.lenght > 0 ? <CardBurger setDeleteIngrSum={setDeleteIngrSum} deleteIngrSum={deleteIngrSum}/> : <div>jdjdjdj</div>}
+                            {addProduct.length > 0 ? <CardBurger setDeleteIngrSum={setDeleteIngrSum} deleteIngrSum={deleteIngrSum}/> : <div>jdjdjdj</div>}
+                            {/* <CardBurger setDeleteIngrSum={setDeleteIngrSum} deleteIngrSum={deleteIngrSum}/> */}
                         </GridBurger>
                     </OverlayScrollbarsComponent>
                     <BoxOrder>
