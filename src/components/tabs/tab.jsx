@@ -6,11 +6,12 @@ const Tab = styled.button`
     justify-content: center;
     align-items: center;
     background: #131316;
+    cursor: pointer;
     
     
     ${(props) => {
         switch(props.status) {
-            case 'active':
+            case true:
                 return {
                     color: '#F2F2F3',
                     boxShadow: 'inset 0px -2px 0px #4C4CFF',
@@ -21,7 +22,7 @@ const Tab = styled.button`
                     lineHeight: '24px',
                 }
 
-            case 'noactive':
+            case false:
                 return {
                     color: '#8585AD',
                     boxShadow: 'inset 0px -2px 0px #2F2F37',

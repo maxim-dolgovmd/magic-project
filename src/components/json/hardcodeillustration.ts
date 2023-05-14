@@ -8,7 +8,6 @@ interface IIllustration {
   mobilePhoto: string,
   price: number,
   nameItem: string,
-  quantity: number,
   type: string,
 }
 
@@ -22,7 +21,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/crator/cratorLarge.png",
     price: 20,
     nameItem: "Краторная булка N-200i",
-    quantity: 1,
     type: "Булки",
   },
   {
@@ -32,7 +30,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/bun/bunLarge.png",
     price: 20,
     nameItem: "Флюоресцентная булка R2-D3",
-    quantity: 1,
     type: "Булки",
   },
   {
@@ -42,7 +39,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/file/fileLarge.png",
     price: 300,
     nameItem: "Филе Люминесцентного тетраодонтимформа",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -52,7 +48,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/meat/meatLarge.png",
     price: 300,
     nameItem: "Мясо бессмертных моллюсков Protostomia",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -62,7 +57,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/meteorite/meteoriteLarge.png",
     price: 300,
     nameItem: "Говяжий метеорит (отбивная)",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -72,7 +66,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/bioCutlet/bioCutletLarge.png",
     price: 300,
     nameItem: "Биокотлета из марсианской Магнолии",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -82,7 +75,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/sauce/sauceLarge.png",
     price: 30,
     nameItem: "Соус Spicy-X",
-    quantity: 1,
     type: "Соусы",
   },
   {
@@ -92,7 +84,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/spiceSauce/spiceSauceLarge.png",
     price: 30,
     nameItem: "Соус фирменный Space Sauce",
-    quantity: 1,
     type: "Соусы",
   },
   {
@@ -102,7 +93,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/space/spaceLarge.png",
     price: 30,
     nameItem: "Соус традиционный галактический",
-    quantity: 1,
     type: "Соусы",
   },
   {
@@ -112,7 +102,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/traditionalSauce/traditionalSauceLarge.png",
     price: 30,
     nameItem: "Соус с шипами Антарианского плоскоходца",
-    quantity: 1,
     type: "Соусы",
   },
   {
@@ -122,7 +111,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/fruit/fruitLarge.png",
     price: 80,
     nameItem: "Плоды фалленианского дерева",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -132,7 +120,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/crystals/crystalsLarge.png",
     price: 80,
     nameItem: "Кристаллы марсианских альфа-сахаридов",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -142,7 +129,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/mineral/mineralLarge.png",
     price: 80,
     nameItem: "Хрустящие минеральные кольца",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -152,7 +138,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/salad/saladLarge.png",
     price: 80,
     nameItem: "Мини-салат Экзо-Плантаго",
-    quantity: 1,
     type: "Начинки",
   },
   {
@@ -162,7 +147,6 @@ export const harcodeIllustration: IIllustration[] = [
     mobilePhoto: "/illustration/cheese/cheeseLarge.png",
     price: 80,
     nameItem: "Сыр с астероидной плесенью",
-    quantity: 1,
     type: "Начинки",
   },
 ];

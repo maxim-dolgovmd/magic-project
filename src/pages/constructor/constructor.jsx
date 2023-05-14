@@ -11,6 +11,10 @@ import Button from '../../components/button/button'
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import {setAddProduct} from '../../redux/slices/addCartSlice'
+
 const Title = styled.h1`
     font-weight: 700;
     font-size: 36px;
@@ -39,7 +43,8 @@ const GridColumns = styled.div`
 `
 
 const GridBurger = styled.div`
-    display: grid;
+    display: flex;
+    flex-direction: column;
     justify-items: flex-end;
     gap: 16px;
     height: 400px;
@@ -74,6 +79,14 @@ const BoxSum = styled.div`
     }
 `
 
+const HeaderCard = styled.div`
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    color: #F2F2F3;
+    padding: 0 0 20px 0;
+`
+
 
 
 // const hardcodeIngredient = [ "Булки", "Соусы", "Начинки" ]
@@ -100,6 +113,13 @@ const Constructor = () => {
 
     // const [active, setActive] = React.useState(0)
     const [filterIngr, setFilterIngr] = React.useState(hardcodeObjIngr[0])
+
+    const sumProduct = useSelector((state) => state.addCart.sumProduct)
+    const addProduct = useSelector((state) => state.addCart.addProduct)
+    console.log(addProduct)
+    const [deleteIngrSum, setDeleteIngrSum] = React.useState(0) 
+    // const [addProduct, setAddProduct] = React.useState([])
+    // const addProduct = useSelector((state) => state.addCart.addProduct)
     
 
     return(
@@ -112,7 +132,7 @@ const Constructor = () => {
                             return (
                                 <Tab 
                                     key={index} 
-                                    status={filterIngr.id===obj.id ? 'active' : 'noactive'} 
+                                    status={filterIngr.id===obj.id} 
                                     onClick={() => {
                                         setFilterIngr(obj)
                                     }}>
@@ -132,34 +152,41 @@ const Constructor = () => {
                                         {filterIngr.nameObj === 'Все' ? 
                                             harcodeIllustration
                                                 .map((objIngredient, index) =>  {
-                                                
+                                                // console.log(addProduct)
                                                 return (
+                                                    // eslint-disable-next-line react/jsx-key
                                                     <>
                                                         <Ingridient
                                                             key={objIngredient.id}
                                                             nameItem={objIngredient?.nameItem}
                                                             photo={objIngredient?.largePhoto}
                                                             price={objIngredient?.price}
-                                                            quantity={objIngredient?.quantity}
+                                                            objIngredient={objIngredient}
+                                                            deleteIngrSum={deleteIngrSum}
+                                                            // setAddProduct={(obj) => setAddProduct(obj)}
                                                         />
                                                     </>
                                                 )
                                             }) : harcodeIllustration
                                                     .filter((obj) => obj.type === filterIngr.nameObj)
                                                     .map((objIngredient, index) =>  {
-                                                
+                                                        // console.log(addProduct)
+                                                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                                                        
                                                         return (
+                                                            // eslint-disable-next-line react/jsx-key
                                                             <>
                                                                 <Ingridient
                                                                     key={objIngredient.id}
                                                                     nameItem={objIngredient?.nameItem}
                                                                     photo={objIngredient?.largePhoto}
                                                                     price={objIngredient?.price}
-                                                                    quantity={objIngredient?.quantity}
+                                                                    objIngredient={objIngredient}
+                                                                    // setAddProduct={(obj) => setAddProduct(obj)}
                                                                 />
                                                             </>
                                                         )
-                                                    })
+                                                    }) 
                                         }
                                     </GridMenu>
                                 </div>
@@ -171,20 +198,22 @@ const Constructor = () => {
                     
                 </div>
                 <div>
+                    <HeaderCard>Корзина</HeaderCard>
                     <OverlayScrollbarsComponent>
                         <GridBurger>
-                            <CardBurger />
+                            {addProduct.lenght > 0 ? <CardBurger setDeleteIngrSum={setDeleteIngrSum} deleteIngrSum={deleteIngrSum}/> : <div>jdjdjdj</div>}
                         </GridBurger>
                     </OverlayScrollbarsComponent>
                     <BoxOrder>
                         <BoxSum>
-                            <div>610</div>
+                            <div>{sumProduct}</div>
                             <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
                         </BoxSum>
                         <Button size='small'>
                             Оформить заказ
                         </Button>
                     </BoxOrder>
+                    {/* <div>{addProduct}</div> */}
                 </div>
             </GridColumns>
         </div>

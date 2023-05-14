@@ -3,6 +3,10 @@ import styled from 'styled-components'
 
 import Image from "next/image"
 
+import { useSelector, useDispatch } from "react-redux";
+
+import {setAddProduct} from '../../redux/slices/addCartSlice'
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -45,6 +49,7 @@ const Counter = styled.div`
     font-weight: 400;
     font-size: 20px;
     line-height: 18px;
+    cursor: pointer;
 `
 
 const BoxName = styled.div`
@@ -60,8 +65,25 @@ function Ingridient({
     photo,
     price,
     nameItem,
-    quantity,
+    setAddProduc,
+    objIngredient,
+    deleteIngrSum,
 }) {
+
+    const [count, setCount] = React.useState(0)
+
+    // const count = useSelector((state) => state.addCart.count)
+
+    const addProduct = useSelector((state) => state.addCart.addProduct)
+    const dispatch = useDispatch()
+
+    const addProductCart = (prev) => {
+        setCount(prev+1)
+        dispatch(setAddProduct(objIngredient))
+        console.log(deleteIngrSum)
+    }
+
+    // console.log(addProduct.nameItem)
 
     return (
         <Wrapper>
@@ -71,8 +93,8 @@ function Ingridient({
                         <Image src={photo} width={240} height={120} alt="Crator" unoptimized />
                     </div>
                 
-                    <Counter>
-                        {quantity}
+                    <Counter onClick={() => addProductCart(count)}>
+                        {count}
                     </Counter>
                 </BoxImage>
                 <Box>
