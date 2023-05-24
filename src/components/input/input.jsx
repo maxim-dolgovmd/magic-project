@@ -12,6 +12,7 @@ const Input = styled.input`
     font-size: 16px;
     line-height: 24px;
     color: #8585AD;
+    width: 100%;
    
 `
 

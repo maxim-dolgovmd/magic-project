@@ -1,8 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     addProduct: [],
     sumProduct: 0,
+    activeIngr: false,
+    product: [],
+    activeOrder: false,
 }
 
 const cartSlice = createSlice({
@@ -22,9 +25,38 @@ const cartSlice = createSlice({
         setDeletePrice(state, action) {
             state.sumProduct -= action.payload.price
         },
+
+        setActiveIngr(state, action) {
+            state.activeIngr = action.payload
+        },
+
+        setActiveOrder(state, action) {
+            state.activeOrder = action.payload
+        },
+
+        setProductInfo(state, action) {
+            state.product = action.payload
+        },
+
+        setOrder(state, action) {
+            state.addProduct = action.payload
+        },
+        setDeletePriceCart(state, action) {
+            state.sumProduct = action.payload
+        },
     }
 })
 
-export const {setAddProduct, setCount, setDeleteProduct, setDeletePrice} = cartSlice.actions
+export const {
+    setAddProduct,
+    setCount,
+    setDeleteProduct,
+    setDeletePrice,
+    setActiveIngr,
+    setProductInfo,
+    setActiveOrder,
+    setOrder,
+    setDeletePriceCart,
+} = cartSlice.actions
 
 export default cartSlice.reducer

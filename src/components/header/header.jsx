@@ -7,6 +7,8 @@ import Profile from '../../assets/icon/profile.svg'
 import Logo from '../../assets/icon/logo.svg'
 import Tab from '../tabs/tab'
 import Container from '../container/container'
+import { useRouter } from "next/router"
+import Link from "next/link";
 
 
 
@@ -43,10 +45,24 @@ const BoxBlock = styled.div`
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
+    cursor: pointer;
 
     &:hover {
         color: #F2F2F3;
+        svg path {
+            fill: #F2F2F3;
     }
+    }
+
+    ${(props) => {
+        return props.active && {
+            color: '#F2F2F3',
+            path: {
+                fill: '#F2F2F3'
+            }
+        }
+    }};
+    
 `
 
 const BoxLogo = styled.div`
@@ -57,27 +73,35 @@ const BoxLogo = styled.div`
 
 const Header = () => {
 
+    const router = useRouter()
+
     return (
         <Wrapper> 
             <Container>
                 <Grid>
                     <Box>
-                        <BoxBlock >
-                            <Burger />
-                            <div>Конструктор</div>
-                        </BoxBlock>
-                        <BoxBlock>
-                            <ViewList />
-                            <div>Лента заказов</div>
-                        </BoxBlock>
+                        <Link href={'/'}>
+                            <BoxBlock >
+                                <Burger />
+                                <div>Конструктор</div>
+                            </BoxBlock>
+                        </Link>
+                        <Link href={'/feed'}>
+                            <BoxBlock >
+                                <ViewList />
+                                <div>Лента заказов</div>
+                            </BoxBlock>
+                        </Link>
                     </Box>
                     <BoxLogo>
                         <Logo />
                     </BoxLogo>
-                    <BoxBlock>
-                        <Profile />
-                        <div>Личный кабинет</div>
-                    </BoxBlock>
+                    <Link href={'/profile'}>
+                        <BoxBlock >
+                            <Profile />
+                            <div>Личный кабинет</div>
+                        </BoxBlock>
+                    </Link>
                 </Grid>
             </Container>
         </Wrapper>
