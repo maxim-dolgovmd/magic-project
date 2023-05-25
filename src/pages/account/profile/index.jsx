@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import Container from "../../components/container/container";
-import BaseInput from "../../components/input/baseInput";
+import Container from "../../../components/container/container";
+import BaseInput from "../../../components/input/baseInput";
 import { useForm } from "react-hook-form";
-import ButtonComponent from '../../components/button/button'
-// import { useRouter } from "next/router"
+import ButtonComponent from '../../../components/button/button'
+import { useRouter } from "next/router"
+import Link from "next/link";
 
 
 const Box = styled.div`
@@ -85,6 +86,8 @@ function PersonalArea() {
     setFocus("firstName");
   }, [setFocus]);
   
+  const router = useRouter()
+
   console.log(errors)
   return (
     <Container>
@@ -94,9 +97,11 @@ function PersonalArea() {
             <Button active>
               <span>Профиль </span>
             </Button>
-            <Button>
-              <span>История заказов </span>
-            </Button>
+            <Link href={'/account/order-history'}>
+              <Button>
+                <span>История заказов </span>
+              </Button>
+            </Link>
             <Button>
               <span>Выход </span>
             </Button>

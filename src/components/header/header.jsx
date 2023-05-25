@@ -96,7 +96,7 @@ const Header = () => {
                     <BoxLogo>
                         <Logo />
                     </BoxLogo>
-                    <Link href={'/profile'}>
+                    <Link href={'/account/profile'}>
                         <BoxBlock >
                             <Profile />
                             <div>Личный кабинет</div>
