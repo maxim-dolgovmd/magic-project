@@ -8,8 +8,8 @@ import CridBurgers from "../components/objectCart/cardDesktop";
 import { harcodeIllustration } from "../components/json/hardcodeillustration";
 import Ingridient from "../components/ingridient/ingridient";
 import Button from "../components/button/button";
-import ModalWindow from "../components/modalWindow/modalWindow";
-import ModalOrder from "../components/modalOrders/modalOrders";
+import ModalWindow from "../components/modal/modalWindow/modalWindow";
+import ModalOrder from "../components/modal/modalOrders/modalOrders";
 import Container from "../components/container/container";
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -142,7 +142,7 @@ const Constructor = () => {
     const dispatch = useDispatch();
     const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector((state) => state.addCart);
 
-    console.log(addProduct);
+    console.log(activeOrder);
     const [deleteIngrSum, setDeleteIngrSum] = React.useState(0);
     // const [addProduct, setAddProduct] = React.useState([])
     // const addProduct = useSelector((state) => state.addCart.addProduct)
@@ -238,6 +238,7 @@ const Constructor = () => {
                                     dispatch(setOrder([]))
                                     dispatch(setDeletePriceCart(0))
                                 }}
+                                disabled={addProduct.length === 0}
                             >
                                 Оформить заказ
                             </Button>

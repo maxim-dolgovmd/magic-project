@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Image from "next/image"
 import { useSelector, useDispatch } from "react-redux";
-import {setDeleteProduct, setDeletePrice} from '../../redux/slices/addCartSlice'
+import {setDeleteProduct, setDeletePrice, setDeleteBun} from '../../redux/slices/addCartSlice'
 
 const Wrapper = styled.div`
     display: flex;
@@ -91,9 +91,13 @@ function IngridientBurger({
     const dispatch = useDispatch()
 
     const deleteProduct = useSelector((state) => state.addCart.deleteProduct)
+    const addProduct = useSelector((state) => state.addCart.addProduct)
+    const deleteBun = useSelector((state) => state.addCart.deleteBun)
+    console.log('addProduct', addProduct, 'deleteBun', deleteBun)
 
     const deleteIngr = (iter) => {
         dispatch(setDeleteProduct(iter))
+        dispatch(setDeleteBun(obj))
         dispatch(setDeletePrice(obj))
         setDeleteIngrSum(deleteIngrSum-1)
         // console.log(deleteIngrSum)

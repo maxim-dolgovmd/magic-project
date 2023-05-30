@@ -6,6 +6,8 @@ const initialState = {
     activeIngr: false,
     product: [],
     activeOrder: false,
+    deleteBun: [],
+    activeCard: false,
 }
 
 const cartSlice = createSlice({
@@ -14,12 +16,51 @@ const cartSlice = createSlice({
     reducers: {
         setAddProduct(state, action) {
             console.log(action)
-            state.addProduct.unshift(action.payload)
+            // state.addProduct.unshift(action.payload)
+            // state.addProduct.splice(1, 0, action.payload)
+            {
+                state.addProduct.map((obj) => {
+                    // if (obj.type === 'Булки' && action.payload.type === 'Булки' && obj.nameItem !== action.payload.nameItem) {
+                    if (obj.type === 'Булки' && action.payload.type === 'Булки' ) {
+                        state.addProduct.splice(0, 1)
+                        state.addProduct.splice(-1, 1)
+                    }
+                })
+                if (action.payload.type === 'Булки') {
+                    state.addProduct.push(action.payload)
+                    state.addProduct.unshift(action.payload)
+                    state.deleteBun.push(action.payload)
+                }
+                if (action.payload.type !== 'Булки') {
+                    state.addProduct.splice(1, 0, action.payload)
+                    state.deleteBun.push(action.payload)
+                }
+            }
             state.sumProduct += action.payload.price
+            // state.deleteBun = state.addProduct
+        },
+
+        setDeleteBun(state, action) {
+            state.addProduct.map((obj) => {
+                if (obj.type === 'Булки' && action.payload.type === 'Булки') {
+                    state.addProduct.splice(0, 1)
+                    state.addProduct.splice(-1, 1)
+                    // state.deleteBun.push(action.payload)
+                } 
+            })
         },
 
         setDeleteProduct(state, action) {
-            state.addProduct.splice(action.payload, 1);
+            // state.addProduct.splice(action.payload, 1);
+            // if (action.payload !== 0 && action.payload !== state.addProduct[length-1]) {
+            state.deleteBun?.map((obj) => {
+                if (obj.type !== 'Булки' ) {
+                    state.addProduct.splice(action.payload, 1);
+                }
+            })
+            // if (state.deleteBun === false) {
+            //     state.addProduct.splice(action.payload, 1);
+            // }
         },
 
         setDeletePrice(state, action) {
@@ -44,6 +85,9 @@ const cartSlice = createSlice({
         setDeletePriceCart(state, action) {
             state.sumProduct = action.payload
         },
+        setActiveCard(state, action) {
+            state.activeCard = action.payload
+        },
     }
 })
 
@@ -57,6 +101,8 @@ export const {
     setActiveOrder,
     setOrder,
     setDeletePriceCart,
+    setDeleteBun,
+    setActiveCard,
 } = cartSlice.actions
 
 export default cartSlice.reducer

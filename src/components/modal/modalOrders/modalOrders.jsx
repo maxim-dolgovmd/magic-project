@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import Image from "next/image";
-import Check from "../../assets/icon/done.svg";
+import Check from "../../../assets/icon/done.svg";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveOrder } from "../../redux/slices/addCartSlice";
-import Modal from "../modal/modal";
+import { setActiveOrder } from "../../../redux/slices/addCartSlice";
+import Modal from "../modal";
 
 const Window = styled.div`
   position: fixed;

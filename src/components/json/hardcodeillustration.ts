@@ -10,6 +10,7 @@ interface IIllustration {
   price: number,
   nameItem: string,
   type: string,
+  amount: number,
 }
 
 
@@ -24,6 +25,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 20,
     nameItem: "Краторная булка N-200i",
     type: "Булки",
+    amount: 2,
   },
   {
     id: 1,
@@ -34,6 +36,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 20,
     nameItem: "Флюоресцентная булка R2-D3",
     type: "Булки",
+    amount: 1,
   },
   {
     id: 2,
@@ -44,6 +47,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 300,
     nameItem: "Филе Люминесцентного тетраодонтимформа",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 3,
@@ -54,6 +58,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 300,
     nameItem: "Мясо бессмертных моллюсков Protostomia",
     type: "Начинки",
+    amount: 2,
   },
   {
     id: 4,
@@ -64,6 +69,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 300,
     nameItem: "Говяжий метеорит (отбивная)",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 5,
@@ -74,6 +80,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 300,
     nameItem: "Биокотлета из марсианской Магнолии",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 6,
@@ -84,6 +91,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 30,
     nameItem: "Соус Spicy-X",
     type: "Соусы",
+    amount: 1,
   },
   {
     id: 7,
@@ -94,6 +102,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 30,
     nameItem: "Соус фирменный Space Sauce",
     type: "Соусы",
+    amount: 3,
   },
   {
     id: 8,
@@ -104,6 +113,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 30,
     nameItem: "Соус традиционный галактический",
     type: "Соусы",
+    amount: 2,
   },
   {
     id: 9,
@@ -114,6 +124,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 30,
     nameItem: "Соус с шипами Антарианского плоскоходца",
     type: "Соусы",
+    amount: 1,
   },
   {
     id: 10,
@@ -124,6 +135,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 80,
     nameItem: "Плоды фалленианского дерева",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 11,
@@ -134,6 +146,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 80,
     nameItem: "Кристаллы марсианских альфа-сахаридов",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 12,
@@ -144,6 +157,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 80,
     nameItem: "Хрустящие минеральные кольца",
     type: "Начинки",
+    amount: 2,
   },
   {
     id: 13,
@@ -154,6 +168,7 @@ export const harcodeIllustration: IIllustration[] = [
     price: 80,
     nameItem: "Мини-салат Экзо-Плантаго",
     type: "Начинки",
+    amount: 1,
   },
   {
     id: 14,
@@ -164,5 +179,6 @@ export const harcodeIllustration: IIllustration[] = [
     price: 80,
     nameItem: "Сыр с астероидной плесенью",
     type: "Начинки",
+    amount: 1,
   },
 ];

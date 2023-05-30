@@ -6,6 +6,12 @@ import CardOrder from "../../../components/cardOrder/cardOrder";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import Link from "next/link";
 import { useRouter } from "next/router"
+import { harcodeIllustration } from "../../../components/json/hardcodeillustration";
+
+import ModalCardOrder from '../../../components/modal/modalCardOrders/modalCardOrders'
+import { useSelector, useDispatch } from "react-redux";
+
+import {setActiveCard} from '../../../redux/slices/addCartSlice'
 
 
 const Box = styled.div`
@@ -72,7 +78,10 @@ const BoxOrder = styled.div`
 
 function OrderHistory() {
 
-    const router = useRouter()
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const activeCard = useSelector((state) => state.addCart.activeCard)
+  console.log(activeCard)
   
   return (
     <Container>
@@ -99,12 +108,19 @@ function OrderHistory() {
         </div>
         <OverlayScrollbarsComponent>
             <BoxOrder>
-                <CardOrder/>
-                <CardOrder/>
-                <CardOrder/>
-                <CardOrder/>
+                <CardOrder order={harcodeIllustration}/>
+                <CardOrder order={harcodeIllustration}/>
+                <CardOrder order={harcodeIllustration}/>
+                <CardOrder order={harcodeIllustration}/>
             </BoxOrder>
         </OverlayScrollbarsComponent>
+        {
+          activeCard && (
+            <div>
+              <ModalCardOrder order={harcodeIllustration}/>
+            </div>
+          )
+        }
       </Box>
     </Container>
   );

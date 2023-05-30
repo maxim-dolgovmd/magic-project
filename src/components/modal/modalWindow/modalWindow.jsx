@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import Image from "next/image"
 
 import { useSelector, useDispatch } from "react-redux";
-import {setActiveIngr, setActiveOrder} from '../../redux/slices/addCartSlice'
-import Modal from '../modal/modal'
+import {setActiveIngr, setActiveOrder} from '../../../redux/slices/addCartSlice'
+import Modal from '../modal'
 
 const BlockModal = styled.div`
     padding: 40px 40px 60px 40px;

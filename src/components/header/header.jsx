@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const Wrapper = styled.div`
     background-color: #1C1C21;
-    z-index: 3;
+    z-index: 300;
     position: fixed;
     width: 100%;
 `;

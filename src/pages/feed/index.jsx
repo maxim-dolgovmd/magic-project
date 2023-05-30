@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components'
-import Order from "../../components/cardOrder/cardOrder";
+// import Order from "../../components/cardOrder/cardOrder";
 
 const Box = styled.div`
     padding-top: 150px;
@@ -12,7 +12,7 @@ function OrderFeet() {
     return (
         <Box>
             <div>лента заказов</div>
-            <Order />
+            {/* <Order /> */}
         </Box>
     )
 }
