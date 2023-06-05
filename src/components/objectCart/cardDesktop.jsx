@@ -6,7 +6,7 @@ import Ingridient from '../ingridient/ingridient'
 const cardDesktop = () => {
 
     return harcodeIllustration.map((obj, index) => {
-        console.log(obj)
+        // console.log(obj)
         return (
             <Ingridient
                 key={obj.id}

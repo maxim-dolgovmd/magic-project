@@ -141,7 +141,7 @@ function ModalCardOrder({order}) {
     }
 
     const priceOrder = order.reduce((acum, obj) => acum + (obj.price * obj.amount), 0)
-    console.log(priceOrder)
+    // console.log(priceOrder)
 
     return (
         <Window onClick={activeModal}>

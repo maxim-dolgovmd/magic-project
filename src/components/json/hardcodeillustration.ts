@@ -22,7 +22,7 @@ export const harcodeIllustration: IIllustration[] = [
     normalPhoto: "/illustration/crator/cratorMobile.png",
     mobilePhoto: "/illustration/crator/cratorNormal.png",
     previewPhoto: "/illustration/crator/cratorPreview.png",
-    price: 20,
+    price: 30,
     nameItem: "Краторная булка N-200i",
     type: "Булки",
     amount: 2,

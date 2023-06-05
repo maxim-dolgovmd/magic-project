@@ -68,7 +68,7 @@ function Registration() {
     const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
 
     function OnSubmit(data) {
-        console.log(data)
+        // console.log(data)
     }
 
     const router = useRouter()

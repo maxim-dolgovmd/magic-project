@@ -11,6 +11,7 @@ import {
   setProductInfo,
   setOrder,
   setActiveOrder,
+  setDeleteCount,
 } from "../../redux/slices/addCartSlice";
 
 const Wrapper = styled.div`
@@ -70,20 +71,40 @@ function Ingridient({
   nameItem,
   setAddProduc,
   objIngredient,
-  deleteIngrSum,
+  // deleteIngrSum,
 }) {
   const [count, setCount] = React.useState(0);
 
-  // const count = useSelector((state) => state.addCart.count)
+  let deleteCount = useSelector((state) => state.addCart.deleteCount)
+
+  React.useEffect(() => {
+    deleteCount.map((obj, index) => {
+
+      if (obj.id === objIngredient.id && obj.type !== 'Булки') {
+        setCount(count - 1)
+      } 
+      if (obj.id === objIngredient.id && obj.type === 'Булки') {
+        setCount(count - 2)
+      }
+      console.log(obj)
+    })
+    deleteCount = []
+  }, [deleteCount])
 
   const addProduct = useSelector((state) => state.addCart.addProduct);
   const dispatch = useDispatch();
 
   const addProductCart = () => {
-    setCount((prev) => prev + 1);
+    if (objIngredient.type === 'Булки') {
+      setCount((prev) => prev + 2);
+    } else {
+      setCount((prev) => prev + 1);
+    }
+    // setCount((prev) => prev + 1);
+    
     dispatch(setAddProduct(objIngredient));
     // dispatch(setAddProduct(objIngredient), setOrder(objIngredient))
-    console.log(deleteIngrSum);
+    // console.log(deleteIngrSum);
   };
 
   const activeModal = (status) => {

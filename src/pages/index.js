@@ -26,6 +26,7 @@ import {
 
 const Box = styled.div`
   padding: 150px 0 0px 0;
+  margin: 0 20px;
 `;
 
 const Title = styled.h1`
@@ -142,7 +143,7 @@ const Constructor = () => {
     const dispatch = useDispatch();
     const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector((state) => state.addCart);
 
-    console.log(activeOrder);
+    // console.log(activeOrder);
     const [deleteIngrSum, setDeleteIngrSum] = React.useState(0);
     // const [addProduct, setAddProduct] = React.useState([])
     // const addProduct = useSelector((state) => state.addCart.addProduct)
@@ -157,12 +158,8 @@ const Constructor = () => {
 
 
     return (
-        <Box>
-            {/* { // ! todo  }
-            <Function>
-                <div>Maxim dyra</div>
-            </Function> */}
-            <Container>
+        <Container>
+            <Box>
                 <Title>Соберите бургер</Title>
                 <GridColumns>
                     <div>
@@ -255,8 +252,8 @@ const Constructor = () => {
                         </div>
                     )}
                 </GridColumns>
-            </Container>
-        </Box>
+            </Box>
+        </Container>
     );
 };
 

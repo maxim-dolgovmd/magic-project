@@ -16,6 +16,7 @@ import {setActiveCard} from '../../../redux/slices/addCartSlice'
 
 const Box = styled.div`
   padding-top: 150px;
+  margin: 0 20px;
   display: grid;
   grid-template-columns: 1fr 2fr;
 `;
@@ -81,23 +82,23 @@ function OrderHistory() {
   const router = useRouter()
   const dispatch = useDispatch()
   const activeCard = useSelector((state) => state.addCart.activeCard)
-  console.log(activeCard)
+  // console.log(activeCard)
   
   return (
     <Container>
       <Box>
         <div>
           <ButtonBox>
-            <Link href={'/account/profile'}>
               <Button >
-                <span>Профиль </span>
+                <Link href={'/account/profile'}>
+                  <span>Профиль </span>
+                </Link>
               </Button>
-            </Link>
             <Button active >
               <span>История заказов </span>
             </Button>
             <Button>
-              <span>Выход </span>
+              <span>Выход</span>
             </Button>
           </ButtonBox>
           <Title>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Image from "next/image"
 import { useSelector, useDispatch } from "react-redux";
-import {setDeleteProduct, setDeletePrice, setDeleteBun} from '../../redux/slices/addCartSlice'
+import {setDeleteProduct, setDeletePrice, setDeleteBund, setDeleteCount} from '../../redux/slices/addCartSlice'
 
 const Wrapper = styled.div`
     display: flex;
@@ -90,17 +90,18 @@ function IngridientBurger({
 
     const dispatch = useDispatch()
 
-    const deleteProduct = useSelector((state) => state.addCart.deleteProduct)
-    const addProduct = useSelector((state) => state.addCart.addProduct)
-    const deleteBun = useSelector((state) => state.addCart.deleteBun)
-    console.log('addProduct', addProduct, 'deleteBun', deleteBun)
+    const {
+        deleteProduct,
+        addProduct,
+        deleteBun,
+        deleteCount,
+    } = useSelector((state) => state.addCart)
 
-    const deleteIngr = (iter) => {
-        dispatch(setDeleteProduct(iter))
-        dispatch(setDeleteBun(obj))
-        dispatch(setDeletePrice(obj))
-        setDeleteIngrSum(deleteIngrSum-1)
-        // console.log(deleteIngrSum)
+    // console.log('addProduct', addProduct, 'deleteBun', deleteBun)
+    
+
+    const deleteIngr = () => {
+        dispatch(setDeleteProduct(obj))
     }
 
 
@@ -115,7 +116,7 @@ function IngridientBurger({
                 <div>{price}</div>
                 <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
-            <BoxImage onClick={() => deleteIngr(index)}>
+            <BoxImage onClick={deleteIngr}>
                 <Image src='/block.svg' width={24} height={24} alt="Block" />
             </BoxImage>
         </>

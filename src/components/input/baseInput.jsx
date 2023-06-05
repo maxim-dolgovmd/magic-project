@@ -89,7 +89,7 @@ const BaseInput = ({
     // inputRef.current.focus()
   }
 
-  console.log(register, valueField);
+  // console.log(register, valueField);
   return (
     // <div style={{display: 'inline-flex'}}>
     <div>

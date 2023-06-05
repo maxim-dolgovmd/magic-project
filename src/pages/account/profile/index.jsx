@@ -10,6 +10,7 @@ import Link from "next/link";
 
 const Box = styled.div`
   padding-top: 150px;
+  margin: 0 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;
@@ -78,7 +79,7 @@ function PersonalArea() {
   const [buttonActive, setButtonActive] = React.useState(false)
 
   const submitHundler = data => {
-    console.log(data)
+    // console.log(data)
     alert('Сохранить данные?')
   } 
 
@@ -88,7 +89,7 @@ function PersonalArea() {
   
   const router = useRouter()
 
-  console.log(errors)
+  // console.log(errors)
   return (
     <Container>
       <Box>
@@ -97,11 +98,13 @@ function PersonalArea() {
             <Button active>
               <span>Профиль </span>
             </Button>
-            <Link href={'/account/order-history'}>
+            {/* <Link href={'/account/order-history'}> */}
               <Button>
-                <span>История заказов </span>
+                <Link href={'/account/order-history'}>
+                  <span>История заказов </span>
+                </Link>
               </Button>
-            </Link>
+            {/* </Link> */}
             <Button>
               <span>Выход </span>
             </Button>

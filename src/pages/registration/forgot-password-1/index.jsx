@@ -76,7 +76,7 @@ function ForgotPasswordOne() {
   const router = useRouter();
 
   function OnSubmit(data) {
-    console.log(data);
+    // console.log(data);
     router.push("/registration/forgot-password-2")
   }
 

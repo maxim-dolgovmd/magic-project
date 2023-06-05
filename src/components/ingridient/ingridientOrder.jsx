@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Image from "next/image"
 import { useSelector, useDispatch } from "react-redux";
-import {setDeleteProduct, setDeletePrice, setDeleteBun} from '../../redux/slices/addCartSlice'
+import {setDeleteProduct, setDeletePrice, setDeleteBund} from '../../redux/slices/addCartSlice'
 
 
 const Box = styled.div`

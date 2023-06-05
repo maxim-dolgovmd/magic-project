@@ -26,20 +26,24 @@ const Grid = styled.div`
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     padding: 16px 0;
-    justify-items: center;
+    /* justify-items: center; */
 
     @media (max-width: 767.97px) {
         display: none;
+    }
+    >div:first-child {
+
     }
 `
 
 const Box = styled.div`
     display: flex;
+    justify-content: flex-start;
 `
 const BoxBlock = styled.div`
     display: flex;
     gap: 8px;
-    align-items: center;
+    /* align-items: flex-end; */
     color: #8585AD;
     padding: 16px 20px;
     font-size: 16px;
@@ -69,6 +73,7 @@ const BoxLogo = styled.div`
     display: flex;
     color: #F2F2F3;
     align-items: center;
+    justify-content: center;
 `
 
 const Header = () => {
@@ -96,7 +101,7 @@ const Header = () => {
                     <BoxLogo>
                         <Logo />
                     </BoxLogo>
-                    <Link href={'/account/profile'}>
+                    <Link style={{display: 'flex', justifyContent: 'flex-end'}} href={'/account/profile'}>
                         <BoxBlock >
                             <Profile />
                             <div>Личный кабинет</div>
