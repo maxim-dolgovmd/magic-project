@@ -145,6 +145,8 @@ const Constructor = () => {
 
     // console.log(activeOrder);
     const [deleteIngrSum, setDeleteIngrSum] = React.useState(0);
+    const hasBunds =  addProduct.find((product) => product.type === 'Булки')
+
     // const [addProduct, setAddProduct] = React.useState([])
     // const addProduct = useSelector((state) => state.addCart.addProduct)
 
@@ -201,6 +203,7 @@ const Constructor = () => {
                                                         photo={objIngredient?.largePhoto}
                                                         price={objIngredient?.price}
                                                         objIngredient={objIngredient}
+                                                        hasBunds={hasBunds}
                                                     />
                                                 </>
                                             );

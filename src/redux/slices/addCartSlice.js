@@ -30,8 +30,13 @@ const cartSlice = createSlice({
                 } 
 
                 if (hasBunds && isBundsType) {
+                    if (hasBunds.id === action.payload.id) {
+                        window.alert('Нельзя выбрать больше одной пары булок')
+                        return
+                    }
                     state.addProduct.splice(0, 1, action.payload)
                     state.addProduct.splice(-1, 1, action.payload)
+                    // window.alert('Нельзя выбрать больше одной пары булок')
                 }
 
                 if (hasBunds && !isBundsType) {
@@ -45,17 +50,22 @@ const cartSlice = createSlice({
         setDeleteProduct(state, action) {
 
             const lengthProducts = state.addProduct.length
-            const isBundsType = action.payload.type === 'Булки'
+            const indexIngr = state.addProduct[action.payload]
+            const isBundsType = indexIngr.type === 'Булки'
 
             if (lengthProducts === 2 && isBundsType) {
-               state.addProduct = [] 
+                state.addProduct = [] 
+            }
+            if (lengthProducts > 2 && isBundsType) {
+                window.alert('Для удаления булок с корзины необходимо очистить содержимое бургера')
             }
 
             state.addProduct =  state.addProduct.filter((product, index, products) => {
-                if (isBundsType) {
+                console.log(product)
+                if (isBundsType ) {
                     return true
                 }
-                return product.id !== action.payload.id
+                return index !== action.payload
             })
 
             state.sumProduct = state.addProduct.reduce((acc, cur) => acc + cur.price, 0)

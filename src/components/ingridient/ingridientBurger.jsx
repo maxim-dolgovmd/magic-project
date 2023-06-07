@@ -100,8 +100,8 @@ function IngridientBurger({
     // console.log('addProduct', addProduct, 'deleteBun', deleteBun)
     
 
-    const deleteIngr = () => {
-        dispatch(setDeleteProduct(obj))
+    const deleteIngr = (index) => {
+        dispatch(setDeleteProduct(index))
     }
 
 
@@ -116,7 +116,7 @@ function IngridientBurger({
                 <div>{price}</div>
                 <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
-            <BoxImage onClick={deleteIngr}>
+            <BoxImage onClick={() => deleteIngr(index)}>
                 <Image src='/block.svg' width={24} height={24} alt="Block" />
             </BoxImage>
         </>

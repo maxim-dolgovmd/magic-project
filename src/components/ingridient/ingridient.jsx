@@ -71,40 +71,35 @@ function Ingridient({
   nameItem,
   setAddProduc,
   objIngredient,
+  hasBunds,
   // deleteIngrSum,
 }) {
-  const [count, setCount] = React.useState(0);
-
-  let deleteCount = useSelector((state) => state.addCart.deleteCount)
-
-  React.useEffect(() => {
-    deleteCount.map((obj, index) => {
-
-      if (obj.id === objIngredient.id && obj.type !== 'Булки') {
-        setCount(count - 1)
-      } 
-      if (obj.id === objIngredient.id && obj.type === 'Булки') {
-        setCount(count - 2)
-      }
-      console.log(obj)
-    })
-    deleteCount = []
-  }, [deleteCount])
+  const [count, setCount] = React.useState(0)
 
   const addProduct = useSelector((state) => state.addCart.addProduct);
+
+
+  const productSum = addProduct.filter((product, index, array) => {
+    if (array.indexOf(product) !== index) {
+      return product
+    }
+  })
+  console.log(productSum)
+
+  // const findObj = addProduct.find((obj) => obj.id ===  objIngredient.id)
+  // if (findObj) {
+  //   console.log(findObj)
+  // }
+
+
   const dispatch = useDispatch();
 
   const addProductCart = () => {
-    if (objIngredient.type === 'Булки') {
-      setCount((prev) => prev + 2);
-    } else {
-      setCount((prev) => prev + 1);
+    if (!hasBunds && objIngredient.type !== 'Булки') {
+      window.alert('Выберите булку, для добавления ингридиента')
+      return
     }
-    // setCount((prev) => prev + 1);
-    
     dispatch(setAddProduct(objIngredient));
-    // dispatch(setAddProduct(objIngredient), setOrder(objIngredient))
-    // console.log(deleteIngrSum);
   };
 
   const activeModal = (status) => {
@@ -128,7 +123,7 @@ function Ingridient({
             />
           </div>
 
-          <Counter onClick={() => addProductCart()}>{count}</Counter>
+          <Counter onClick={addProductCart}>{}</Counter>
         </BoxImage>
         <Box>
           <div>{price}</div>
