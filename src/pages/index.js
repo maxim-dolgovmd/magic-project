@@ -11,6 +11,7 @@ import Button from "../components/button/button";
 import ModalWindow from "../components/modal/modalWindow/modalWindow";
 import ModalOrder from "../components/modal/modalOrders/modalOrders";
 import Container from "../components/container/container";
+import {getCountFromCart} from '../utils/getCountFromCart'
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
@@ -149,6 +150,10 @@ const Constructor = () => {
 
     // const [addProduct, setAddProduct] = React.useState([])
     // const addProduct = useSelector((state) => state.addCart.addProduct)
+    const addMap = (id) => {
+        // getCountFromCart(addProduct).get(id)
+        return getCountFromCart(addProduct).get(id)
+    }
 
     // ! 2 пункт
     // const filteredArray = [].filter(item => {
@@ -204,6 +209,7 @@ const Constructor = () => {
                                                         price={objIngredient?.price}
                                                         objIngredient={objIngredient}
                                                         hasBunds={hasBunds}
+                                                        addMap={addMap(objIngredient.id)}
                                                     />
                                                 </>
                                             );

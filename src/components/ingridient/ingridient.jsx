@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import Image from "next/image";
+import {getCountFromCart} from '../../utils/getCountFromCart'
+
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -72,24 +74,41 @@ function Ingridient({
   setAddProduc,
   objIngredient,
   hasBunds,
+  addMap,
   // deleteIngrSum,
 }) {
   const [count, setCount] = React.useState(0)
 
   const addProduct = useSelector((state) => state.addCart.addProduct);
 
-
-  const productSum = addProduct.filter((product, index, array) => {
-    if (array.indexOf(product) !== index) {
-      return product
-    }
-  })
-  console.log(productSum)
+  // console.log(getCountFromCart(addProduct))
+  // const productSum = addProduct.filter((product, index, array) => {
+  //   if (array.indexOf(product) !== index) {
+  //     return product
+  //   }
+  // })
+  // console.log(productSum)
 
   // const findObj = addProduct.find((obj) => obj.id ===  objIngredient.id)
   // if (findObj) {
   //   console.log(findObj)
   // }
+
+  // const arrayProductId = addProduct.map((obj) => {
+  //   return obj.id
+  // })
+
+  // console.log(arrayProductId)
+
+  // const productSum = () => {
+  //   for (const item of arrayProductId) {
+  //     return countItems[item] = countItems[item] ? countItems[item] + 1 : 1;
+  //   }
+  // }
+
+  // console.log(productSum)
+
+
 
 
   const dispatch = useDispatch();
@@ -100,6 +119,7 @@ function Ingridient({
       return
     }
     dispatch(setAddProduct(objIngredient));
+    // getCountFromCart(addProduct)
   };
 
   const activeModal = (status) => {
@@ -107,7 +127,7 @@ function Ingridient({
     dispatch(setActiveIngr(status))
   };
 
-  // console.log(addProduct.nameItem)
+  console.log(addMap)
 
   return (
     <Wrapper>
@@ -123,7 +143,11 @@ function Ingridient({
             />
           </div>
 
-          <Counter onClick={addProductCart}>{}</Counter>
+          <Counter onClick={addProductCart}>
+            {
+              addMap ? addMap : 0
+            }
+          </Counter>
         </BoxImage>
         <Box>
           <div>{price}</div>
