@@ -107,8 +107,8 @@ function ModalOrder() {
             <Image src="/close.svg" width={18} height={18} alt="CloseSvg" />
           </CloseIngr>
         </BlockIngr>
-        <Identificator>{getRandomInt(111111, 999999)}</Identificator>
-        <IdentificatorTitle>идентификатор заказа</IdentificatorTitle>
+        {/* <Identificator>{getRandomInt(111111, 999999)}</Identificator>
+        <IdentificatorTitle>идентификатор заказа</IdentificatorTitle> */}
         <Check />
         <Content>
           <div>Ваш заказ начали готовить</div>

@@ -5,14 +5,14 @@ import CardOrder from "../../../components/cardOrder/cardOrder";
 // import { useRouter } from "next/router"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import Link from "next/link";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import { harcodeIllustration } from "../../../components/json/hardcodeillustration";
+import { useGetOrderQuery } from "../../../services/ingridientsApi";
 
-import ModalCardOrder from '../../../components/modal/modalCardOrders/modalCardOrders'
+import ModalCardOrder from "../../../components/modal/modalCardOrders/modalCardOrders";
 import { useSelector, useDispatch } from "react-redux";
 
-import {setActiveCard} from '../../../redux/slices/addCartSlice'
-
+import { setActiveCard } from "../../../redux/slices/addCartSlice";
 
 const Box = styled.div`
   padding-top: 150px;
@@ -68,33 +68,33 @@ const Title = styled.div`
   span:hover {
     color: #f2f2f3;
   }
-`
+`;
 
 const BoxOrder = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    height: 700px;
-`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 700px;
+`;
 
 function OrderHistory() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const {activeCard, orderModal} = useSelector((state) => state.addCart);
+  const orderGet = useGetOrderQuery({ limit: 12, offset: 0 , role: 'admin'});
+  console.log(orderGet?.data?.orders)
 
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const activeCard = useSelector((state) => state.addCart.activeCard)
-  // console.log(activeCard)
-  
   return (
     <Container>
       <Box>
         <div>
           <ButtonBox>
-              <Button >
-                <Link href={'/account/profile'}>
-                  <span>Профиль </span>
-                </Link>
-              </Button>
-            <Button active >
+            <Button>
+              <Link href={"/account/profile"}>
+                <span>Профиль </span>
+              </Link>
+            </Button>
+            <Button active>
               <span>История заказов </span>
             </Button>
             <Button>
@@ -103,25 +103,28 @@ function OrderHistory() {
           </ButtonBox>
           <Title>
             <span>
-                В этом разделе вы можете просмотреть свою историю заказов
+              В этом разделе вы можете просмотреть свою историю заказов
             </span>
           </Title>
         </div>
         <OverlayScrollbarsComponent>
-            <BoxOrder>
-                <CardOrder order={harcodeIllustration}/>
-                <CardOrder order={harcodeIllustration}/>
-                <CardOrder order={harcodeIllustration}/>
-                <CardOrder order={harcodeIllustration}/>
-            </BoxOrder>
+          <BoxOrder>
+            {
+              orderGet?.data?.orders.map((obj) => {
+              return (
+                <>
+                    <CardOrder order={obj}/>
+                </>
+              )
+              })
+            }
+          </BoxOrder>
         </OverlayScrollbarsComponent>
-        {
-          activeCard && (
-            <div>
-              <ModalCardOrder order={harcodeIllustration}/>
-            </div>
-          )
-        }
+        {activeCard && (
+          <div>
+            <ModalCardOrder order={orderModal} />
+          </div>
+        )}
       </Box>
     </Container>
   );

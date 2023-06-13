@@ -41,11 +41,11 @@ const cardBurger = ({setDeleteIngrSum, deleteIngrSum}) => {
       
         return (
             // eslint-disable-next-line react/jsx-key
-            <BoxBorder borderFirst={index===0 && obj.type === 'Булки'} borderLast={index === addProduct.length-1 && obj.type === 'Булки'}>
+            <BoxBorder borderFirst={index===0 && obj.category === 'Булки'} borderLast={index === addProduct.length-1 && obj.category === 'Булки'}>
                 <IngredientBurger 
                     key={obj.id}
-                    photo={obj?.mobilePhoto}
-                    nameItem={obj?.nameItem}
+                    photo={obj?.mobilePhotoUrl}
+                    nameItem={obj?.name}
                     price={obj?.price}
                     obj={obj}
                     index={index}

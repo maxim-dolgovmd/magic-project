@@ -13,6 +13,7 @@ const initialState = {
     deleteBun: [],
     activeCard: false,
     deleteCount: [],
+    orderModal: [],
 }
 
 const cartSlice = createSlice({
@@ -21,8 +22,8 @@ const cartSlice = createSlice({
     reducers: {
         setAddProduct(state, action) {
                 
-                const isBundsType = action.payload.type === 'Булки'
-                const hasBunds =  state.addProduct.find((product) => product.type === 'Булки')
+                const isBundsType = action.payload.category === 'Булки'
+                const hasBunds =  state.addProduct.find((product) => product.category === 'Булки')
 
                 if (!hasBunds && isBundsType) {
                     state.addProduct.push(action.payload)
@@ -51,7 +52,7 @@ const cartSlice = createSlice({
 
             const lengthProducts = state.addProduct.length
             const indexIngr = state.addProduct[action.payload]
-            const isBundsType = indexIngr.type === 'Булки'
+            const isBundsType = indexIngr.category === 'Булки'
 
             if (lengthProducts === 2 && isBundsType) {
                 state.addProduct = [] 
@@ -61,7 +62,7 @@ const cartSlice = createSlice({
             }
 
             state.addProduct =  state.addProduct.filter((product, index, products) => {
-                console.log(product)
+                // console.log(product)
                 if (isBundsType ) {
                     return true
                 }
@@ -102,6 +103,11 @@ const cartSlice = createSlice({
             // state.deleteCount = action.payload
             // console.log(state.deleteCount)
         },
+
+        setOrderModal(state, action) {
+            state.orderModal = action.payload
+        }
+
     }
 })
 
@@ -118,6 +124,7 @@ export const {
     setDeleteBund,
     setActiveCard,
     setDeleteCount,
+    setOrderModal,
 } = cartSlice.actions
 
 export default cartSlice.reducer

@@ -7,6 +7,7 @@ import ButtonComponent from '../../../components/button/button'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
+import {usePostAuthorizationMutation} from '../../../services/ingridientsApi'
 
 const Box = styled.div`
   padding-top: 250px;
@@ -65,10 +66,13 @@ const BlockText = styled.div`
 
 function SignIn() {
 
+    const [authMutation, {isError, isLoading, isSuccess}] = usePostAuthorizationMutation()
+
     const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
 
     function OnSubmit(data) {
-        // console.log(data)
+        // const username = email
+        authMutation(data)
     }
 
     const router = useRouter()
@@ -82,26 +86,26 @@ function SignIn() {
                         <BaseInput 
                             label={"E-mail"} 
                             setValue={setValue}
-                            error={errors.email?.message} 
-                            register={{...register('email', {
+                            error={errors.username?.message} 
+                            register={{...register('username', {
                               required: 'Введите свой email',
                               pattern: {
                                 value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
                                 message: 'Некорректный email',
                               }
                             })}}
-                            valueField={watch('email')}
+                            valueField={watch('username')}
                         />
                         <BaseInput 
                             label={"Пароль"} 
                             type="password" 
                             setValue={setValue}
-                            error={errors.passwordUser?.message} 
-                            register={{...register('passwordUser', {required: 'Введите пароль', minLength: {
+                            error={errors.password?.message} 
+                            register={{...register('password', {required: 'Введите пароль', minLength: {
                               value: 8,
                               message: 'Минимум 8 символов'
                             },})}}
-                            valueField={watch('passwordUser')}
+                            valueField={watch('password')}
                         />
                         <BlockButton>
                             <ButtonComponent onClick={handleSubmit(OnSubmit)} size='medium'>Войти</ButtonComponent>

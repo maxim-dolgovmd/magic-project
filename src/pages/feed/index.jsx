@@ -9,6 +9,13 @@ import { harcodeIllustration } from "../../components/json/hardcodeillustration"
 import ModalCardOrder from "../../components/modal/modalCardOrders/modalCardOrders";
 import { useSelector, useDispatch } from "react-redux";
 
+import { useGetOrderQuery } from "../../services/ingridientsApi";
+
+import StatusOrder from "../../components/statusOrder/statusOrder";
+
+import { getObjStatus } from "../../utils/getObjStatus";
+import { type } from "os";
+
 const Box = styled.div`
   padding-top: 150px;
   margin: 0 20px;
@@ -28,7 +35,7 @@ const Title = styled.h1`
 const GridColumn = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 60px;
+  gap: 80px;
 `;
 
 const BoxOrder = styled.div`
@@ -113,7 +120,25 @@ const NumbersOfOrder = styled.div`
 `;
 
 function OrderFeet() {
-  const activeCard = useSelector((state) => state.addCart.activeCard);
+  const { activeCard, orderModal } = useSelector((state) => state.addCart);
+
+  const orderGet = useGetOrderQuery({ limit: 12, offset: 0, role: "admin" });
+  console.log(orderGet);
+  const orders = orderGet?.data?.orders;
+  const today = new Date().toISOString().split("T")[0];
+  console.log(orders);
+
+  const day = orders?.filter((obj) => obj.date_created.split("T")[0] === today);
+  console.log(day);
+
+  const statuses = [
+    {"closed": 'Закрытые'},
+    {"canceled": 'Отмененные'},
+    {"handed over to courier": 'Переданные курьеру'},
+  ];
+
+  const ordersMap = getObjStatus(orders);
+  console.log(ordersMap)
 
   return (
     <div>
@@ -124,47 +149,39 @@ function OrderFeet() {
             <div>
               <OverlayScrollbarsComponent>
                 <BoxOrder>
-                  <CardOrder order={harcodeIllustration} />
-                  <CardOrder order={harcodeIllustration} />
-                  <CardOrder order={harcodeIllustration} />
-                  <CardOrder order={harcodeIllustration} />
+                  {orders?.map((obj) => {
+                    return (
+                      <>
+                        <CardOrder order={obj} />
+                      </>
+                    );
+                  })}
                 </BoxOrder>
               </OverlayScrollbarsComponent>
             </div>
             <BoxInfo>
               <GridStatus>
-                <ReadiOrder>
-                  <TextStatus>Готовы:</TextStatus>
-                  <ReadyStatus>
-                    <li>034533</li>
-                    <li>034533</li>
-                    <li>034533</li>
-                    <li>034533</li>
-                    <li>034533</li>
-                  </ReadyStatus>
-                </ReadiOrder>
-                <InWork>
-                  <TextStatus>В работе: </TextStatus>
-                  <InWorkStatus>
-                    <li>034538</li>
-                    <li>034538</li>
-                    <li>034538</li>
-                  </InWorkStatus>
-                </InWork>
+                {statuses.map((status) => {
+                  const statusKeys = Object.keys(status)
+                  const statusValues = Object.values(status)
+                  return (
+                    <StatusOrder key={statusValues} order={ordersMap.get(statusKeys?.[0])} status={statusValues} />
+                  );
+                })}
               </GridStatus>
               <BlockThisTime>
                 <TextStatus>Выполнено за все время:</TextStatus>
-                <NumbersOfOrder>28 752</NumbersOfOrder>
+                <NumbersOfOrder>{orders?.length}</NumbersOfOrder>
               </BlockThisTime>
               <BlockForToday>
                 <TextStatus>Выполнено за сегодня:</TextStatus>
-                <NumbersOfOrder>138</NumbersOfOrder>
+                <NumbersOfOrder>{day?.length}</NumbersOfOrder>
               </BlockForToday>
             </BoxInfo>
           </GridColumn>
           {activeCard && (
             <div>
-              <ModalCardOrder order={harcodeIllustration} />
+              <ModalCardOrder order={orderModal} />
             </div>
           )}
         </Box>

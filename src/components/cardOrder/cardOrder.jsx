@@ -4,7 +4,7 @@ import Image from "next/image";
 import { harcodeIllustration } from "../json/hardcodeillustration";
 import { useSelector, useDispatch } from "react-redux";
 
-import {setActiveCard} from '../../redux/slices/addCartSlice'
+import {setActiveCard, setOrderModal} from '../../redux/slices/addCartSlice'
 
 const OrderBlock = styled.div`
   padding: 24px;
@@ -43,6 +43,7 @@ const TimeOrder = styled.div`
   line-height: 24px;
   color: #8585ad;
   padding-left: 20px;
+  text-align: left;
 `;
 
 const StatusOrder = styled.div`
@@ -157,31 +158,37 @@ const CardOrder = ({order}) => {
     // }
     const dispatch = useDispatch()
 
-    const orderTopArray = order.slice(0, 5)
+    const orderTopArray = order?.ingredients?.slice(0, 5)
     // console.log(orderTopArray)
-    const newArrayCount = order.length - orderTopArray.length
+    const newArrayCount = order?.ingredients?.length - orderTopArray?.length
     // console.log(newArrayCount)
-    const sumPriceOrder = order.reduce((acum, item) => acum + (item.price * item.amount), 0)
+    const sumPriceOrder = order?.ingredients?.reduce((acum, item) => acum + (item.price * item.amount), 0)
+    // let time = order?.date_created
+    const dateOrder = order?.date_created?.split('T', 1)
+    const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
 
   return (
-    <OrderBlock onClick={() => dispatch(setActiveCard(true))}>
+    <OrderBlock onClick={() => {
+      dispatch(setActiveCard(true))
+      dispatch(setOrderModal(order))
+    }}>
       <OrderNumber>
-        <Number>#034534</Number>
-        <TimeOrder>Сегодня, 13:20</TimeOrder>
+        <Number>#{order.order_number}</Number>
+        <TimeOrder>Дата: {dateOrder}<br/>Время: {timeOrderStr}</TimeOrder>
       </OrderNumber>
       <StatusOrder>
-        <Title >Interstellar бургер</Title>
-        <Status>Готовится</Status>
+        <Title >{order.name}</Title>
+        <Status>{order.status}</Status>
       </StatusOrder>
       <ImageOrders>
         <ImageBlock>
             {
-                orderTopArray.map((obj, index) => {
+                orderTopArray?.map((obj, index) => {
                     return (
                         <>
                             <ImageBox>
                                 <Image
-                                    src={obj.previewPhoto}
+                                    src={obj.previewPhotoUrl}
                                     width={64}
                                     height={64}
                                     alt="Preview" 
@@ -195,7 +202,7 @@ const CardOrder = ({order}) => {
             { newArrayCount > 0 &&
                 <ImageBox>
                     <Image
-                        src={order[5]?.previewPhoto}
+                        src={order.ingredients[5]?.previewPhotoUrl}
                         width={64}
                         height={64}
                         alt="Preview" 
@@ -207,7 +214,7 @@ const CardOrder = ({order}) => {
             }
         </ImageBlock>
         <PriceSum>
-          <Price>{sumPriceOrder}</Price>
+          <Price>{order?.price}</Price>
           <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
         </PriceSum>
       </ImageOrders>

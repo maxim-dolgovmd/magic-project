@@ -140,30 +140,33 @@ function ModalCardOrder({order}) {
         dispatch(setActiveCard(false))
     }
 
-    const priceOrder = order.reduce((acum, obj) => acum + (obj.price * obj.amount), 0)
+    const dateOrder = order?.date_created?.split('T', 1)
+    const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
+
+    // const priceOrder = order.reduce((acum, obj) => acum + (obj.price * obj.amount), 0)
     // console.log(priceOrder)
 
     return (
         <Window onClick={activeModal}>
             <OrderContent onClick={(e) => e.stopPropagation()}>
                 <BlockOrder>
-                    <Identificator>#5999434</Identificator>
+                    <Identificator>#{order.order_number}</Identificator>
                     <BlockStatus>
-                        <StatusTitle>Black Hole Singularity острый бургер</StatusTitle>
-                        <Status>Выполнен</Status>
+                        <StatusTitle>{order.name}</StatusTitle>
+                        <Status>{order.status}</Status>
                     </BlockStatus>
                     <CompoundBlock>
                         <CompoundTitle>Состав:</CompoundTitle>
                         <OverlayScrollbarsComponent>
                             <BoxCompound>
                                 {
-                                    order.map((obj) => {
+                                    order?.ingredients?.map((obj) => {
                                         return (
                                             <>
                                                 <IngridientOrder 
-                                                    photo={obj.previewPhoto}
+                                                    photo={obj.previewPhotoUrl}
                                                     price={obj.price}
-                                                    nameItem={obj.nameItem}
+                                                    nameItem={obj.name}
                                                     amount={obj.amount}
                                                 />
                                             </>
@@ -174,9 +177,9 @@ function ModalCardOrder({order}) {
                         </OverlayScrollbarsComponent>
                     </CompoundBlock>
                     <BoxTime>
-                        <TimeOrder>Сегодня, 13:20</TimeOrder>
+                        <TimeOrder> {dateOrder}, {timeOrderStr}</TimeOrder>
                         <PriceSum>
-                            <Price>{priceOrder}</Price>
+                            <Price>{order?.price}</Price>
                             <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
                         </PriceSum>
                     </BoxTime>

@@ -11,7 +11,9 @@ import Button from "../components/button/button";
 import ModalWindow from "../components/modal/modalWindow/modalWindow";
 import ModalOrder from "../components/modal/modalOrders/modalOrders";
 import Container from "../components/container/container";
-import {getCountFromCart} from '../utils/getCountFromCart'
+import { getCountFromCart } from '../utils/getCountFromCart'
+
+import { useGetIngridientQuery, usePostOrderMutation, useGetOrderQuery } from '../services/ingridientsApi'
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
@@ -102,26 +104,6 @@ const HeaderCard = styled.div`
   padding: 0 0 20px 0;
 `;
 
-// const hardcodeIngredient = [ "Булки", "Соусы", "Начинки" ]
-const hardcodeObjIngr = [
-    {
-        id: 0,
-        nameObj: "Все",
-    },
-    {
-        id: 1,
-        nameObj: "Булки",
-    },
-    {
-        id: 2,
-        nameObj: "Соусы",
-    },
-    {
-        id: 3,
-        nameObj: "Начинки",
-    },
-];
-
 // todo 
 // 1) вынести модалку как отдельный компонент, она должна принимать в себя children, boolean, function
 
@@ -138,31 +120,33 @@ const Function = ({ children }) => {
 
 
 const Constructor = () => {
-    // const [active, setActive] = React.useState(0)
-    const [filterIngr, setFilterIngr] = React.useState(hardcodeObjIngr[0]);
+
+    const arrayProduct = useGetIngridientQuery('ingredients')
+    const categories = useGetIngridientQuery('categories')
+    const [createOrder, { isLoading, isSuccess, isError }] = usePostOrderMutation()
+    // const orderGet = useGetOrderQuery({limit: 12, offset: 0})
+    // console.log(data)
+    console.log(() => createOrder())
+
+    const [filterIngr, setFilterIngr] = React.useState(categories?.data?.[0]);
+    // console.log(categories)
 
     const dispatch = useDispatch();
     const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector((state) => state.addCart);
 
-    // console.log(activeOrder);
     const [deleteIngrSum, setDeleteIngrSum] = React.useState(0);
-    const hasBunds =  addProduct.find((product) => product.type === 'Булки')
+    const hasBunds = addProduct.find((product) => product.category === 'Булки')
 
-    // const [addProduct, setAddProduct] = React.useState([])
-    // const addProduct = useSelector((state) => state.addCart.addProduct)
     const addMap = (id) => {
-        // getCountFromCart(addProduct).get(id)
         return getCountFromCart(addProduct).get(id)
     }
 
-    // ! 2 пункт
-    // const filteredArray = [].filter(item => {
-    // if (filterIngr.nameObj === "Все") {
-        // return item
-    // }
-        //  return item.type === filterIngr.nameObj
-    // })
+    const loading = categories.isLoading === false
 
+    const isProduct = {
+        addProduct,
+        role: 'user',
+    }
 
     return (
         <Container>
@@ -171,98 +155,99 @@ const Constructor = () => {
                 <GridColumns>
                     <div>
                         <GridTab>
-                            {hardcodeObjIngr.map((obj, index) => {
+                            {categories?.data?.map((obj, index) => {
                                 return (
                                     <Tab
                                         key={index}
-                                        status={filterIngr.id === obj.id}
+                                        status={filterIngr?.id === obj.id}
                                         onClick={() => {
                                             setFilterIngr(obj);
                                         }}
                                     >
-                                        {obj.nameObj}
+                                        {obj.category}
                                     </Tab>
-                                );
+                                )
                             })}
-                        </GridTab>
-                        <OverlayScrollbarsComponent>
-                            <div style={{ height: "460px" }}>
-                                <TitleBlock>{filterIngr.nameObj}</TitleBlock>
-                                <GridMenu>
-                                    {harcodeIllustration
-                                        .filter((obj) => {
-                                            if (filterIngr.nameObj === "Все") {
-                                                return obj
-                                            }
-                                            return obj.type === filterIngr.nameObj
-                                        })
-                                        .map((objIngredient, index) => {
-                                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                </GridTab>
+                <OverlayScrollbarsComponent>
+                    <div style={{ height: "460px" }}>
+                        <TitleBlock>{filterIngr?.category}</TitleBlock>
+                        <GridMenu>
+                            {arrayProduct.data
+                                ?.filter((obj) => {
+                                    if (filterIngr?.category === "Все") {
+                                        return obj
+                                    }
+                                    return obj.category === filterIngr?.category
+                                })
+                                ?.map((objIngredient, index) => {
+                                    // eslint-disable-next-line react-hooks/rules-of-hooks
 
-                                            return (
-                                                // eslint-disable-next-line react/jsx-key
-                                                <>
-                                                    <Ingridient
-                                                        key={objIngredient.id}
-                                                        nameItem={objIngredient?.nameItem}
-                                                        photo={objIngredient?.largePhoto}
-                                                        price={objIngredient?.price}
-                                                        objIngredient={objIngredient}
-                                                        hasBunds={hasBunds}
-                                                        addMap={addMap(objIngredient.id)}
-                                                    />
-                                                </>
-                                            );
-                                        })}
-                                </GridMenu>
-                            </div>
-                        </OverlayScrollbarsComponent>
+                                    return (
+                                        // eslint-disable-next-line react/jsx-key
+                                        <>
+                                            <Ingridient
+                                                key={objIngredient.id}
+                                                nameItem={objIngredient?.name}
+                                                photo={objIngredient?.largePhotoUrl}
+                                                price={objIngredient?.price}
+                                                objIngredient={objIngredient}
+                                                hasBunds={hasBunds}
+                                                addMap={addMap(objIngredient.id)}
+                                            />
+                                        </>
+                                    );
+                                })}
+                        </GridMenu>
                     </div>
-                    <div>
-                        <HeaderCard>Корзина</HeaderCard>
-                        <OverlayScrollbarsComponent>
-                            <GridBurger>
-                                {addProduct.length > 0 ? (
-                                    <CardBurger
-                                        setDeleteIngrSum={setDeleteIngrSum}
-                                        deleteIngrSum={deleteIngrSum}
-                                    />
-                                ) : (
-                                    <div>Ваша корзина пуста</div>
-                                )}
-                            </GridBurger>
-                        </OverlayScrollbarsComponent>
-                        <BoxOrder>
-                            <BoxSum>
-                                <div>{sumProduct}</div>
-                                <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
-                            </BoxSum>
-                            <Button
-                                size="small"
-                                onClick={() => {
-                                    dispatch(setActiveOrder(true))
-                                    dispatch(setOrder([]))
-                                    dispatch(setDeletePriceCart(0))
-                                }}
-                                disabled={addProduct.length === 0}
-                            >
-                                Оформить заказ
-                            </Button>
-                        </BoxOrder>
-                    </div>
-                    {activeIngr && (
-                        <div>
-                            <ModalWindow />
-                        </div>
-                    )}
-                    {activeOrder && (
-                        <div>
-                            <ModalOrder />
-                        </div>
-                    )}
-                </GridColumns>
-            </Box>
-        </Container>
+                </OverlayScrollbarsComponent>
+            </div>
+            <div>
+                <HeaderCard>Корзина</HeaderCard>
+                <OverlayScrollbarsComponent>
+                    <GridBurger>
+                        {addProduct.length > 0 ? (
+                            <CardBurger
+                                setDeleteIngrSum={setDeleteIngrSum}
+                                deleteIngrSum={deleteIngrSum}
+                            />
+                        ) : (
+                            <div>Ваша корзина пуста</div>
+                        )}
+                    </GridBurger>
+                </OverlayScrollbarsComponent>
+                <BoxOrder>
+                    <BoxSum>
+                        <div>{sumProduct}</div>
+                        <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
+                    </BoxSum>
+                    <Button
+                        size="small"
+                        onClick={() => {
+                            dispatch(setActiveOrder(true))
+                            dispatch(setOrder([]))
+                            dispatch(setDeletePriceCart(0))
+                            createOrder(isProduct)
+                        }}
+                        disabled={addProduct.length === 0}
+                    >
+                        Оформить заказ
+                    </Button>
+                </BoxOrder>
+            </div>
+            {activeIngr && (
+                <div>
+                    <ModalWindow />
+                </div>
+            )}
+            {activeOrder && (
+                <div>
+                    <ModalOrder />
+                </div>
+            )}
+        </GridColumns>
+            </Box >
+        </Container >
     );
 };
 

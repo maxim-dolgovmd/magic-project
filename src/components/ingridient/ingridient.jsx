@@ -114,7 +114,7 @@ function Ingridient({
   const dispatch = useDispatch();
 
   const addProductCart = () => {
-    if (!hasBunds && objIngredient.type !== 'Булки') {
+    if (!hasBunds && objIngredient.category !== 'Булки') {
       window.alert('Выберите булку, для добавления ингридиента')
       return
     }
@@ -127,7 +127,7 @@ function Ingridient({
     dispatch(setActiveIngr(status))
   };
 
-  console.log(addMap)
+  // console.log(addMap)
 
   return (
     <Wrapper>
