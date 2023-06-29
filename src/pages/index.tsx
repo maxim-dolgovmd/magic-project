@@ -121,7 +121,7 @@ type categoryType = {
     id: string,
 }
 
-const Constructor = () => {
+const Constructor: React.FC = () => {
 
     const arrayProduct = useGetIngridientQuery('ingredients')
     const categories = useGetIngridientQuery('categories')
