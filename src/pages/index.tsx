@@ -147,28 +147,6 @@ const Constructor: React.FC = () => {
         role: 'user',
     }
 
-    // const inData = 'user.name.firstname=Bob&user.name.lastName=Smith&user.favoritecolor=Linght%20Blue&experiments.theme=dark'
-
-    // function queryObjectify(str) {
-    //     let res = {}
-
-        
-    //     str = str.split('&')
-    //     str = str.map((obj) => {
-    //         let parent = obj.split('=')
-    //         return parent
-    //     })
-    //     // console.log(parentRes[0])
-
-    //     // res.user = parentRes[0]
-    //     // res.user
-    //     let resObj = JSON.parse(str[0])
-    //     console.log(resObj)
-
-    //     return res.user = str
-    // }
-    // console.log(queryObjectify(inData))
-
     return (
         <Container>
             <Box>
