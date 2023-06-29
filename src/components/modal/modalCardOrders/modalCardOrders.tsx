@@ -133,8 +133,37 @@ const BoxTime = styled.div`
     align-items: center;
 `
 
+interface IIngredient {
+    id: number,
+    largePhotoUrl: string,
+    normalPhotoUrl: string,
+    mobilePhotoUrl: string,
+    previewPhotoUrl: string,
+    price: number,
+    name: string,
+    category: string,
+    quantity: number,
+  }
 
-function ModalCardOrder({order}) {
+  interface IIngredientPreviewType {
+    previewPhotoUrl: string,
+    price: number,
+    name: string,
+    amount: number
+  }
+  
+  interface Order {
+    order_number: number;
+    date_created: Date;
+    name: string;
+    price: number;
+    status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+    ingredients: IIngredient[];
+  }
+
+const ModalCardOrder: React.FC<Order> = (props) => {
+
+    const order = Object.values(props)[0]
     const dispatch = useDispatch()
     const activeModal = () => {
         dispatch(setActiveCard(false))
@@ -144,7 +173,7 @@ function ModalCardOrder({order}) {
     const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
 
     // const priceOrder = order.reduce((acum, obj) => acum + (obj.price * obj.amount), 0)
-    // console.log(priceOrder)
+
 
     return (
         <Window onClick={activeModal}>
@@ -160,7 +189,7 @@ function ModalCardOrder({order}) {
                         <OverlayScrollbarsComponent>
                             <BoxCompound>
                                 {
-                                    order?.ingredients?.map((obj) => {
+                                    order?.ingredients?.map((obj: IIngredientPreviewType) => {
                                         return (
                                             <>
                                                 <IngridientOrder 

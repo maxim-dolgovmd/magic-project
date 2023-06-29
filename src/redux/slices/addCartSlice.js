@@ -127,4 +127,10 @@ export const {
     setOrderModal,
 } = cartSlice.actions
 
+export const AddProductSelect = (state) => state.addCart.addProduct
+
+export const ProductSelect = (state) => state.addCart.product
+
+export const AddCartSelect = (state) => state.addCart
+
 export default cartSlice.reducer

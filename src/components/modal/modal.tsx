@@ -35,7 +35,12 @@ const OrderContent = styled.h1`
     /* justify-content: center; */
 `
 
-function Modal({children, activeModal}) {
+type ModalType = {
+    children: any,
+    activeModal: () => void,
+}
+
+const Modal:React.FC<ModalType> = ({children, activeModal}) => {
 
     const dispatch = useDispatch()
 

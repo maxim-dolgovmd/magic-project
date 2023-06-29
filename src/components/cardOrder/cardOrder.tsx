@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {setActiveCard, setOrderModal} from '../../redux/slices/addCartSlice'
 
+
 const OrderBlock = styled.div`
   padding: 24px;
   /* width: 844px; */
@@ -145,24 +146,37 @@ const Count = styled.div`
 `
 // }
 
-const CardOrder = ({order}) => {
-  // return harcodeIllustration.map((obj) => {
-  //     console.log(obj.previewPhoto)
-  // })
+interface IIngredient {
+  id: number,
+  largePhotoUrl: string,
+  normalPhotoUrl: string,
+  mobilePhotoUrl: string,
+  previewPhotoUrl: string,
+  price: number,
+  name: string,
+  category: string,
+  quantity: number,
+}
 
-    // const [countOrder, setCountOrder] = React.useState(0)
-   
-    // const functionOrder = () => {
-    //     setCountOrder((prev) => prev+1)
-    //     console.log(countOrder)
-    // }
+interface Order {
+  order_number: number;
+  date_created: string;
+  name: string;
+  price: number;
+  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+  ingredients: IIngredient[];
+}
+
+const CardOrder: React.FC<Order> = (order) => {
+    console.log(order)
+
     const dispatch = useDispatch()
 
     const orderTopArray = order?.ingredients?.slice(0, 5)
-    // console.log(orderTopArray)
+   
     const newArrayCount = order?.ingredients?.length - orderTopArray?.length
-    // console.log(newArrayCount)
-    const sumPriceOrder = order?.ingredients?.reduce((acum, item) => acum + (item.price * item.amount), 0)
+  
+    // const sumPriceOrder = order?.ingredients?.reduce((acum, item) => acum + (item.price * item.amount), 0)
     // let time = order?.date_created
     const dateOrder = order?.date_created?.split('T', 1)
     const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
@@ -173,17 +187,17 @@ const CardOrder = ({order}) => {
       dispatch(setOrderModal(order))
     }}>
       <OrderNumber>
-        <Number>#{order.order_number}</Number>
+        <Number>#{order?.order_number}</Number>
         <TimeOrder>Дата: {dateOrder}<br/>Время: {timeOrderStr}</TimeOrder>
       </OrderNumber>
       <StatusOrder>
-        <Title >{order.name}</Title>
-        <Status>{order.status}</Status>
+        <Title >{order?.name}</Title>
+        <Status>{order?.status}</Status>
       </StatusOrder>
       <ImageOrders>
         <ImageBlock>
             {
-                orderTopArray?.map((obj, index) => {
+                orderTopArray?.map((obj: IIngredient) => {
                     return (
                         <>
                             <ImageBox>

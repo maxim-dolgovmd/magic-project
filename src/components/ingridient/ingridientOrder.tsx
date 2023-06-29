@@ -40,14 +40,19 @@ const BoxTitle = styled.div`
     gap: 16px;
 `
 
+type IngridientTypeOrders = {
+    photo: string,
+    price: number,
+    nameItem: string,
+    quantity: number
+}
 
-
-function IngridientOrder({
+const IngridientOrder: React.FC<IngridientTypeOrders> = ({
     photo,
     price,
     nameItem,
-    amount,
-}) {
+    quantity,
+}) => {
 
 
     return (
@@ -60,7 +65,7 @@ function IngridientOrder({
                 <BoxName>{nameItem}</BoxName>
             </BoxTitle>
             <Box>
-                <div>{amount} x {price}</div>
+                <div>{quantity} x {price}</div>
                 <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
         </IngrOrder>

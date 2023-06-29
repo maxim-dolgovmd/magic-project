@@ -12,7 +12,7 @@ import { useGetOrderQuery } from "../../../services/ingridientsApi";
 import ModalCardOrder from "../../../components/modal/modalCardOrders/modalCardOrders";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setActiveCard } from "../../../redux/slices/addCartSlice";
+import { AddCartSelect, setActiveCard } from "../../../redux/slices/addCartSlice";
 
 const Box = styled.div`
   padding-top: 150px;
@@ -27,6 +27,10 @@ const ButtonBox = styled.div`
   padding-bottom: 80px;
   /* gap: 20px; */
 `;
+
+type AciveButton = {
+  active?: any
+}
 
 const Button = styled.div`
   /* border: 2px dashed #4C4CFF; */
@@ -44,7 +48,7 @@ const Button = styled.div`
     color: #f2f2f3;
   }
 
-  ${(props) => {
+  ${(props: AciveButton) => {
     return (
       props.active && {
         color: "#F2F2F3",
@@ -77,12 +81,33 @@ const BoxOrder = styled.div`
   height: 700px;
 `;
 
-function OrderHistory() {
+interface IIngredient {
+  id: number,
+  largePhotoUrl: string,
+  normalPhotoUrl: string,
+  mobilePhotoUrl: string,
+  previewPhotoUrl: string,
+  price: number,
+  name: string,
+  category: string,
+  quantity: number,
+}
+
+interface Order {
+  order_number: number;
+  date_created: string;
+  name: string;
+  price: number;
+  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+  ingredients: IIngredient[];
+}
+
+const OrderHistory:React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {activeCard, orderModal} = useSelector((state) => state.addCart);
+  const {activeCard, orderModal} = useSelector(AddCartSelect);
   const orderGet = useGetOrderQuery({ limit: 12, offset: 0 , role: 'admin'});
-  console.log(orderGet?.data?.orders)
+  // console.log(orderGet?.data?.orders)
 
   return (
     <Container>
@@ -110,21 +135,22 @@ function OrderHistory() {
         <OverlayScrollbarsComponent>
           <BoxOrder>
             {
-              orderGet?.data?.orders.map((obj) => {
+              orderGet?.data?.orders.map((obj: Order) => {
+                console.log(obj)
               return (
-                <>
-                    <CardOrder order={obj}/>
-                </>
+                <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`}>
+                  <CardOrder {...obj} />
+                </Link>
               )
               })
             }
           </BoxOrder>
         </OverlayScrollbarsComponent>
-        {activeCard && (
+        {/* {activeCard && (
           <div>
             <ModalCardOrder order={orderModal} />
           </div>
-        )}
+        )} */}
       </Box>
     </Container>
   );

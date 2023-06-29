@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+type ButtonProps = {
+    size: 'small' | 'medium' | 'large'
+}
+
 const Button = styled.button`
     display: flex;
     align-items: center;
@@ -16,7 +20,8 @@ const Button = styled.button`
     transition: all 0.3s ease 0s;
     white-space: nowrap;
     color: #fff;
-    ${(props) => {
+
+    ${(props: ButtonProps) => {
         switch(props.size) {
             case 'small':
                 return {

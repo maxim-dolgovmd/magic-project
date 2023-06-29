@@ -63,13 +63,18 @@ const BlockText = styled.div`
     }
 `
 
-function ForgotPasswordTwo() {
+type DataPassword = {
+    passwordUser: string,
+    codeNumber: string,
+  }
 
-    const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
+const ForgotPasswordTwo: React.FC = () => {
 
-    function OnSubmit(data) {
-        // console.log(data)
-    }
+    const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm<DataPassword>({mode: 'onBlur'})
+
+    const OnSubmit = handleSubmit((data) => {
+    console.log(data);
+    })
 
     const router = useRouter()
 
@@ -99,7 +104,7 @@ function ForgotPasswordTwo() {
                             valueField={watch('codeNumber')}
                         />
                         <BlockButton>
-                            <ButtonComponent onClick={handleSubmit(OnSubmit)} size='medium'>Сохранить</ButtonComponent>
+                            <ButtonComponent onClick={OnSubmit} size='medium'>Сохранить</ButtonComponent>
                         </BlockButton>
                     </ColumnSignIn>
                     <BlockText>

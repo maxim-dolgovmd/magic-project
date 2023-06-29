@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
+type ButtonTextProps = {
+    size: 'small' | 'medium' | 'large'
+}
+
 const ButtonText = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
 
-    ${(props) => {
+    ${(props: ButtonTextProps) => {
         switch(props.size) {
             case 'small':
                 return {

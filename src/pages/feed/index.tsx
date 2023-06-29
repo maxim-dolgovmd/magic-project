@@ -14,7 +14,7 @@ import { useGetOrderQuery } from "../../services/ingridientsApi";
 import StatusOrder from "../../components/statusOrder/statusOrder";
 
 import { getObjStatus } from "../../utils/getObjStatus";
-import { type } from "os";
+import Link from "next/link";
 
 const Box = styled.div`
   padding-top: 150px;
@@ -119,17 +119,38 @@ const NumbersOfOrder = styled.div`
   align-items: center;
 `;
 
-function OrderFeet() {
-  const { activeCard, orderModal } = useSelector((state) => state.addCart);
+interface IIngredient {
+  id: number,
+  largePhotoUrl: string,
+  normalPhotoUrl: string,
+  mobilePhotoUrl: string,
+  previewPhotoUrl: string,
+  price: number,
+  name: string,
+  category: string,
+  quantity: number,
+}
+
+interface Order {
+  order_number: number;
+  date_created: string;
+  name: string;
+  price: number;
+  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+  ingredients: IIngredient[];
+}
+
+const OrderFeet:React.FC = () => {
 
   const orderGet = useGetOrderQuery({ limit: 12, offset: 0, role: "admin" });
-  console.log(orderGet);
+  // console.log(orderGet);
   const orders = orderGet?.data?.orders;
+  console.log(orders)
   const today = new Date().toISOString().split("T")[0];
-  console.log(orders);
+  // console.log(orders);
 
-  const day = orders?.filter((obj) => obj.date_created.split("T")[0] === today);
-  console.log(day);
+  const day = orders?.filter((obj: Order) => obj.date_created.split("T")[0] === today);
+  // console.log(day);
 
   const statuses = [
     {"closed": 'Закрытые'},
@@ -138,7 +159,7 @@ function OrderFeet() {
   ];
 
   const ordersMap = getObjStatus(orders);
-  console.log(ordersMap)
+  // console.log(ordersMap)
 
   return (
     <div>
@@ -149,11 +170,12 @@ function OrderFeet() {
             <div>
               <OverlayScrollbarsComponent>
                 <BoxOrder>
-                  {orders?.map((obj) => {
+                  {orders?.map((obj: Order) => {
+                    console.log(obj)
                     return (
-                      <>
-                        <CardOrder order={obj} />
-                      </>
+                      <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
+                        <CardOrder {...obj} />
+                      </Link>
                     );
                   })}
                 </BoxOrder>
@@ -179,11 +201,6 @@ function OrderFeet() {
               </BlockForToday>
             </BoxInfo>
           </GridColumn>
-          {activeCard && (
-            <div>
-              <ModalCardOrder order={orderModal} />
-            </div>
-          )}
         </Box>
       </Container>
     </div>

@@ -2,47 +2,8 @@ import React from "react"
 import styled from 'styled-components'
 
 import Image from "next/image"
-import { useSelector, useDispatch } from "react-redux";
-import {setDeleteProduct, setDeletePrice, setDeleteBund, setDeleteCount} from '../../redux/slices/addCartSlice'
-
-const Wrapper = styled.div`
-    display: flex;
-    gap: 16px;
-`
-
-const BlockFirst = styled.div`
-    display: flex;
-    align-items: center;
-    background: #1C1C21;
-    border-radius: 40px;
-    padding: 16px 24px;
-    gap: 20px;
-
-    ${(props) => {
-        return props.border && {
-            borderRadius: '88px 88px 40px 40px'
-        }
-    }};
-
-`
-
-const Block = styled.div`
-    display: flex;
-    align-items: center;
-    background: #1C1C21;
-    border-radius: 88px 88px 40px 40px;
-    padding: 16px 24px;
-    gap: 20px;
-`
-
-const BlockLast = styled.div`
-    display: flex;
-    align-items: center;
-    background: #1C1C21;
-    border-radius: 88px 88px 40px 40px;
-    padding: 16px 24px;
-    gap: 20px;
-`
+import {useDispatch } from "react-redux";
+import {setDeleteProduct} from '../../redux/slices/addCartSlice'
 
 const Box = styled.div`
     display: flex;
@@ -75,35 +36,25 @@ const BoxName = styled.div`
 `
 
 
+type IngridientTypeBurgers = {
+    photo: string,
+    price: number,
+    nameItem: string,
+    index: number,
+}
 
-
-function IngridientBurger({
+const IngridientBurger: React.FC<IngridientTypeBurgers> = ({
     photo,
     price,
     nameItem,
-    obj,
-    border,
     index,
-    setDeleteIngrSum,
-    deleteIngrSum,
-}) {
+}) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch() 
 
-    const {
-        deleteProduct,
-        addProduct,
-        deleteBun,
-        deleteCount,
-    } = useSelector((state) => state.addCart)
-
-    // console.log('addProduct', addProduct, 'deleteBun', deleteBun)
-    
-
-    const deleteIngr = (index) => {
+    const deleteIngr = (index: number) => {
         dispatch(setDeleteProduct(index))
     }
-
 
     return (
         // <Wrapper> 

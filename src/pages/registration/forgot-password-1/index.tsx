@@ -63,7 +63,11 @@ const BlockText = styled.div`
   }
 `;
 
-function ForgotPasswordOne() {
+type DataEmailType = {
+  email: string,
+}
+
+const ForgotPasswordOne: React.FC = () => {
   const {
     register,
     watch,
@@ -71,14 +75,14 @@ function ForgotPasswordOne() {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ mode: "onBlur" });
+  } = useForm<DataEmailType>({ mode: "onBlur" });
 
   const router = useRouter();
 
-  function OnSubmit(data) {
-    // console.log(data);
+  const OnSubmit = handleSubmit((data) => {
+    console.log(data);
     router.push("/registration/forgot-password-2")
-  }
+  })
 
   return (
     <Container>
@@ -99,11 +103,11 @@ function ForgotPasswordOne() {
                   },
                 }),
               }}
-              valueField={watch("email")}
+              valueField={watch("email")} type={""}
             />
             <BlockButton>
               <ButtonComponent
-                onClick={handleSubmit(OnSubmit)}
+                onClick={OnSubmit}
                 size="medium"
               >
                 Восстановить

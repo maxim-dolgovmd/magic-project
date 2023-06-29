@@ -22,6 +22,10 @@ const ButtonBox = styled.div`
   /* gap: 20px; */
 `;
 
+type ActiveButton = {
+  active?: any
+}
+
 const Button = styled.div`
   /* border: 2px dashed #4C4CFF; */
   display: flex;
@@ -38,7 +42,7 @@ const Button = styled.div`
     color: #f2f2f3;
   }
 
-  ${(props) => {
+  ${(props: ActiveButton) => {
     return (
       props.active && {
         color: "#F2F2F3",
@@ -69,25 +73,29 @@ const ComponentBlock = styled.div`
   justify-content: flex-end;
 `
 
-function PersonalArea() {
-  const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
+interface DataType {
+  loginValue: string,
+  passwordUser: string,
+  userName: string,
+}
 
-  const [nameValue, setNameValue] = React.useState("");
-  const [loginValue, setLoginValue] = React.useState("");
-  const [passwordValue, setPasswordValue] = React.useState("");
+const PersonalArea:React.FC = () => {
+  const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm<DataType>({mode: 'onBlur'})
 
-  const [buttonActive, setButtonActive] = React.useState(false)
+  // const submitHundler = (data: React.MouseEvent<HTMLFormElement>) => {
+  //   console.log(data)
+  //   alert('Сохранить данные?')
+  // } 
 
-  const submitHundler = data => {
-    // console.log(data)
-    alert('Сохранить данные?')
-  } 
-
-  React.useEffect(() => {
-    setFocus("firstName");
-  }, [setFocus]);
+  // React.useEffect(() => {
+  //   setFocus("firstName");
+  // }, [setFocus]);
   
-  const router = useRouter()
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    alert('Сохранить данные?')
+  })
 
   // console.log(errors)
   return (
@@ -115,31 +123,35 @@ function PersonalArea() {
             </span>
           </Title>
         </div>
-        <InputBlock onSubmit={handleSubmit(submitHundler)}>
+        <InputBlock onSubmit={onSubmit}>
           <BaseInput 
-            label={"Имя"} 
+            label={"Имя"}
             // value={nameValue} 
             // onChange={(e) => setNameValue(e.target.value)} 
             setValue={setValue}
-            error={errors.userName?.message} 
-            register={{...register('userName', {
-              required: 'Введите свое Имя',
-              // onBlur: (func, value) => value ? func(true) : func(false)
-            })}}
-            valueField={watch('userName')}
-          />
+            error={errors.userName?.message}
+            register={{
+              ...register('userName', {
+                required: 'Введите свое Имя',
+                // onBlur: (func, value) => value ? func(true) : func(false)
+              })
+            }}
+            valueField={watch('userName')} type={""}          />
           <BaseInput 
-            label={"Логин"} 
+            label={"Логин"}
             // value={loginValue} 
             // onChange={(e) => setLoginValue(e.target.value)} 
             setValue={setValue}
-            error={errors.loginValue?.message} 
-            register={{...register('loginValue', {required: 'Введите логин ', minLength: {
-              value: 5,
-              message: 'Минимум 5 символов'
-            },})}}
-            valueField={watch('loginValue')}
-          />
+            error={errors.loginValue?.message}
+            register={{
+              ...register('loginValue', {
+                required: 'Введите логин ', minLength: {
+                  value: 5,
+                  message: 'Минимум 5 символов'
+                },
+              })
+            }}
+            valueField={watch('loginValue')} type={""}          />
           <BaseInput 
             label={"Пароль"} 
             type="password" 
@@ -153,7 +165,7 @@ function PersonalArea() {
             },})}}
             valueField={watch('passwordUser')}
           />
-          <ComponentBlock onClick={handleSubmit(submitHundler)}>
+          <ComponentBlock onClick={onSubmit}>
             <ButtonComponent size='medium'>Сохранить</ButtonComponent>
           </ComponentBlock>
         </InputBlock>

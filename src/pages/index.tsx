@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import CardBurger from "../components/objectCart/cardBurger";
 import Tab from "../components/tabs/tab";
-import CridBurgers from "../components/objectCart/cardDesktop";
 import { harcodeIllustration } from "../components/json/hardcodeillustration";
 import Ingridient from "../components/ingridient/ingridient";
 import Button from "../components/button/button";
@@ -25,6 +24,7 @@ import {
     setAddProduct,
     setOrder,
     setDeletePriceCart,
+    AddCartSelect,
 } from "../redux/slices/addCartSlice";
 
 const Box = styled.div`
@@ -104,20 +104,22 @@ const HeaderCard = styled.div`
   padding: 0 0 20px 0;
 `;
 
-// todo 
-// 1) вынести модалку как отдельный компонент, она должна принимать в себя children, boolean, function
-
-const Function = ({ children }) => {
-    return (
-        <div>
-            {children}
-        </div>
-    )
+interface IIngredient {
+    id: string,
+    largePhotoUrl: string,
+    normalPhotoUrl: string,
+    mobilePhotoUrl: string,
+    previewPhotoUrl: string,
+    price: number,
+    name: string,
+    category: string,
+    quantity: number,
 }
 
-// 2) 
-
-
+type categoryType = {
+    category: string,
+    id: string,
+}
 
 const Constructor = () => {
 
@@ -125,19 +127,16 @@ const Constructor = () => {
     const categories = useGetIngridientQuery('categories')
     const [createOrder, { isLoading, isSuccess, isError }] = usePostOrderMutation()
     // const orderGet = useGetOrderQuery({limit: 12, offset: 0})
-    // console.log(data)
-    console.log(() => createOrder())
-
+  
+    console.log(arrayProduct)
     const [filterIngr, setFilterIngr] = React.useState(categories?.data?.[0]);
-    // console.log(categories)
 
     const dispatch = useDispatch();
-    const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector((state) => state.addCart);
+    const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector(AddCartSelect);
 
-    const [deleteIngrSum, setDeleteIngrSum] = React.useState(0);
-    const hasBunds = addProduct.find((product) => product.category === 'Булки')
+    const hasBunds = addProduct.find((product: IIngredient) => product.category === 'Булки')
 
-    const addMap = (id) => {
+    const addMap = (id: string) => {
         return getCountFromCart(addProduct).get(id)
     }
 
@@ -148,6 +147,28 @@ const Constructor = () => {
         role: 'user',
     }
 
+    // const inData = 'user.name.firstname=Bob&user.name.lastName=Smith&user.favoritecolor=Linght%20Blue&experiments.theme=dark'
+
+    // function queryObjectify(str) {
+    //     let res = {}
+
+        
+    //     str = str.split('&')
+    //     str = str.map((obj) => {
+    //         let parent = obj.split('=')
+    //         return parent
+    //     })
+    //     // console.log(parentRes[0])
+
+    //     // res.user = parentRes[0]
+    //     // res.user
+    //     let resObj = JSON.parse(str[0])
+    //     console.log(resObj)
+
+    //     return res.user = str
+    // }
+    // console.log(queryObjectify(inData))
+
     return (
         <Container>
             <Box>
@@ -155,7 +176,7 @@ const Constructor = () => {
                 <GridColumns>
                     <div>
                         <GridTab>
-                            {categories?.data?.map((obj, index) => {
+                            {categories?.data?.map((obj: categoryType, index: string) => {
                                 return (
                                     <Tab
                                         key={index}
@@ -174,15 +195,16 @@ const Constructor = () => {
                         <TitleBlock>{filterIngr?.category}</TitleBlock>
                         <GridMenu>
                             {arrayProduct.data
-                                ?.filter((obj) => {
+                                ?.filter((obj: categoryType) => {
+                                    console.log(obj)
                                     if (filterIngr?.category === "Все") {
                                         return obj
                                     }
                                     return obj.category === filterIngr?.category
                                 })
-                                ?.map((objIngredient, index) => {
+                                ?.map((objIngredient: IIngredient) => {
+                                    console.log(objIngredient)
                                     // eslint-disable-next-line react-hooks/rules-of-hooks
-
                                     return (
                                         // eslint-disable-next-line react/jsx-key
                                         <>
@@ -207,10 +229,7 @@ const Constructor = () => {
                 <OverlayScrollbarsComponent>
                     <GridBurger>
                         {addProduct.length > 0 ? (
-                            <CardBurger
-                                setDeleteIngrSum={setDeleteIngrSum}
-                                deleteIngrSum={deleteIngrSum}
-                            />
+                            <CardBurger/>
                         ) : (
                             <div>Ваша корзина пуста</div>
                         )}

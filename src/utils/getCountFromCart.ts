@@ -1,6 +1,6 @@
 
 
-export const getCountFromCart = (array) => {
+export const getCountFromCart = (array: any) => {
    const map = new Map()
 
    for (let i = 0; i < array.length; i++) {

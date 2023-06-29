@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 // выбирай как в макете
 import Header from '../components/header/header'
-import Footer from '../components/footer/footer'
+// import Footer from '../components/footer/footer'
 // import 'overlayscrollbars/overlayscrollbars.css';
 import {Provider} from 'react-redux'
 import {store} from '../redux/store'
@@ -19,9 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Header />
       </header>
       <Component {...pageProps} />
-      <footer style={{flex: '0 1 auto'}}>
-        <Footer/>
-      </footer>
+      
   </div>
   </Provider>)
 }

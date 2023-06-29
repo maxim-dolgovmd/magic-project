@@ -7,7 +7,7 @@ import ButtonComponent from '../../../components/button/button'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
-import {usePostRegistrationMutation} from '../../../services/ingridientsApi'
+import {usePostAuthorizationMutation} from '../../../services/ingridientsApi'
 
 const Box = styled.div`
   padding-top: 250px;
@@ -64,16 +64,18 @@ const BlockText = styled.div`
     }
 `
 
-function Registration() {
+const SignIn: React.FC = () => {
 
-    const [registrMutation, {isLoading, isSuccess, isError}] = usePostRegistrationMutation()
+    const [authMutation, {isError, isLoading, isSuccess}] = usePostAuthorizationMutation()
 
     const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
 
-    console.log( registrMutation)
-    function OnSubmit(data) {
-        registrMutation(data)
-    }
+    console.log(setValue)
+
+    const OnSubmit = handleSubmit((data) => {
+        console.log(data)
+        authMutation(data)
+    })
 
     const router = useRouter()
 
@@ -82,28 +84,21 @@ function Registration() {
             <Box>
                 <Column>
                     <ColumnSignIn>
-                        <Title>Регистрация</Title>
+                        <Title>Вход</Title>
                         <BaseInput 
-                            label={'Имя'}
+                            label={"E-mail"}
                             setValue={setValue}
                             error={errors.username?.message}
-                            register={{...register('username', {
-                                required: 'Введите свое Имя'
-                            })}}
-                            valueField={watch('username')}
-                        />
-                        <BaseInput 
-                            label={"E-mail"} 
-                            setValue={setValue}
-                            error={errors.email?.message} 
-                            register={{...register('email', {
-                              required: 'Введите свой email',
-                              pattern: {
-                                value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
-                                message: 'Некорректный email',
-                              }
-                            })}}
-                            valueField={watch('email')}
+                            register={{
+                                ...register('username', {
+                                    required: 'Введите свой email',
+                                    pattern: {
+                                        value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
+                                        message: 'Некорректный email',
+                                    }
+                                })
+                            }}
+                            valueField={watch('username')} type={""}
                         />
                         <BaseInput 
                             label={"Пароль"} 
@@ -117,13 +112,17 @@ function Registration() {
                             valueField={watch('password')}
                         />
                         <BlockButton>
-                            <ButtonComponent onClick={handleSubmit(OnSubmit)} size='medium'>Зарегестрироваться</ButtonComponent>
+                            <ButtonComponent onClick={OnSubmit} size='medium'>Войти</ButtonComponent>
                         </BlockButton>
                     </ColumnSignIn>
                     <BlockText>
                         <div>
-                            <span>Уже зарегестрированы? </span>
-                            <Link href="/registration/sign-in">Войти</Link>
+                            <span>Вы — новый пользователь? </span>
+                            <Link href="/registration/registration"> Зарегестрироваться</Link>
+                        </div>
+                        <div>
+                            <span>Забыли пароль? </span>
+                            <Link href="/registration/forgot-password-1"> Восстановить пароль</Link>
                         </div>
                     </BlockText>
                 </Column>
@@ -132,4 +131,4 @@ function Registration() {
     )
 }
 
-export default Registration
+export default SignIn

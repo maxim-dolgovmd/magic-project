@@ -19,7 +19,7 @@ const InputStyle = styled(Input)`
     color: #fff;
   }
 
-  ${(props) => {
+  ${(props: {error: string}) => {
     return (
       props.error && {
         border: "2px solid red",
@@ -39,6 +39,7 @@ const InputStyle = styled(Input)`
 const LabelBlock = styled.div`
   position: relative;
 `;
+
 const Placeholder = styled.div`
   position: absolute;
   top: 50%;
@@ -47,7 +48,7 @@ const Placeholder = styled.div`
   color: #8585ad;
   transition: all 200ms ease-in 0s;
 
-  ${(props) => {
+  ${(props: {isFocus: boolean}) => {
     return (
       props.isFocus && {
         fontSize: "13px",
@@ -69,29 +70,31 @@ const CloseIngr = styled.div`
     cursor: pointer;
 `;
 
-const BaseInput = ({
+interface BaseInputType {
+  label: string
+  error?: any,
+  type: string,
+  register: any,
+  setValue: any,
+  valueField: string
+}
+
+const BaseInput: React.FC<BaseInputType> = ({
   error,
   label,
   type,
-  onChange,
-  value,
   register,
   setValue,
   valueField,
 }) => {
   const [isFocus, setIsFocus] = React.useState(false);
-  const inputRef = React.useRef()
-  const [activeImg, setActiveImg] = React.useState(true)
-  // const dispatch = useDispatch()
-  // const value = useSelector((state) => state.addCart.value)
+
   const setClose = () => {
     setValue(register.name, '')
     // inputRef.current.focus()
   }
 
-  // console.log(register, valueField);
   return (
-    // <div style={{display: 'inline-flex'}}>
     <div>
       <LabelBlock>
         <InputStyle

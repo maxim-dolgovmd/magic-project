@@ -1,4 +1,4 @@
-export const getObjStatus = (array) => {
+export const getObjStatus = (array: any) => {
     const map = new Map()
 
     // ключ - статус 

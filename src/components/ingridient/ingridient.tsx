@@ -14,6 +14,7 @@ import {
   setOrder,
   setActiveOrder,
   setDeleteCount,
+  AddProductSelect,
 } from "../../redux/slices/addCartSlice";
 
 const Wrapper = styled.div`
@@ -67,19 +68,34 @@ const BoxName = styled.div`
   color: #f2f2f3;
 `;
 
-function Ingridient({
+type OrderIngridients = {
+  category: string,
+  id: string,
+  largePhotoUrl: string,
+  mobilePhotoUrl: string,
+  name: string,
+  normalPhotoUrl: string,
+  previewPhotoUrl: string,
+  price: number,
+}
+
+const Ingridient: React.FC<{
+  photo: string,
+  price: number,
+  nameItem: string,
+  objIngredient: OrderIngridients,
+  hasBunds?: OrderIngridients,
+  addMap: number,
+}> = ({
   photo,
   price,
   nameItem,
-  setAddProduc,
   objIngredient,
   hasBunds,
   addMap,
-  // deleteIngrSum,
-}) {
-  const [count, setCount] = React.useState(0)
+}) => {
 
-  const addProduct = useSelector((state) => state.addCart.addProduct);
+  const addProduct = useSelector(AddProductSelect);
 
   // console.log(getCountFromCart(addProduct))
   // const productSum = addProduct.filter((product, index, array) => {
@@ -88,29 +104,7 @@ function Ingridient({
   //   }
   // })
   // console.log(productSum)
-
-  // const findObj = addProduct.find((obj) => obj.id ===  objIngredient.id)
-  // if (findObj) {
-  //   console.log(findObj)
-  // }
-
-  // const arrayProductId = addProduct.map((obj) => {
-  //   return obj.id
-  // })
-
-  // console.log(arrayProductId)
-
-  // const productSum = () => {
-  //   for (const item of arrayProductId) {
-  //     return countItems[item] = countItems[item] ? countItems[item] + 1 : 1;
-  //   }
-  // }
-
-  // console.log(productSum)
-
-
-
-
+  
   const dispatch = useDispatch();
 
   const addProductCart = () => {
@@ -122,7 +116,7 @@ function Ingridient({
     // getCountFromCart(addProduct)
   };
 
-  const activeModal = (status) => {
+  const activeModal = (status: boolean) => {
     dispatch(setProductInfo(objIngredient));
     dispatch(setActiveIngr(status))
   };

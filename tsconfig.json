@@ -18,6 +18,6 @@
       "@/components/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.js", "src/pages/profile/index.jsx", "src/components/input/baseInput.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.tsx", "src/pages/profile/index.jsx", "src/components/input/baseInput.tsx", "src/pages/_document.js"],
   "exclude": ["node_modules"]
 }

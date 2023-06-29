@@ -36,6 +36,10 @@ const Grid = styled.div`
     }
 `
 
+type AciveImage = {
+    active?: any
+}
+
 const Box = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -58,7 +62,7 @@ const BoxBlock = styled.div`
     }
     }
 
-    ${(props) => {
+    ${(props: AciveImage) => {
         return props.active && {
             color: '#F2F2F3',
             path: {
@@ -86,7 +90,7 @@ const Header = () => {
                 <Grid>
                     <Box>
                         <Link href={'/'}>
-                            <BoxBlock >
+                            <BoxBlock>
                                 <Burger />
                                 <div>Конструктор</div>
                             </BoxBlock>

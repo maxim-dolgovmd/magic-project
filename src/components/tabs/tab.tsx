@@ -9,7 +9,7 @@ const Tab = styled.button`
     cursor: pointer;
     
     
-    ${(props) => {
+    ${(props: {status: boolean}) => {
         switch(props.status) {
             case true:
                 return {

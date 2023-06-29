@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Image from "next/image"
 
 import { useSelector, useDispatch } from "react-redux";
-import {setActiveIngr, setActiveOrder} from '../../../redux/slices/addCartSlice'
+import {ProductSelect, setActiveIngr, setActiveOrder} from '../../../redux/slices/addCartSlice'
 import Modal from '../modal'
 
 const BlockModal = styled.div`
@@ -80,10 +80,11 @@ const BlockCal = styled.div`
 `
 
 
-function ModalWindow() {
+const ModalWindow: React.FC = () => {
 
     const dispatch = useDispatch()
-    const product = useSelector((state) => state.addCart.product)
+    const product = useSelector(ProductSelect)
+    console.log(product)
 
     const activeModal = () => {
         dispatch(setActiveIngr(false));
@@ -100,10 +101,10 @@ function ModalWindow() {
                     </CloseIngr>
                 </TitleIngr>
                 <LargePhoto>
-                    <Image src={product.largePhoto} width={480} height={240} alt="Image" unoptimized />
+                    <Image src={product.largePhotoUrl} width={480} height={240} alt="Image" unoptimized />
                 </LargePhoto>
                 <DetailsIngr>
-                    <NameItem>{product.nameItem}</NameItem>
+                    <NameItem>{product.name}</NameItem>
                     <Calories>
                         <BlockCal>
                             <div>Калории,ккал</div>

@@ -27,14 +27,15 @@ const ReadyStatus = styled.ul`
 `;
 
 
-function StatusOrder({order, status}) {
-    console.log(order)
+const StatusOrder = (props: any) => {
+    console.log(props.order, 'orderrr')
+    console.log(props.status, 'statuss')
 
     return (
         <ReadiOrder>
-            <TextStatus>{status}:</TextStatus>
+            <TextStatus>{props.status}:</TextStatus>
             <ReadyStatus>
-                <li>{order?.[0]?.order_number}</li>
+                <li>{props.order?.[0]?.order_number}</li>
             </ReadyStatus>
         </ReadiOrder>
     )
