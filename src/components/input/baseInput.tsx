@@ -1,7 +1,6 @@
-import React, { ChangeEvent, FC } from "react";
+import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import Edit from '../../assets/icon/edit.svg'
 
 import Input from "./input";
 // import { type } from "os";
@@ -91,7 +90,6 @@ const BaseInput: React.FC<BaseInputType> = ({
 
   const setClose = () => {
     setValue(register.name, '')
-    // inputRef.current.focus()
   }
 
   return (

@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Image from "next/image"
-import Check from '../../assets/icon/done.svg'
-
-import { useSelector, useDispatch } from "react-redux";
-import {setActiveOrder} from '../../redux/slices/addCartSlice'
+import { useDispatch } from "react-redux";
 
 const Window = styled.div`
     position: fixed;
@@ -36,13 +32,11 @@ const OrderContent = styled.h1`
 `
 
 type ModalType = {
-    children: any,
+    children: React.ReactNode,
     activeModal: () => void,
 }
 
 const Modal:React.FC<ModalType> = ({children, activeModal}) => {
-
-    const dispatch = useDispatch()
 
     return (
         <Window onClick={activeModal}>

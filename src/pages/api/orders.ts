@@ -22,12 +22,14 @@ interface IIngredient {
     quantity: number,
 }
 
+type StatusType = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+
 interface Order {
     order_number: number;
     date_created: Date;
     name: string;
     price: number;
-    status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+    status: StatusType;
     ingredients: IIngredient[];
 }
 

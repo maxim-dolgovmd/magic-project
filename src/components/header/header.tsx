@@ -5,9 +5,7 @@ import Burger from '../../assets/icon/burger.svg'
 import ViewList from '../../assets/icon/view-list.svg'
 import Profile from '../../assets/icon/profile.svg'
 import Logo from '../../assets/icon/logo.svg'
-import Tab from '../tabs/tab'
 import Container from '../container/container'
-import { useRouter } from "next/router"
 import Link from "next/link";
 
 
@@ -80,9 +78,12 @@ const BoxLogo = styled.div`
     justify-content: center;
 `
 
-const Header = () => {
+const StyledLink = styled(Link)`
+    display: flex;
+    justify-content: flex-end;
+`
 
-    const router = useRouter()
+const Header = () => {
 
     return (
         <Wrapper> 
@@ -105,12 +106,12 @@ const Header = () => {
                     <BoxLogo>
                         <Logo />
                     </BoxLogo>
-                    <Link style={{display: 'flex', justifyContent: 'flex-end'}} href={'/account/profile'}>
+                    <StyledLink  href={'/account/profile'}>
                         <BoxBlock >
                             <Profile />
                             <div>Личный кабинет</div>
                         </BoxBlock>
-                    </Link>
+                    </StyledLink>
                 </Grid>
             </Container>
         </Wrapper>

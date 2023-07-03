@@ -7,21 +7,17 @@ import ButtonComponent from '../../../components/button/button'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
-import {usePostRegistrationMutation} from '../../../services/ingridientsApi'
+import {UserRegisrType, usePostRegistrationMutation} from '../../../services/registrationApi'
 
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); */
 `;
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
     width: 480px;
 `
 
@@ -66,9 +62,9 @@ const BlockText = styled.div`
 
 const Registration: React.FC = () => {
 
-    const [registrMutation, {isLoading, isSuccess, isError}] = usePostRegistrationMutation()
+    const [registrMutation] = usePostRegistrationMutation()
 
-    const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
+    const {register,watch, handleSubmit, formState: {errors}, setValue} = useForm<UserRegisrType>({mode: 'onBlur'})
 
     console.log( registrMutation)
 
@@ -76,8 +72,6 @@ const Registration: React.FC = () => {
         console.log(data)
         registrMutation(data)
     })
-
-    const router = useRouter()
 
     return (
         <Container>

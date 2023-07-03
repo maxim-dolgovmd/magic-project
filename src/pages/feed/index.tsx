@@ -1,27 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-// import Order from "../../components/cardOrder/cardOrder";
 import Container from "../../components/container/container";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 import CardOrder from "../../components/cardOrder/cardOrder";
-import { harcodeIllustration } from "../../components/json/hardcodeillustration";
-import ModalCardOrder from "../../components/modal/modalCardOrders/modalCardOrders";
-import { useSelector, useDispatch } from "react-redux";
-
-import { useGetOrderQuery } from "../../services/ingridientsApi";
+import { useGetOrderQuery } from "../../services/ordersApi";
 
 import StatusOrder from "../../components/statusOrder/statusOrder";
 
 import { getObjStatus } from "../../utils/getObjStatus";
 import Link from "next/link";
+import { statusCategories } from "@/components/components/statusCategories/statusCategories";
+import { Order } from "@/components/redux/slices/addCartSlice";
 
 const Box = styled.div`
   padding-top: 150px;
   margin: 0 20px;
-  /* display: flex;
-  flex-direction: column;
-  align-items: flex-end; */
 `;
 
 const Title = styled.h1`
@@ -51,43 +45,11 @@ const GridStatus = styled.div`
   gap: 36px;
 `;
 
-const ReadiOrder = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
-const InWork = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
 const TextStatus = styled.div`
   color: #f2f2f3;
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
-`;
-
-const ReadyStatus = styled.ul`
-  color: #00cccc;
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const InWorkStatus = styled.ul`
-  color: #f2f2f3;
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 `;
 
 const BoxInfo = styled.div`
@@ -119,47 +81,40 @@ const NumbersOfOrder = styled.div`
   align-items: center;
 `;
 
-interface IIngredient {
-  id: number,
-  largePhotoUrl: string,
-  normalPhotoUrl: string,
-  mobilePhotoUrl: string,
-  previewPhotoUrl: string,
-  price: number,
-  name: string,
-  category: string,
-  quantity: number,
-}
-
-interface Order {
-  order_number: number;
-  date_created: string;
-  name: string;
-  price: number;
-  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
-  ingredients: IIngredient[];
-}
 
 const OrderFeet:React.FC = () => {
 
-  const orderGet = useGetOrderQuery({ limit: 12, offset: 0, role: "admin" });
-  // console.log(orderGet);
+  const orderGet = useGetOrderQuery({ limit: '12', offset: '0', role: "admin" });
   const orders = orderGet?.data?.orders;
   console.log(orders)
   const today = new Date().toISOString().split("T")[0];
-  // console.log(orders);
-
   const day = orders?.filter((obj: Order) => obj.date_created.split("T")[0] === today);
-  // console.log(day);
 
-  const statuses = [
-    {"closed": 'Закрытые'},
-    {"canceled": 'Отмененные'},
-    {"handed over to courier": 'Переданные курьеру'},
-  ];
+  // const statuses = [
+  //   {"closed": 'Закрытые'},
+  //   {"canceled": 'Отмененные'},
+  //   {"handed over to courier": 'Переданные курьеру'},
+  // ];
+
+  const tsStatus = {
+    'closed': 'Закрытые',
+    'canceled': 'Отмененные',
+    'handed over to courier': 'Переданные курьеру',
+    'in preparation': 'в работе',
+    'ready': 'готовые',
+
+  }
+
+  // console.log(Object?.keys(tsStatus))
+
+  // type StatusTypes = {
+  //     closed?: string;
+  //     canceled?: string;
+  //     "handed over to courier"?: string;
+  // } 
 
   const ordersMap = getObjStatus(orders);
-  // console.log(ordersMap)
+  console.log(ordersMap)
 
   return (
     <div>
@@ -174,7 +129,7 @@ const OrderFeet:React.FC = () => {
                     console.log(obj)
                     return (
                       <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
-                        <CardOrder {...obj} />
+                        <CardOrder {...obj} status={statusCategories[obj.status]}/>
                       </Link>
                     );
                   })}
@@ -183,13 +138,18 @@ const OrderFeet:React.FC = () => {
             </div>
             <BoxInfo>
               <GridStatus>
-                {statuses.map((status) => {
+                {/* {statuses.map((status: StatusTypes) => {
                   const statusKeys = Object.keys(status)
                   const statusValues = Object.values(status)
                   return (
-                    <StatusOrder key={statusValues} order={ordersMap.get(statusKeys?.[0])} status={statusValues} />
+                    <>
+                      <StatusOrder order={ordersMap.get(statusKeys?.[0])} status={statusValues} />
+                    </>
                   );
-                })}
+                })} */}
+                <StatusOrder order={ordersMap.get('closed')} status={tsStatus['closed']} />
+                <StatusOrder order={ordersMap.get('canceled')} status={tsStatus['canceled']} />
+                <StatusOrder order={ordersMap.get('handed over to courier')} status={tsStatus['handed over to courier']} />
               </GridStatus>
               <BlockThisTime>
                 <TextStatus>Выполнено за все время:</TextStatus>

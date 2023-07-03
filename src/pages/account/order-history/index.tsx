@@ -6,13 +6,12 @@ import CardOrder from "../../../components/cardOrder/cardOrder";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { harcodeIllustration } from "../../../components/json/hardcodeillustration";
-import { useGetOrderQuery } from "../../../services/ingridientsApi";
+import { useGetOrderQuery } from "../../../services/ordersApi";
 
-import ModalCardOrder from "../../../components/modal/modalCardOrders/modalCardOrders";
 import { useSelector, useDispatch } from "react-redux";
 
-import { AddCartSelect, setActiveCard } from "../../../redux/slices/addCartSlice";
+import { AddCartSelect, Order,  } from "../../../redux/slices/addCartSlice";
+import { statusCategories } from "@/components/components/statusCategories/statusCategories";
 
 const Box = styled.div`
   padding-top: 150px;
@@ -25,7 +24,6 @@ const ButtonBox = styled.div`
   display: grid;
   grid-template-rows: repeat(3);
   padding-bottom: 80px;
-  /* gap: 20px; */
 `;
 
 type AciveButton = {
@@ -33,7 +31,6 @@ type AciveButton = {
 }
 
 const Button = styled.div`
-  /* border: 2px dashed #4C4CFF; */
   display: flex;
   font-weight: 700;
   font-size: 24px;
@@ -57,12 +54,6 @@ const Button = styled.div`
   }}
 `;
 
-const InputBlock = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
 const Title = styled.div`
   color: #8585ad;
   font-weight: 400;
@@ -81,33 +72,9 @@ const BoxOrder = styled.div`
   height: 700px;
 `;
 
-interface IIngredient {
-  id: number,
-  largePhotoUrl: string,
-  normalPhotoUrl: string,
-  mobilePhotoUrl: string,
-  previewPhotoUrl: string,
-  price: number,
-  name: string,
-  category: string,
-  quantity: number,
-}
-
-interface Order {
-  order_number: number;
-  date_created: string;
-  name: string;
-  price: number;
-  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
-  ingredients: IIngredient[];
-}
-
 const OrderHistory:React.FC = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const {activeCard, orderModal} = useSelector(AddCartSelect);
-  const orderGet = useGetOrderQuery({ limit: 12, offset: 0 , role: 'admin'});
-  // console.log(orderGet?.data?.orders)
+  const orderGet = useGetOrderQuery({ limit: '12', offset: '0' , role: 'admin'});
+  console.log(orderGet)
 
   return (
     <Container>
@@ -136,21 +103,16 @@ const OrderHistory:React.FC = () => {
           <BoxOrder>
             {
               orderGet?.data?.orders.map((obj: Order) => {
-                console.log(obj)
+                console.log(obj.status)
               return (
                 <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`}>
-                  <CardOrder {...obj} />
+                  <CardOrder {...obj} status={statusCategories[obj.status]}/>
                 </Link>
               )
               })
             }
           </BoxOrder>
         </OverlayScrollbarsComponent>
-        {/* {activeCard && (
-          <div>
-            <ModalCardOrder order={orderModal} />
-          </div>
-        )} */}
       </Box>
     </Container>
   );

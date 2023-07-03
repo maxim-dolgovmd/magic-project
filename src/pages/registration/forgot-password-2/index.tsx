@@ -11,16 +11,12 @@ import Link from 'next/link';
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); */
 `;
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
     width: 480px;
 `
 
@@ -70,13 +66,11 @@ type DataPassword = {
 
 const ForgotPasswordTwo: React.FC = () => {
 
-    const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm<DataPassword>({mode: 'onBlur'})
+    const {register,watch, handleSubmit, formState: {errors}, setValue} = useForm<DataPassword>({mode: 'onBlur'})
 
     const OnSubmit = handleSubmit((data) => {
     console.log(data);
     })
-
-    const router = useRouter()
 
     return (
         <Container>

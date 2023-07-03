@@ -1,14 +1,11 @@
 import React from "react";
 import styled from 'styled-components'
 
-import Modal from '../modal'
-import {setActiveCard} from '../../../redux/slices/addCartSlice'
-import { useSelector, useDispatch } from "react-redux";
-
-import { harcodeIllustration } from "../../json/hardcodeillustration";
+import { useDispatch } from "react-redux";
 import IngridientOrder from "../../ingridient/ingridientOrder";
 import Image from "next/image";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { Order } from "@/components/redux/slices/addCartSlice";
 
 const Window = styled.div`
     position: fixed;
@@ -25,24 +22,15 @@ const Window = styled.div`
 `
 
 const OrderContent = styled.h1`
-    /* height: 720px; */
     max-width: 718px;
     background:  rgba(0,0,0,1);
     border: 1px solid  rgba(0,0,0,1);
-    /* box-shadow: 
-        0px 24px 32px rgba(0, 0, 0, 0.04), 
-        0px 16px 24px rgba(0, 0, 0, 0.04),
-        0px 4px 8px rgba(0, 0, 0, 0.04),
-        0px 0px 1px rgba(0, 0, 0, 0.04); */
-    /* border-radius: 40px; */
     display: flex;
-    /* justify-content: center; */
 `
 
 const BlockOrder = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   width: 640px;
 
   color: #f2f2f3;
@@ -111,20 +99,12 @@ const CompoundTitle = styled.div`
     line-height: 30px;
 `
 
-const BlockIngrOrder = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* width: 100%; */
-`
-
 const BoxCompound = styled.div`
     display: flex;
     flex-direction: column;
     padding-right: 24px;
     gap: 16px;
     height: 300px;
-    /* max-width: 100%; */
 `
 
 const BoxTime = styled.div`
@@ -133,50 +113,23 @@ const BoxTime = styled.div`
     align-items: center;
 `
 
-interface IIngredient {
-    id: number,
-    largePhotoUrl: string,
-    normalPhotoUrl: string,
-    mobilePhotoUrl: string,
-    previewPhotoUrl: string,
-    price: number,
-    name: string,
-    category: string,
-    quantity: number,
-  }
-
-  interface IIngredientPreviewType {
-    previewPhotoUrl: string,
-    price: number,
-    name: string,
-    amount: number
-  }
-  
-  interface Order {
-    order_number: number;
-    date_created: Date;
-    name: string;
-    price: number;
-    status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
-    ingredients: IIngredient[];
-  }
+interface IIngredientPreviewType {
+previewPhotoUrl: string,
+price: number,
+name: string,
+quantity: number
+}
 
 const ModalCardOrder: React.FC<Order> = (props) => {
 
     const order = Object.values(props)[0]
-    const dispatch = useDispatch()
-    const activeModal = () => {
-        dispatch(setActiveCard(false))
-    }
 
     const dateOrder = order?.date_created?.split('T', 1)
     const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
 
-    // const priceOrder = order.reduce((acum, obj) => acum + (obj.price * obj.amount), 0)
-
 
     return (
-        <Window onClick={activeModal}>
+        <Window >
             <OrderContent onClick={(e) => e.stopPropagation()}>
                 <BlockOrder>
                     <Identificator>#{order.order_number}</Identificator>
@@ -196,7 +149,7 @@ const ModalCardOrder: React.FC<Order> = (props) => {
                                                     photo={obj.previewPhotoUrl}
                                                     price={obj.price}
                                                     nameItem={obj.name}
-                                                    amount={obj.amount}
+                                                    quantity={obj.quantity}
                                                 />
                                             </>
                                         )

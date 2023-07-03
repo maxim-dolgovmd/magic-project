@@ -11,16 +11,12 @@ import Link from "next/link";
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); */
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  /* gap: 24px; */
   width: 480px;
 `;
 
@@ -71,7 +67,6 @@ const ForgotPasswordOne: React.FC = () => {
   const {
     register,
     watch,
-    setFocus,
     handleSubmit,
     formState: { errors },
     setValue,

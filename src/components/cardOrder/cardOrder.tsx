@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { harcodeIllustration } from "../json/hardcodeillustration";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import {setActiveCard, setOrderModal} from '../../redux/slices/addCartSlice'
+import {IIngredient, Order, setOrderModal} from '../../redux/slices/addCartSlice'
+import {statusCategories} from "../statusCategories/statusCategories";
+import { useAppDispatch } from "@/components/redux/store";
 
 
 const OrderBlock = styled.div`
@@ -64,6 +65,7 @@ const Status = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+  color: #00CCCC;
 `;
 
 const ImageOrders = styled.div`
@@ -144,55 +146,39 @@ const Count = styled.div`
     line-height: 24px;
     /* opacity: 1; */
 `
-// }
 
-interface IIngredient {
-  id: number,
-  largePhotoUrl: string,
-  normalPhotoUrl: string,
-  mobilePhotoUrl: string,
-  previewPhotoUrl: string,
-  price: number,
-  name: string,
-  category: string,
-  quantity: number,
-}
+const CardOrder: React.FC<Order> = (props:Order) => {
 
-interface Order {
-  order_number: number;
-  date_created: string;
-  name: string;
-  price: number;
-  status: 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
-  ingredients: IIngredient[];
-}
-
-const CardOrder: React.FC<Order> = (order) => {
-    console.log(order)
-
-    const dispatch = useDispatch()
-
-    const orderTopArray = order?.ingredients?.slice(0, 5)
+    const {
+      order_number,
+      date_created,
+      name,
+      status,
+      price,
+      ingredients,
+    } = props
    
-    const newArrayCount = order?.ingredients?.length - orderTopArray?.length
-  
-    // const sumPriceOrder = order?.ingredients?.reduce((acum, item) => acum + (item.price * item.amount), 0)
-    // let time = order?.date_created
-    const dateOrder = order?.date_created?.split('T', 1)
-    const timeOrderStr = order?.date_created?.split('T', 2)[1].split(':', 2).join(":")
+    const dispatch = useAppDispatch()
 
+    const orderTopArray = ingredients?.slice(0, 5)
+   
+    const newArrayCount = ingredients?.length - orderTopArray?.length
+  
+    const dateOrder = date_created?.split('T', 1)
+    const timeOrderStr = date_created?.split('T', 2)[1].split(':', 2).join(":")
   return (
     <OrderBlock onClick={() => {
-      dispatch(setActiveCard(true))
-      dispatch(setOrderModal(order))
+      dispatch(setOrderModal(props))
     }}>
       <OrderNumber>
-        <Number>#{order?.order_number}</Number>
+        <Number>#{order_number}</Number>
         <TimeOrder>Дата: {dateOrder}<br/>Время: {timeOrderStr}</TimeOrder>
       </OrderNumber>
       <StatusOrder>
-        <Title >{order?.name}</Title>
-        <Status>{order?.status}</Status>
+        <Title >{name}</Title>
+        <Status>
+          {status}
+        </Status>
       </StatusOrder>
       <ImageOrders>
         <ImageBlock>
@@ -216,7 +202,7 @@ const CardOrder: React.FC<Order> = (order) => {
             { newArrayCount > 0 &&
                 <ImageBox>
                     <Image
-                        src={order.ingredients[5]?.previewPhotoUrl}
+                        src={ingredients[5]?.previewPhotoUrl}
                         width={64}
                         height={64}
                         alt="Preview" 
@@ -228,7 +214,7 @@ const CardOrder: React.FC<Order> = (order) => {
             }
         </ImageBlock>
         <PriceSum>
-          <Price>{order?.price}</Price>
+          <Price>{price}</Price>
           <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
         </PriceSum>
       </ImageOrders>

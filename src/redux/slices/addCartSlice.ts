@@ -1,18 +1,68 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store';
 
-const initialState = {
+export interface IIngredient {
+    id: string,
+    largePhotoUrl: string,
+    normalPhotoUrl: string,
+    mobilePhotoUrl: string,
+    previewPhotoUrl: string,
+    price: number,
+    name: string,
+    category: string,
+    quantity: number,
+}
+
+// type StatusType = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+export type StatusType = 'Закрытые' | 'Отмененные' | 'Переданные курьеру' | 'в работе' | 'готовые';
+  
+export interface Order {
+    order_number: number;
+    date_created: string;
+    name: string;
+    price: number;
+    status: StatusType;
+    ingredients: IIngredient[];
+}
+
+export type OrderIngridients = {
+    category: string,
+    id: string,
+    largePhotoUrl: string,
+    mobilePhotoUrl: string,
+    name: string,
+    normalPhotoUrl: string,
+    previewPhotoUrl: string,
+    price: number,
+    quantity: number,
+  }
+  
+export interface IngredientPropsTypes {
+    photo: string,
+    price: number,
+    nameItem: string,
+    objIngredient: OrderIngridients,
+    hasBunds?: OrderIngridients,
+    addMap: number,
+  }
+
+interface InitialStateType {
+    addProduct: IIngredient[],
+    sumProduct: number,
+    activeIngr: boolean,
+    product: any,
+    activeOrder: boolean,
+    activeCard: boolean,
+    orderModal: Order[]
+}
+
+const initialState: InitialStateType = {
     addProduct: [],
     sumProduct: 0,
     activeIngr: false,
     product: [],
     activeOrder: false,
-    // deleteBun: {
-    //     index: 0,
-    //     deleteObj: [],
-    // },
-    deleteBun: [],
     activeCard: false,
-    deleteCount: [],
     orderModal: [],
 }
 
@@ -20,7 +70,7 @@ const cartSlice = createSlice({
     name: 'Cart',
     initialState,
     reducers: {
-        setAddProduct(state, action) {
+        setAddProduct(state, action: PayloadAction<IIngredient>) {
                 
                 const isBundsType = action.payload.category === 'Булки'
                 const hasBunds =  state.addProduct.find((product) => product.category === 'Булки')
@@ -48,7 +98,7 @@ const cartSlice = createSlice({
                 
         },
 
-        setDeleteProduct(state, action) {
+        setDeleteProduct(state, action: PayloadAction<number>) {
 
             const lengthProducts = state.addProduct.length
             const indexIngr = state.addProduct[action.payload]
@@ -74,37 +124,24 @@ const cartSlice = createSlice({
 
         
 
-        setActiveIngr(state, action) {
+        setActiveIngr(state, action: PayloadAction<boolean>) {
             state.activeIngr = action.payload
         },
 
-        setActiveOrder(state, action) {
+        setActiveOrder(state, action: PayloadAction<boolean>) {
             state.activeOrder = action.payload
         },
 
-        setProductInfo(state, action) {
+        setProductInfo(state, action: PayloadAction<any>) {
             state.product = action.payload
         },
 
-        setOrder(state, action) {
-            state.addProduct = action.payload
+        setDeleteOrder(state) {
+            state.addProduct = []
+            state.sumProduct = 0
         },
 
-        setDeletePriceCart(state, action) {
-            state.sumProduct = action.payload
-        },
-
-        setActiveCard(state, action) {
-            state.activeCard = action.payload
-        },
-
-        setDeleteCount(state, action) {
-            state.deleteCount.push(action.payload)
-            // state.deleteCount = action.payload
-            // console.log(state.deleteCount)
-        },
-
-        setOrderModal(state, action) {
+        setOrderModal(state, action: PayloadAction<any>) {
             state.orderModal = action.payload
         }
 
@@ -113,24 +150,18 @@ const cartSlice = createSlice({
 
 export const {
     setAddProduct,
-    setCount,
     setDeleteProduct,
-    setDeletePrice,
     setActiveIngr,
     setProductInfo,
     setActiveOrder,
-    setOrder,
-    setDeletePriceCart,
-    setDeleteBund,
-    setActiveCard,
-    setDeleteCount,
+    setDeleteOrder,
     setOrderModal,
 } = cartSlice.actions
 
-export const AddProductSelect = (state) => state.addCart.addProduct
+export const AddProductSelect = (state: RootState) => state.addCart.addProduct
 
-export const ProductSelect = (state) => state.addCart.product
+export const ProductSelect = (state: RootState) => state.addCart.product
 
-export const AddCartSelect = (state) => state.addCart
+export const AddCartSelect = (state: RootState) => state.addCart
 
 export default cartSlice.reducer

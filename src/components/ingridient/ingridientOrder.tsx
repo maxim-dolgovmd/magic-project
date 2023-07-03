@@ -2,8 +2,6 @@ import React from "react"
 import styled from 'styled-components'
 
 import Image from "next/image"
-import { useSelector, useDispatch } from "react-redux";
-import {setDeleteProduct, setDeletePrice, setDeleteBund} from '../../redux/slices/addCartSlice'
 
 
 const Box = styled.div`
@@ -56,7 +54,6 @@ const IngridientOrder: React.FC<IngridientTypeOrders> = ({
 
 
     return (
-        // <Wrapper> 
         <IngrOrder>
             <BoxTitle>
                 <div>
@@ -69,7 +66,6 @@ const IngridientOrder: React.FC<IngridientTypeOrders> = ({
                 <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
         </IngrOrder>
-        // </Wrapper>
     )
 }
 

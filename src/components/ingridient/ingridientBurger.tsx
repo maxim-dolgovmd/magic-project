@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Image from "next/image"
 import {useDispatch } from "react-redux";
 import {setDeleteProduct} from '../../redux/slices/addCartSlice'
+import { useAppDispatch } from "@/components/redux/store";
 
 const Box = styled.div`
     display: flex;
@@ -50,7 +51,7 @@ const IngridientBurger: React.FC<IngridientTypeBurgers> = ({
     index,
 }) => {
 
-    const dispatch = useDispatch() 
+    const dispatch = useAppDispatch() 
 
     const deleteIngr = (index: number) => {
         dispatch(setDeleteProduct(index))
@@ -58,7 +59,7 @@ const IngridientBurger: React.FC<IngridientTypeBurgers> = ({
 
     return (
         // <Wrapper> 
-        <>
+        <React.Fragment>
             <div>
                 <Image src={photo} width={80} height={40} alt="Crator" />
             </div>
@@ -70,7 +71,7 @@ const IngridientBurger: React.FC<IngridientTypeBurgers> = ({
             <BoxImage onClick={() => deleteIngr(index)}>
                 <Image src='/block.svg' width={24} height={24} alt="Block" />
             </BoxImage>
-        </>
+        </React.Fragment>
         // </Wrapper>
     )
 }

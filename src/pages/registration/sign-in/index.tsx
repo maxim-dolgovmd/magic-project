@@ -1,4 +1,4 @@
-import React from "react";
+import React, { BaseSyntheticEvent } from "react";
 import styled from 'styled-components'
 
 import Container from "../../../components/container/container";
@@ -7,21 +7,17 @@ import ButtonComponent from '../../../components/button/button'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
-import {usePostAuthorizationMutation} from '../../../services/ingridientsApi'
+import {UserAuthType, usePostAuthorizationMutation} from '../../../services/registrationApi'
 
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); */
 `;
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
     width: 480px;
 `
 
@@ -66,9 +62,9 @@ const BlockText = styled.div`
 
 const SignIn: React.FC = () => {
 
-    const [authMutation, {isError, isLoading, isSuccess}] = usePostAuthorizationMutation()
+    const [authMutation] = usePostAuthorizationMutation()
 
-    const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm({mode: 'onBlur'})
+    const {register,watch, handleSubmit, formState: {errors}, setValue} = useForm<UserAuthType>({mode: 'onBlur'})
 
     console.log(setValue)
 
@@ -76,8 +72,6 @@ const SignIn: React.FC = () => {
         console.log(data)
         authMutation(data)
     })
-
-    const router = useRouter()
 
     return (
         <Container>

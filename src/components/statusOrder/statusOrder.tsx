@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import { Order } from "@/components/redux/slices/addCartSlice";
+import React from "react";
 import styled from "styled-components";
-
-import {getObjStatus} from '../../utils/getObjStatus'
 
 const ReadiOrder = styled.div`
   display: flex;
@@ -27,10 +26,13 @@ const ReadyStatus = styled.ul`
 `;
 
 
-const StatusOrder = (props: any) => {
-    console.log(props.order, 'orderrr')
-    console.log(props.status, 'statuss')
+type StatusTypeProps = {
+  order: Order[],
+  status: string,
+}
 
+const StatusOrder: React.FC<StatusTypeProps> = (props) => {
+    console.log(props)
     return (
         <ReadiOrder>
             <TextStatus>{props.status}:</TextStatus>

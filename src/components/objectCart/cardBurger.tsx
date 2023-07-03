@@ -1,11 +1,10 @@
 import React from "react";
 import styled from 'styled-components'
 
-import {harcodeIllustration} from '../json/hardcodeillustration'
 import IngredientBurger from '../ingridient/ingridientBurger'
 
-import { useSelector, useDispatch } from "react-redux";
-import {AddProductSelect, setAddProduct} from '../../redux/slices/addCartSlice'
+import { useSelector } from "react-redux";
+import {AddProductSelect, IIngredient} from '../../redux/slices/addCartSlice'
 
 type BorderType = {
     borderFirst: boolean,
@@ -35,7 +34,7 @@ const BoxBorder = styled.div`
 
 `
 
-type IngridientTypeBurgers = {
+type IngredientTypeBurgers = {
     id: string,
     mobilePhotoUrl: string,
     price: number,
@@ -43,18 +42,19 @@ type IngridientTypeBurgers = {
     category: string
 }
 
-const cardBurger = () => {
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+const CardBurger: React.FC = () => {
+   
     const addProduct = useSelector(AddProductSelect)
 
-    return addProduct.map((obj: IngridientTypeBurgers, index: number) => {
+    return addProduct.map((obj, index) => {
       
         return (
-            // eslint-disable-next-line react/jsx-key
-            <BoxBorder borderFirst={index===0 && obj.category === 'Булки'} borderLast={index === addProduct.length-1 && obj.category === 'Булки'}>
+        // eslint-disable-next-line react/jsx-key
+            <BoxBorder 
+                borderFirst={index===0 && obj.category === 'Булки'} 
+                borderLast={index === addProduct.length-1 && obj.category === 'Булки'}
+            >
                 <IngredientBurger 
-                    key={obj.id}
                     photo={obj?.mobilePhotoUrl}
                     nameItem={obj?.name}
                     price={obj?.price}
@@ -65,4 +65,4 @@ const cardBurger = () => {
     }) 
 }
 
-export default cardBurger
+export default CardBurger

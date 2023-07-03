@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import Image from "next/image"
 
 import { useSelector, useDispatch } from "react-redux";
-import {ProductSelect, setActiveIngr, setActiveOrder} from '../../../redux/slices/addCartSlice'
+import {ProductSelect, setActiveIngr} from '../../../redux/slices/addCartSlice'
 import Modal from '../modal'
+import { useAppDispatch } from "@/components/redux/store";
 
 const BlockModal = styled.div`
     padding: 40px 40px 60px 40px;
@@ -44,7 +45,6 @@ const DetailsIngr = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
     text-align: center;
     gap: 30px;
 `
@@ -55,9 +55,6 @@ const NameItem = styled.div`
     line-height: 30px;
     display: flex;
     color: #F2F2F3;
-    /* align-items: center;
-    text-align: center; */
-
 `
 
 const Calories = styled.div`
@@ -82,7 +79,7 @@ const BlockCal = styled.div`
 
 const ModalWindow: React.FC = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const product = useSelector(ProductSelect)
     console.log(product)
 

@@ -2,20 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 import Image from "next/image";
-import {getCountFromCart} from '../../utils/getCountFromCart'
 
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   setAddProduct,
   setActiveIngr,
   setProductInfo,
-  setOrder,
-  setActiveOrder,
-  setDeleteCount,
-  AddProductSelect,
+  IIngredient,
+  IngredientPropsTypes,
 } from "../../redux/slices/addCartSlice";
+import { useAppDispatch } from "@/components/redux/store";
 
 const Wrapper = styled.div`
   display: flex;
@@ -68,25 +65,8 @@ const BoxName = styled.div`
   color: #f2f2f3;
 `;
 
-type OrderIngridients = {
-  category: string,
-  id: string,
-  largePhotoUrl: string,
-  mobilePhotoUrl: string,
-  name: string,
-  normalPhotoUrl: string,
-  previewPhotoUrl: string,
-  price: number,
-}
 
-const Ingridient: React.FC<{
-  photo: string,
-  price: number,
-  nameItem: string,
-  objIngredient: OrderIngridients,
-  hasBunds?: OrderIngridients,
-  addMap: number,
-}> = ({
+const Ingridient: React.FC<IngredientPropsTypes> = ({
   photo,
   price,
   nameItem,
@@ -95,8 +75,6 @@ const Ingridient: React.FC<{
   addMap,
 }) => {
 
-  const addProduct = useSelector(AddProductSelect);
-
   // console.log(getCountFromCart(addProduct))
   // const productSum = addProduct.filter((product, index, array) => {
   //   if (array.indexOf(product) !== index) {
@@ -104,8 +82,8 @@ const Ingridient: React.FC<{
   //   }
   // })
   // console.log(productSum)
-  
-  const dispatch = useDispatch();
+
+  const dispatch = useAppDispatch();
 
   const addProductCart = () => {
     if (!hasBunds && objIngredient.category !== 'Булки') {
@@ -113,15 +91,12 @@ const Ingridient: React.FC<{
       return
     }
     dispatch(setAddProduct(objIngredient));
-    // getCountFromCart(addProduct)
   };
 
   const activeModal = (status: boolean) => {
     dispatch(setProductInfo(objIngredient));
     dispatch(setActiveIngr(status))
   };
-
-  // console.log(addMap)
 
   return (
     <Wrapper>

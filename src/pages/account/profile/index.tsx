@@ -4,7 +4,6 @@ import Container from "../../../components/container/container";
 import BaseInput from "../../../components/input/baseInput";
 import { useForm } from "react-hook-form";
 import ButtonComponent from '../../../components/button/button'
-import { useRouter } from "next/router"
 import Link from "next/link";
 
 
@@ -19,7 +18,6 @@ const ButtonBox = styled.div`
   display: grid;
   grid-template-rows: repeat(3);
   padding-bottom: 80px;
-  /* gap: 20px; */
 `;
 
 type ActiveButton = {
@@ -27,7 +25,6 @@ type ActiveButton = {
 }
 
 const Button = styled.div`
-  /* border: 2px dashed #4C4CFF; */
   display: flex;
   font-weight: 700;
   font-size: 24px;
@@ -80,24 +77,13 @@ interface DataType {
 }
 
 const PersonalArea:React.FC = () => {
-  const {register,watch, setFocus, handleSubmit, formState: {errors}, setValue} = useForm<DataType>({mode: 'onBlur'})
-
-  // const submitHundler = (data: React.MouseEvent<HTMLFormElement>) => {
-  //   console.log(data)
-  //   alert('Сохранить данные?')
-  // } 
-
-  // React.useEffect(() => {
-  //   setFocus("firstName");
-  // }, [setFocus]);
+  const {register,watch, handleSubmit, formState: {errors}, setValue} = useForm<DataType>({mode: 'onBlur'})
   
-
   const onSubmit = handleSubmit((data) => {
     console.log(data)
     alert('Сохранить данные?')
   })
 
-  // console.log(errors)
   return (
     <Container>
       <Box>
@@ -106,13 +92,11 @@ const PersonalArea:React.FC = () => {
             <Button active>
               <span>Профиль </span>
             </Button>
-            {/* <Link href={'/account/order-history'}> */}
               <Button>
                 <Link href={'/account/order-history'}>
                   <span>История заказов </span>
                 </Link>
               </Button>
-            {/* </Link> */}
             <Button>
               <span>Выход </span>
             </Button>

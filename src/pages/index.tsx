@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import CardBurger from "../components/objectCart/cardBurger";
 import Tab from "../components/tabs/tab";
-import { harcodeIllustration } from "../components/json/hardcodeillustration";
 import Ingridient from "../components/ingridient/ingridient";
 import Button from "../components/button/button";
 import ModalWindow from "../components/modal/modalWindow/modalWindow";
@@ -12,22 +11,22 @@ import ModalOrder from "../components/modal/modalOrders/modalOrders";
 import Container from "../components/container/container";
 import { getCountFromCart } from '../utils/getCountFromCart'
 
-import { useGetIngridientQuery, usePostOrderMutation, useGetOrderQuery } from '../services/ingridientsApi'
+import { usePostOrderMutation } from '../services/ordersApi'
+import { useGetIngridientQuery } from '../services/ingridientsApi'
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-    setActiveIngr,
     setActiveOrder,
-    setAddProduct,
-    setOrder,
-    setDeletePriceCart,
+    setDeleteOrder,
     AddCartSelect,
+    IIngredient,
 } from "../redux/slices/addCartSlice";
+import { useAppDispatch } from "../redux/store";
 
-const Box = styled.div`
+const TopMargin = styled.div`
   padding: 150px 0 0px 0;
   margin: 0 20px;
 `;
@@ -104,18 +103,6 @@ const HeaderCard = styled.div`
   padding: 0 0 20px 0;
 `;
 
-interface IIngredient {
-    id: string,
-    largePhotoUrl: string,
-    normalPhotoUrl: string,
-    mobilePhotoUrl: string,
-    previewPhotoUrl: string,
-    price: number,
-    name: string,
-    category: string,
-    quantity: number,
-}
-
 type categoryType = {
     category: string,
     id: string,
@@ -127,11 +114,14 @@ const Constructor: React.FC = () => {
     const categories = useGetIngridientQuery('categories')
     const [createOrder, { isLoading, isSuccess, isError }] = usePostOrderMutation()
     // const orderGet = useGetOrderQuery({limit: 12, offset: 0})
-  
-    console.log(arrayProduct)
-    const [filterIngr, setFilterIngr] = React.useState(categories?.data?.[0]);
 
-    const dispatch = useDispatch();
+    const [filterIngr, setFilterIngr] = React.useState({
+        id: '1',
+        category: "Все",
+    });
+    console.log(filterIngr)
+
+    const dispatch = useAppDispatch();
     const { sumProduct, addProduct, activeIngr, activeOrder } = useSelector(AddCartSelect);
 
     const hasBunds = addProduct.find((product: IIngredient) => product.category === 'Булки')
@@ -140,21 +130,21 @@ const Constructor: React.FC = () => {
         return getCountFromCart(addProduct).get(id)
     }
 
-    const loading = categories.isLoading === false
-
     const isProduct = {
         addProduct,
         role: 'user',
     }
+    console.log(addProduct)
 
     return (
         <Container>
-            <Box>
+            <TopMargin>
                 <Title>Соберите бургер</Title>
                 <GridColumns>
                     <div>
                         <GridTab>
-                            {categories?.data?.map((obj: categoryType, index: string) => {
+                            {categories?.data?.map((obj: categoryType, index: number) => {
+                                console.log(obj.category)
                                 return (
                                     <Tab
                                         key={index}
@@ -167,83 +157,76 @@ const Constructor: React.FC = () => {
                                     </Tab>
                                 )
                             })}
-                </GridTab>
-                <OverlayScrollbarsComponent>
-                    <div style={{ height: "460px" }}>
-                        <TitleBlock>{filterIngr?.category}</TitleBlock>
-                        <GridMenu>
-                            {arrayProduct.data
-                                ?.filter((obj: categoryType) => {
-                                    console.log(obj)
-                                    if (filterIngr?.category === "Все") {
-                                        return obj
-                                    }
-                                    return obj.category === filterIngr?.category
-                                })
-                                ?.map((objIngredient: IIngredient) => {
-                                    console.log(objIngredient)
-                                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                                    return (
-                                        // eslint-disable-next-line react/jsx-key
-                                        <>
-                                            <Ingridient
-                                                key={objIngredient.id}
-                                                nameItem={objIngredient?.name}
-                                                photo={objIngredient?.largePhotoUrl}
-                                                price={objIngredient?.price}
-                                                objIngredient={objIngredient}
-                                                hasBunds={hasBunds}
-                                                addMap={addMap(objIngredient.id)}
-                                            />
-                                        </>
-                                    );
-                                })}
-                        </GridMenu>
+                        </GridTab>
+                        <OverlayScrollbarsComponent>
+                            <div style={{ height: "460px" }}>
+                                <TitleBlock>{filterIngr?.category}</TitleBlock>
+                                <GridMenu>
+                                    {arrayProduct.data
+                                        ?.filter((obj: categoryType) => {
+                                            if (filterIngr?.category === "Все") {
+                                                return obj
+                                            }
+                                            return obj.category === filterIngr?.category
+                                        })
+                                        ?.map((objIngredient: IIngredient) => {
+                                            return (
+                                                <Ingridient
+                                                    key={objIngredient.id}
+                                                    nameItem={objIngredient?.name}
+                                                    photo={objIngredient?.largePhotoUrl}
+                                                    price={objIngredient?.price}
+                                                    objIngredient={objIngredient}
+                                                    hasBunds={hasBunds}
+                                                    addMap={addMap(objIngredient.id)}
+                                                />
+                                            );
+                                        })}
+                                </GridMenu>
+                            </div>
+                        </OverlayScrollbarsComponent>
                     </div>
-                </OverlayScrollbarsComponent>
-            </div>
-            <div>
-                <HeaderCard>Корзина</HeaderCard>
-                <OverlayScrollbarsComponent>
-                    <GridBurger>
-                        {addProduct.length > 0 ? (
-                            <CardBurger/>
-                        ) : (
-                            <div>Ваша корзина пуста</div>
-                        )}
-                    </GridBurger>
-                </OverlayScrollbarsComponent>
-                <BoxOrder>
-                    <BoxSum>
-                        <div>{sumProduct}</div>
-                        <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
-                    </BoxSum>
-                    <Button
-                        size="small"
-                        onClick={() => {
-                            dispatch(setActiveOrder(true))
-                            dispatch(setOrder([]))
-                            dispatch(setDeletePriceCart(0))
-                            createOrder(isProduct)
-                        }}
-                        disabled={addProduct.length === 0}
-                    >
-                        Оформить заказ
-                    </Button>
-                </BoxOrder>
-            </div>
-            {activeIngr && (
-                <div>
-                    <ModalWindow />
-                </div>
-            )}
-            {activeOrder && (
-                <div>
-                    <ModalOrder />
-                </div>
-            )}
-        </GridColumns>
-            </Box >
+                    <div>
+                        <HeaderCard>Корзина</HeaderCard>
+                        <OverlayScrollbarsComponent>
+                            <GridBurger>
+                                {addProduct.length > 0 ? (
+                                    <CardBurger />
+                                ) : (
+                                    <div>Ваша корзина пуста</div>
+                                )}
+                            </GridBurger>
+                        </OverlayScrollbarsComponent>
+                        <BoxOrder>
+                            <BoxSum>
+                                <div>{sumProduct}</div>
+                                <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
+                            </BoxSum>
+                            <Button
+                                size="small"
+                                onClick={() => {
+                                    dispatch(setActiveOrder(true))
+                                    dispatch(setDeleteOrder())
+                                    createOrder(isProduct)
+                                }}
+                                disabled={addProduct.length === 0}
+                            >
+                                Оформить заказ
+                            </Button>
+                        </BoxOrder>
+                    </div>
+                    {activeIngr && (
+                        <div>
+                            <ModalWindow />
+                        </div>
+                    )}
+                    {activeOrder && (
+                        <div>
+                            <ModalOrder />
+                        </div>
+                    )}
+                </GridColumns>
+            </TopMargin >
         </Container >
     );
 };
