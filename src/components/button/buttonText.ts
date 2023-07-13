@@ -12,7 +12,7 @@ const ButtonText = styled.button`
 
     ${(props: ButtonTextProps) => {
         switch(props.size) {
-            case 'small':
+            case 'large':
                 return {
                     padding: '20px 10px',
                     borderRadius: '64px',
@@ -32,7 +32,7 @@ const ButtonText = styled.button`
                     fontSize: '16px',
                     lineHeight: '24px',
                 }
-            case 'large':
+            case 'small':
                 return {
                     padding: '10px 4px',
                     borderRadius: '32px',

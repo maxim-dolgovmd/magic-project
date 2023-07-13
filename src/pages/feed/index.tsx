@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Container from "../../components/container/container";
+import Head from "next/head";
+
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 import CardOrder from "../../components/cardOrder/cardOrder";
@@ -11,11 +13,24 @@ import StatusOrder from "../../components/statusOrder/statusOrder";
 import { getObjStatus } from "../../utils/getObjStatus";
 import Link from "next/link";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
-import { Order } from "@/components/redux/slices/addCartSlice";
+import { AddCartSelect, Order, setActiveIngr } from "@/components/redux/slices/addCartSlice";
+import Tab from "@/components/components/tabs/tab";
+import { device, size } from "@/components/components/device/device";
+import useDeviceDetect from "@/components/utils/useDeviceDetect";
+import { useAppDispatch } from "@/components/redux/store";
+import { useSelector } from "react-redux";
 
 const Box = styled.div`
   padding-top: 150px;
   margin: 0 20px;
+
+  @media ${device.tablet} {
+    padding-top: 120px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Title = styled.h1`
@@ -23,13 +38,21 @@ const Title = styled.h1`
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
+
+  @media ${device.tablet} {
+    text-align: center;
+  }
 `;
 
 const GridColumn = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 80px;
+
+  @media ${device.laptop} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const BoxOrder = styled.div`
@@ -37,12 +60,24 @@ const BoxOrder = styled.div`
   flex-direction: column;
   gap: 24px;
   height: 700px;
+
+  @media ${device.tablet} {
+    height: auto;
+  }
 `;
 
 const GridStatus = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 36px;
+
+  @media ${device.laptop} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media ${device.mobileL} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const TextStatus = styled.div`
@@ -56,6 +91,19 @@ const BoxInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 68px;
+
+  @media ${device.laptop} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  @media ${device.tablet} {
+    flex-direction: column;
+  }
+
+  @media ${device.mobileL} {
+    text-align: center;
+  }
 `;
 
 const BlockThisTime = styled.div`
@@ -79,10 +127,51 @@ const NumbersOfOrder = styled.div`
     0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
   display: flex;
   align-items: center;
+
+  @media ${device.mobileL} {
+    justify-content: center;
+  }
 `;
 
+const CategoriesTab = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding-bottom: 16px;
+  width: 100%;
 
-const OrderFeet:React.FC = () => {
+  @media (min-width: ${size.tablet}) {
+    display: none;
+  }
+`
+
+const CompletedOrder = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+  }
+`
+
+const ContainerStyle = styled(Container)`
+  @media ${device.mobileL} {
+    padding: 0 8px;
+  }
+`
+
+const LinkStyle = styled(Link)`
+  display: flex;
+  width: 100%;
+`
+
+
+const OrderFeet: React.FC = () => {
 
   const orderGet = useGetOrderQuery({ limit: '12', offset: '0', role: "admin" });
   const orders = orderGet?.data?.orders;
@@ -105,64 +194,116 @@ const OrderFeet:React.FC = () => {
 
   }
 
-  // console.log(Object?.keys(tsStatus))
+  const tabMenu = [
+    {
+      id: 0,
+      category: 'Заказы',
+    },
+    {
+      id: 1,
+      category: 'Статистика',
+    }
+  ]
 
-  // type StatusTypes = {
-  //     closed?: string;
-  //     canceled?: string;
-  //     "handed over to courier"?: string;
-  // } 
-
+ 
+  const { isMobile } = useDeviceDetect()
   const ordersMap = getObjStatus(orders);
   console.log(ordersMap)
+  const [statusActive, setStatusActive] = React.useState(tabMenu[0])
+  const dispatch = useAppDispatch()
 
   return (
     <div>
-      <Container>
+      <ContainerStyle>
         <Box>
           <Title>Лента заказов</Title>
+          <CategoriesTab>
+            {
+              tabMenu.map((obj, index) => {
+                return (
+                  <Tab
+                    key={index}
+                    status={statusActive.id === obj.id}
+                    onClick={() => setStatusActive(obj)}
+                  >
+                    {obj.category}
+                  </Tab>
+                )
+              })
+            }
+          </CategoriesTab>
           <GridColumn>
-            <div>
-              <OverlayScrollbarsComponent>
-                <BoxOrder>
-                  {orders?.map((obj: Order) => {
-                    console.log(obj)
-                    return (
-                      <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
-                        <CardOrder {...obj} status={statusCategories[obj.status]}/>
-                      </Link>
-                    );
-                  })}
-                </BoxOrder>
-              </OverlayScrollbarsComponent>
-            </div>
-            <BoxInfo>
-              <GridStatus>
-                {/* {statuses.map((status: StatusTypes) => {
-                  const statusKeys = Object.keys(status)
-                  const statusValues = Object.values(status)
-                  return (
-                    <>
-                      <StatusOrder order={ordersMap.get(statusKeys?.[0])} status={statusValues} />
-                    </>
-                  );
-                })} */}
-                <StatusOrder order={ordersMap.get('closed')} status={tsStatus['closed']} />
-                <StatusOrder order={ordersMap.get('canceled')} status={tsStatus['canceled']} />
-                <StatusOrder order={ordersMap.get('handed over to courier')} status={tsStatus['handed over to courier']} />
-              </GridStatus>
-              <BlockThisTime>
-                <TextStatus>Выполнено за все время:</TextStatus>
-                <NumbersOfOrder>{orders?.length}</NumbersOfOrder>
-              </BlockThisTime>
-              <BlockForToday>
-                <TextStatus>Выполнено за сегодня:</TextStatus>
-                <NumbersOfOrder>{day?.length}</NumbersOfOrder>
-              </BlockForToday>
-            </BoxInfo>
+            {
+              isMobile ?
+                (statusActive.category === 'Заказы' ?
+                  <div>
+                    <OverlayScrollbarsComponent>
+                      <BoxOrder>
+                        {orders?.map((obj: Order) => {
+                          console.log(obj)
+                          return (
+                            <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
+                              <CardOrder {...obj} status={statusCategories[obj.status]} />
+                            </Link>
+                          );
+                        })}
+                      </BoxOrder>
+                    </OverlayScrollbarsComponent>
+                  </div>
+                  : <BoxInfo>
+                    <GridStatus>
+                      <StatusOrder order={ordersMap.get('closed')} status={tsStatus['closed']} />
+                      <StatusOrder order={ordersMap.get('canceled')} status={tsStatus['canceled']} />
+                      <StatusOrder order={ordersMap.get('handed over to courier')} status={tsStatus['handed over to courier']} />
+                    </GridStatus>
+                    <CompletedOrder>
+                      <BlockThisTime>
+                        <TextStatus>Выполнено за все время:</TextStatus>
+                        <NumbersOfOrder>{orders?.length}</NumbersOfOrder>
+                      </BlockThisTime>
+                      <BlockForToday>
+                        <TextStatus>Выполнено за сегодня:</TextStatus>
+                        <NumbersOfOrder>{day?.length}</NumbersOfOrder>
+                      </BlockForToday>
+                    </CompletedOrder>
+                  </BoxInfo>) :
+                <>
+                  <div>
+                    <OverlayScrollbarsComponent>
+                      <BoxOrder>
+                        {orders?.map((obj: Order) => {
+                          console.log(obj)
+                          return (
+                            <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
+                              <CardOrder {...obj} status={statusCategories[obj.status]} />
+                            </Link>
+                          );
+                        })}
+                      </BoxOrder>
+                    </OverlayScrollbarsComponent>
+                  </div>
+                  <BoxInfo>
+                    <GridStatus>
+                      <StatusOrder order={ordersMap.get('closed')} status={tsStatus['closed']} />
+                      <StatusOrder order={ordersMap.get('canceled')} status={tsStatus['canceled']} />
+                      <StatusOrder order={ordersMap.get('handed over to courier')} status={tsStatus['handed over to courier']} />
+                    </GridStatus>
+                    <CompletedOrder>
+                      <BlockThisTime>
+                        <TextStatus>Выполнено за все время:</TextStatus>
+                        <NumbersOfOrder>{orders?.length}</NumbersOfOrder>
+                      </BlockThisTime>
+                      <BlockForToday>
+                        <TextStatus>Выполнено за сегодня:</TextStatus>
+                        <NumbersOfOrder>{day?.length}</NumbersOfOrder>
+                      </BlockForToday>
+                    </CompletedOrder>
+                  </BoxInfo>
+                </>
+            }
           </GridColumn>
         </Box>
-      </Container>
+      </ContainerStyle>
     </div>
   );
 }

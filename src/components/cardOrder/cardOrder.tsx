@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import {IIngredient, Order, setOrderModal} from '../../redux/slices/addCartSlice'
 import {statusCategories} from "../statusCategories/statusCategories";
 import { useAppDispatch } from "@/components/redux/store";
+import { device } from "../device/device";
 
 
 const OrderBlock = styled.div`
@@ -59,6 +60,7 @@ const Title = styled.div`
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
+  display: flex;
 `;
 
 const Status = styled.div`
@@ -66,19 +68,30 @@ const Status = styled.div`
   font-size: 16px;
   line-height: 24px;
   color: #00CCCC;
+  display: flex;
 `;
 
 const ImageOrders = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* position: relative; */
-  /* text-align: center; */
+  
+  @media ${device.tablet} {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
 `;
 
 const ImageBlock = styled.div`
   /* position: relative; */
   display: flex;
+  @media ${device.tablet} {
+    max-width: 320px;
+  }
+  @media ${device.mobileL} {
+    max-width: 260px;
+  }
 `;
 
 const PriceSum = styled.div`
@@ -92,6 +105,10 @@ const Price = styled.div`
   font-size: 28px;
   line-height: 24px;
   padding-left: 20px;
+
+  @media ${device.tablet} {
+    padding: 0px;
+  }
 `;
 
 // export const ImageBoxFunction = (count, zIndex, right) => {
@@ -131,6 +148,42 @@ const Price = styled.div`
             opacity: 0.4;
         }
     }
+
+    @media ${device.mobileL} {
+    :first-child {
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+    :nth-child(2) {
+      z-index: 9;
+      top: 0;
+      right: 26px;
+    }
+    :nth-child(3) {
+      z-index: 8;
+      top: 0;
+      right: 54px;
+    }
+    :nth-child(4) {
+      z-index: 7;
+      top: 0;
+      right: 80px;
+    }
+    :nth-child(5) {
+      z-index: 6;
+      top: 0;
+      right: 106px;
+    }
+    :nth-child(6) {
+      z-index: 5;
+      top: 0;
+      right: 130px;
+      img {
+          opacity: 0.4;
+      }
+    }
+  }
 
 `;
 

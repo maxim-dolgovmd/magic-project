@@ -5,6 +5,7 @@ import Image from "next/image"
 import {useDispatch } from "react-redux";
 import {setDeleteProduct} from '../../redux/slices/addCartSlice'
 import { useAppDispatch } from "@/components/redux/store";
+import { device, size } from "../device/device";
 
 const Box = styled.div`
     display: flex;
@@ -15,6 +16,13 @@ const Box = styled.div`
     font-weight: 400;
     font-size: 20px;
     line-height: 18px;
+    padding-right: 8px;
+`
+
+const NextImage = styled(Image)`
+    @media ${device.mobileL} {
+        display: none;
+    }
 `
 
 const BoxImage = styled.div`
@@ -27,13 +35,25 @@ const BoxImage = styled.div`
 
 const BoxName = styled.div`
     display: flex;
-    width: 255px;
+    /* width: 255px; */
     justify-content: flex-start;
     align-items: center;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     color: #F2F2F3;
+    padding-right: 8px;
+    hyphens: manual;
+
+    @media (min-width: ${size.laptopL}) {
+        width: 255px;
+    }
+    @media ${device.laptop} {
+        width: 255px;
+    }
+    @media ${device.mobileL} {
+        font-size: 12px;
+    }
 `
 
 
@@ -66,7 +86,7 @@ const IngridientBurger: React.FC<IngridientTypeBurgers> = ({
             <BoxName>{nameItem}</BoxName>
             <Box>
                 <div>{price}</div>
-                <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
+                <NextImage src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
             <BoxImage onClick={() => deleteIngr(index)}>
                 <Image src='/block.svg' width={24} height={24} alt="Block" />

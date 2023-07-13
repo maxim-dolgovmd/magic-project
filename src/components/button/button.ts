@@ -23,7 +23,7 @@ const Button = styled.button`
 
     ${(props: ButtonProps) => {
         switch(props.size) {
-            case 'small':
+            case 'large':
                 return {
                     borderRadius: '32px',
                     padding: '20px 40px',
@@ -40,7 +40,7 @@ const Button = styled.button`
                     // width: '138px',
                     height: '56px',
                 }
-            case 'large':
+            case 'small':
                 return {
                     borderRadius: '64px',
 

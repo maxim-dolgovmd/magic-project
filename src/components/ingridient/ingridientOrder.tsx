@@ -2,6 +2,7 @@ import React from "react"
 import styled from 'styled-components'
 
 import Image from "next/image"
+import { device, size } from "../device/device"
 
 
 const Box = styled.div`
@@ -15,6 +16,12 @@ const Box = styled.div`
     line-height: 18px;
 `
 
+const Count = styled.div`
+    @media ${device.tablet} {
+        width: 80px;
+    }
+`
+
 
 const BoxName = styled.div`
     display: flex;
@@ -25,6 +32,18 @@ const BoxName = styled.div`
     font-size: 16px;
     line-height: 24px;
     color: #F2F2F3;
+
+    @media ${device.tablet} {
+        width: auto;
+        padding-right: 20px;
+    }
+
+    @media ${device.mobileL} {
+        padding-right: 12px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
 `
 
 const IngrOrder = styled.div`
@@ -36,6 +55,10 @@ const IngrOrder = styled.div`
 const BoxTitle = styled.div`
     display: flex;
     gap: 16px;
+
+    @media ${device.mobileL} {
+        gap: 10px;
+    }
 `
 
 type IngridientTypeOrders = {
@@ -44,6 +67,15 @@ type IngridientTypeOrders = {
     nameItem: string,
     quantity: number
 }
+
+const ImageDesktop = styled(Image)`
+    width: 32px;
+    height: 32px;
+    @media (min-width: ${size.tablet}) {
+        width: 64px;
+        height: 64px;
+    }
+`
 
 const IngridientOrder: React.FC<IngridientTypeOrders> = ({
     photo,
@@ -57,12 +89,12 @@ const IngridientOrder: React.FC<IngridientTypeOrders> = ({
         <IngrOrder>
             <BoxTitle>
                 <div>
-                    <Image src={photo} width={64} height={64} alt="Crator" />
+                    <ImageDesktop src={photo} width={64} height={64} alt="Crator" />
                 </div>
                 <BoxName>{nameItem}</BoxName>
             </BoxTitle>
             <Box>
-                <div>{quantity} x {price}</div>
+                <Count>{quantity} x {price}</Count>
                 <Image src='/price.svg' width={24} height={24} alt="PriceSvg" />
             </Box>
         </IngrOrder>

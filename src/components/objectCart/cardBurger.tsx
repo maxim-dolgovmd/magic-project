@@ -5,6 +5,7 @@ import IngredientBurger from '../ingridient/ingridientBurger'
 
 import { useSelector } from "react-redux";
 import {AddProductSelect, IIngredient} from '../../redux/slices/addCartSlice'
+import { device, size, sizeNumber } from "../device/device";
 
 type BorderType = {
     borderFirst: boolean,
@@ -18,6 +19,12 @@ const BoxBorder = styled.div`
     border-radius: 40px;
     padding: 16px 24px;
     gap: 20px;
+
+    @media (min-width: ${size.tablet}) {
+        justify-content: space-around;
+        gap: 0;
+    }
+    
 
     ${(props: BorderType) => {
         if (props.borderFirst) {

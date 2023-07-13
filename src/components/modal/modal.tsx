@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
+import { device } from "../device/device";
 
 const Window = styled.div`
     position: fixed;
@@ -18,7 +19,7 @@ const Window = styled.div`
 
 const OrderContent = styled.h1`
     /* height: 720px; */
-    max-width: 718px;
+    /* max-width: 718px; */
     background: #1C1C21;
     border: 1px solid rgba(76, 76, 255, 0.2);
     box-shadow: 
@@ -29,6 +30,12 @@ const OrderContent = styled.h1`
     border-radius: 40px;
     display: flex;
     /* justify-content: center; */
+
+    @media ${device.tablet} {
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    }
 `
 
 type ModalType = {

@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import DinamickPath, { orders } from "@/components/components/dinamickPath/dinamikPath";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
+import { useAppDispatch } from "@/components/redux/store";
+import { setActiveIngr } from "@/components/redux/slices/addCartSlice";
+import { device } from "@/components/components/device/device";
 
 const Window = styled.div`
     position: fixed;
@@ -16,6 +19,10 @@ const Window = styled.div`
     justify-content: center;
     align-items: center;
     padding-top: 50px;
+
+    @media ${device.tablet} {
+      padding: 0px;
+    }
 `
 
 const OrderContent = styled.h1`
@@ -23,6 +30,11 @@ const OrderContent = styled.h1`
     background:  rgba(0,0,0,1);
     border: 1px solid  rgba(0,0,0,1);
     display: flex;
+
+    @media ${device.tablet} {
+      /* height: 100%; */
+      width: 100%;
+    }
 `
 
 type IdNumberType = {
@@ -48,15 +60,16 @@ const InfoCardOrder: React.FC<ModalType> = (props) => {
   console.log(orderObject)
 
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const closedModal = () => {
     router.push('/account/order-history')
   }
 
   return (
-    <Window onClick={closedModal}>
+    <Window onClick={() => closedModal()}>
       <OrderContent onClick={(e) => e.stopPropagation()}>
-        <DinamickPath  {...orderObject} status={statusCategories[orderObject.status]}/>
+        <DinamickPath closedModal={closedModal}  {...orderObject} status={statusCategories[orderObject.status]}/>
       </OrderContent>
     </Window>
   );

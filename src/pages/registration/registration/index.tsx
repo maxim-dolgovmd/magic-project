@@ -8,11 +8,16 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
 import {UserRegisrType, usePostRegistrationMutation} from '../../../services/registrationApi'
+import { device } from "@/components/components/device/device";
 
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
   justify-content: center;
+
+  @media ${device.mobileL} {
+    padding-top: 100px;
+}
 `;
 
 const Column = styled.div`
@@ -58,6 +63,19 @@ const BlockText = styled.div`
             padding-left: 8px;
         }
     }
+`
+
+const Content = styled.div`
+    @media ${device.mobileL} {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+`
+
+const LinkStyle = styled(Link)`
+    color: #4C4CFF;
 `
 
 const Registration: React.FC = () => {
@@ -121,10 +139,10 @@ const Registration: React.FC = () => {
                         </BlockButton>
                     </ColumnSignIn>
                     <BlockText>
-                        <div>
+                        <Content>
                             <span>Уже зарегестрированы? </span>
-                            <Link href="/registration/sign-in">Войти</Link>
-                        </div>
+                            <LinkStyle href="/registration/sign-in">Войти</LinkStyle>
+                        </Content>
                     </BlockText>
                 </Column>
             </Box>

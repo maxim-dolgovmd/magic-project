@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import { useDispatch } from "react-redux";
+import useDeviceDetect from "@/components/utils/useDeviceDetect";
+
+import IngridientMobile from "./ingridientMobile";
 
 import {
   setAddProduct,
@@ -66,14 +69,16 @@ const BoxName = styled.div`
 `;
 
 
-const Ingridient: React.FC<IngredientPropsTypes> = ({
-  photo,
-  price,
-  nameItem,
-  objIngredient,
-  hasBunds,
-  addMap,
-}) => {
+const Ingridient: React.FC<IngredientPropsTypes> = (props) => {
+
+  const {
+    photo,
+    price,
+    nameItem,
+    objIngredient,
+    hasBunds,
+    addMap,
+  } = props
 
   // console.log(getCountFromCart(addProduct))
   // const productSum = addProduct.filter((product, index, array) => {
@@ -81,7 +86,6 @@ const Ingridient: React.FC<IngredientPropsTypes> = ({
   //     return product
   //   }
   // })
-  // console.log(productSum)
 
   const dispatch = useAppDispatch();
 
@@ -97,10 +101,13 @@ const Ingridient: React.FC<IngredientPropsTypes> = ({
     dispatch(setProductInfo(objIngredient));
     dispatch(setActiveIngr(status))
   };
+  const {isMobile} = useDeviceDetect()
+  console.log(isMobile)
 
   return (
-    <Wrapper>
-      <Block>
+    <Wrapper >
+      {isMobile ? <IngridientMobile {...props}/> : 
+        <Block>
         <BoxImage>
           <div style={{ cursor: "pointer" }} onClick={() => activeModal(true)}>
             <Image
@@ -123,7 +130,7 @@ const Ingridient: React.FC<IngredientPropsTypes> = ({
           <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
         </Box>
         <BoxName>{nameItem}</BoxName>
-      </Block>
+      </Block>}
     </Wrapper>
   );
 }

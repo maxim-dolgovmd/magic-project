@@ -7,11 +7,16 @@ import ButtonComponent from '../../../components/button/button'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router"
 import Link from 'next/link';
+import { device } from "@/components/components/device/device";
 
 const Box = styled.div`
   padding-top: 250px;
   display: flex;
   justify-content: center;
+
+  @media ${device.mobileL} {
+    padding-top: 100px;
+}
 `;
 
 const Column = styled.div`
@@ -59,6 +64,19 @@ const BlockText = styled.div`
     }
 `
 
+const Content = styled.div`
+    @media ${device.mobileL} {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+`
+
+const LinkStyle = styled(Link)`
+    color: #4C4CFF;
+`
+
 type DataPassword = {
     passwordUser: string,
     codeNumber: string,
@@ -102,10 +120,10 @@ const ForgotPasswordTwo: React.FC = () => {
                         </BlockButton>
                     </ColumnSignIn>
                     <BlockText>
-                        <div>
+                        <Content>
                             <span>Вспомнили пароль ? </span>
-                            <Link href="/registration/sign-in">Войти</Link>
-                        </div>
+                            <LinkStyle href="/registration/sign-in">Войти</LinkStyle>
+                        </Content>
                     </BlockText>
                 </Column>
             </Box>

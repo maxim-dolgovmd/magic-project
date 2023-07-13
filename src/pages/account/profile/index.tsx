@@ -5,6 +5,7 @@ import BaseInput from "../../../components/input/baseInput";
 import { useForm } from "react-hook-form";
 import ButtonComponent from '../../../components/button/button'
 import Link from "next/link";
+import { device, size } from "@/components/components/device/device";
 
 
 const Box = styled.div`
@@ -12,6 +13,11 @@ const Box = styled.div`
   margin: 0 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+
+  @media ${device.tablet} {
+    grid-template-columns: 1fr;
+    padding-top: 100px;
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -68,6 +74,29 @@ const Title = styled.div`
 const ComponentBlock = styled.div`
   display: flex;
   justify-content: flex-end;
+
+  @media ${device.tablet} {
+    justify-content: center;
+  }
+`
+
+const ContentCategory = styled.div`
+  display: none;
+  @media (min-width: ${size.tablet}) {
+      display: block;
+  }
+`
+
+const TitleCategory = styled.div`
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  padding-bottom: 24px;
+
+  @media (min-width: ${size.tablet}) {
+    display: none;
+  }
 `
 
 interface DataType {
@@ -87,7 +116,10 @@ const PersonalArea:React.FC = () => {
   return (
     <Container>
       <Box>
-        <div>
+        <TitleCategory>
+          Профиль
+        </TitleCategory>
+        <ContentCategory>
           <ButtonBox>
             <Button active>
               <span>Профиль </span>
@@ -106,7 +138,7 @@ const PersonalArea:React.FC = () => {
               В этом разделе вы можете изменить свои персональные данные{" "}
             </span>
           </Title>
-        </div>
+        </ContentCategory>
         <InputBlock onSubmit={onSubmit}>
           <BaseInput 
             label={"Имя"}

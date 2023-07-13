@@ -8,21 +8,32 @@ import { useDispatch } from "react-redux";
 import { setActiveOrder } from "../../../redux/slices/addCartSlice";
 import Modal from "../modal";
 import { useAppDispatch } from "@/components/redux/store";
+import { device } from "../../device/device";
 
 const BlockOrder = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 40px 100px 40px;
+  /* padding: 40px 40px 100px 40px; */
+  padding: 40px;
   color: #f2f2f3;
+
+  @media ${device.tablet} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const BlockIngr = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding-bottom: 36px;
+
+  @media ${device.tablet} {
+    padding-bottom: 100px
+  }
 `;
 
 const CloseIngr = styled.div`
@@ -44,7 +55,22 @@ const Content = styled.div`
   }
 `;
 
-const ModalOrder:React.FC = () => {
+const TitleMenu = styled.div`
+  font-weight: 700;
+  font-size: 28px;
+  font-family: 'JetBrains Mono';
+  line-height: 32px;
+  padding: 8px 0;
+`
+
+const BlockContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`
+
+const ModalOrder: React.FC = () => {
   const dispatch = useAppDispatch();
   function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
@@ -59,18 +85,21 @@ const ModalOrder:React.FC = () => {
   return (
     <Modal activeModal={activeModal}>
       <BlockOrder>
-        <BlockIngr onClick={() => dispatch(setActiveOrder(false))}>
-          <CloseIngr>
+        <BlockIngr>
+          <TitleMenu>Заказ оформлен</TitleMenu>
+          <CloseIngr onClick={() => dispatch(setActiveOrder(false))}>
             <Image src="/close.svg" width={18} height={18} alt="CloseSvg" />
           </CloseIngr>
         </BlockIngr>
         {/* <Identificator>{getRandomInt(111111, 999999)}</Identificator>
         <IdentificatorTitle>идентификатор заказа</IdentificatorTitle> */}
-        <Check />
-        <Content>
-          <div>Ваш заказ начали готовить</div>
-          <div>Дождитесь готовности на орбитальной станции</div>
-        </Content>
+        <BlockContent>
+          <Check />
+          <Content>
+            <div>Ваш заказ начали готовить</div>
+            <div>Дождитесь готовности на орбитальной станции</div>
+          </Content>
+        </BlockContent>
       </BlockOrder>
     </Modal>
   );

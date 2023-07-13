@@ -53,7 +53,9 @@ interface InitialStateType {
     product: any,
     activeOrder: boolean,
     activeCard: boolean,
-    orderModal: Order[]
+    orderModal: Order[],
+    isMenuClicked: boolean,
+    cartActive: boolean,
 }
 
 const initialState: InitialStateType = {
@@ -64,6 +66,8 @@ const initialState: InitialStateType = {
     activeOrder: false,
     activeCard: false,
     orderModal: [],
+    isMenuClicked: false,
+    cartActive: false,
 }
 
 const cartSlice = createSlice({
@@ -143,7 +147,15 @@ const cartSlice = createSlice({
 
         setOrderModal(state, action: PayloadAction<any>) {
             state.orderModal = action.payload
-        }
+        },
+
+        setIsMenuClicked(state, action: PayloadAction<boolean>) {
+            state.isMenuClicked = action.payload
+        },
+
+        setCartActive(state, action: PayloadAction<boolean>) {
+            state.cartActive = action.payload
+        },
 
     }
 })
@@ -156,6 +168,8 @@ export const {
     setActiveOrder,
     setDeleteOrder,
     setOrderModal,
+    setIsMenuClicked,
+    setCartActive,
 } = cartSlice.actions
 
 export const AddProductSelect = (state: RootState) => state.addCart.addProduct

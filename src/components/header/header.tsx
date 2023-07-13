@@ -5,17 +5,32 @@ import Burger from '../../assets/icon/burger.svg'
 import ViewList from '../../assets/icon/view-list.svg'
 import Profile from '../../assets/icon/profile.svg'
 import Logo from '../../assets/icon/logo.svg'
+import LogoMobile from '../../assets/icon/logoMobile.svg'
 import Container from '../container/container'
 import Link from "next/link";
+import { device, size } from "../device/device";
+import HeaderMobile from "./headerMobile";
+import { useSelector } from "react-redux";
+import { AddCartSelect } from "@/components/redux/slices/addCartSlice";
 
 
-
+type ActiveOrder = {
+    activeOrder: boolean
+}
 
 const Wrapper = styled.div`
     background-color: #1C1C21;
     z-index: 300;
     position: fixed;
     width: 100%;
+
+    @media ${device.tablet} {
+        ${(props: ActiveOrder) => {
+            return props.activeOrder && {
+                display: 'none'
+            }
+        }};
+    }
 `;
 
 
@@ -24,13 +39,12 @@ const Grid = styled.div`
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     padding: 16px 0;
-    /* justify-items: center; */
-
-    @media (max-width: 767.97px) {
-        display: none;
+   
+   @media ${device.laptop} {
+        grid-template-columns: 3fr 1fr 3fr;
     }
-    >div:first-child {
-
+    @media ${device.tablet} {
+        display: none;
     }
 `
 
@@ -45,7 +59,6 @@ const Box = styled.div`
 const BoxBlock = styled.div`
     display: flex;
     gap: 8px;
-    /* align-items: flex-end; */
     color: #8585AD;
     padding: 16px 20px;
     font-size: 16px;
@@ -68,14 +81,36 @@ const BoxBlock = styled.div`
             }
         }
     }};
+
+    @media ${device.laptopL} {
+        padding: 16px 12px
+    }
+
+    @media ${device.laptop} {
+        padding: 16px 8px
+    }
     
 `
 
 const BoxLogo = styled.div`
+    display: none;
+
+    @media (min-width: ${size.laptop}) {
+        display: flex;
+        color: #F2F2F3;
+        align-items: center;
+        justify-content: center;
+    }
+`
+
+const BoxLogoMobile = styled.div`
     display: flex;
-    color: #F2F2F3;
     align-items: center;
     justify-content: center;
+
+    @media (min-width: ${size.laptop}) {
+        display: none;
+    }
 `
 
 const StyledLink = styled(Link)`
@@ -83,10 +118,25 @@ const StyledLink = styled(Link)`
     justify-content: flex-end;
 `
 
+const MobileBox = styled.div`
+    @media (min-width: ${size.tablet}) {
+        display: none;
+    }
+`
+
+const isBrowser = () => typeof window !== 'undefined';
+
 const Header = () => {
 
+    const {activeOrder, activeIngr } = useSelector(AddCartSelect);
+
+    if (isBrowser()) {
+        const screenWidth = window.screen.width
+        console.log(screenWidth)
+    }
+
     return (
-        <Wrapper> 
+        <Wrapper activeOrder={activeOrder || activeIngr}> 
             <Container>
                 <Grid>
                     <Box>
@@ -106,6 +156,9 @@ const Header = () => {
                     <BoxLogo>
                         <Logo />
                     </BoxLogo>
+                    <BoxLogoMobile>
+                        <LogoMobile />
+                    </BoxLogoMobile>
                     <StyledLink  href={'/account/profile'}>
                         <BoxBlock >
                             <Profile />
@@ -113,6 +166,9 @@ const Header = () => {
                         </BoxBlock>
                     </StyledLink>
                 </Grid>
+                <MobileBox>
+                    <HeaderMobile />
+                </MobileBox>
             </Container>
         </Wrapper>
     )

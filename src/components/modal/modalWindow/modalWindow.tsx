@@ -7,9 +7,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {ProductSelect, setActiveIngr} from '../../../redux/slices/addCartSlice'
 import Modal from '../modal'
 import { useAppDispatch } from "@/components/redux/store";
+import { device } from "../../device/device";
 
 const BlockModal = styled.div`
     padding: 40px 40px 60px 40px;
+
+    @media ${device.tablet} {
+        width: 100%;
+        padding: 20px;
+    }
 `
 
 const TitleIngr = styled.div`
@@ -17,6 +23,13 @@ const TitleIngr = styled.div`
     justify-content: space-between;
     align-items: center;
     color: #F2F2F3;
+
+    @media ${device.tablet} {
+        padding-bottom: 50px;
+    }
+    @media ${device.mobileL} {
+        justify-content: flex-end;
+    }
 `
 
 const Title = styled.div`
@@ -26,6 +39,10 @@ const Title = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
+
+    @media ${device.mobileL} {
+        display: none;
+    }
 `
 
 const CloseIngr = styled.div`
@@ -55,11 +72,21 @@ const NameItem = styled.div`
     line-height: 30px;
     display: flex;
     color: #F2F2F3;
+
+    @media ${device.mobileL} {
+       font-size: 18px;
+       line-height: 20px;
+    }
 `
 
 const Calories = styled.div`
     display: flex;
     gap: 20px;
+
+    @media ${device.mobileL} {
+       display: grid;
+       grid-template-columns: repeat(2, 1fr);
+    }
 `
 
 const BlockCal = styled.div`

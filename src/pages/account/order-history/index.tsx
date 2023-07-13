@@ -10,14 +10,25 @@ import { useGetOrderQuery } from "../../../services/ordersApi";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { AddCartSelect, Order,  } from "../../../redux/slices/addCartSlice";
+import { AddCartSelect, Order, setActiveIngr,  } from "../../../redux/slices/addCartSlice";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
+import { useAppDispatch } from "@/components/redux/store";
+import { device, size } from "@/components/components/device/device";
 
 const Box = styled.div`
   padding-top: 150px;
   margin: 0 20px;
   display: grid;
   grid-template-columns: 1fr 2fr;
+
+  @media ${device.tablet} {
+    grid-template-columns: 1fr;
+    padding-top: 100px;
+  }
+
+  @media ${device.mobileL} {
+    margin: 0px;
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -70,16 +81,48 @@ const BoxOrder = styled.div`
   flex-direction: column;
   gap: 24px;
   height: 700px;
+
+  @media ${device.mobileL} {
+    height: auto;
+  }
 `;
+
+const ContentCategory = styled.div`
+  display: none;
+  @media (min-width: ${size.tablet}) {
+      display: block;
+  }
+`
+
+const TitleCategory = styled.div`
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  padding-bottom: 24px;
+
+  @media (min-width: ${size.tablet}) {
+    display: none;
+  }
+`
+
+const ContainerStyle = styled(Container)`
+  @media ${device.mobileL} {
+    padding: 0 8px;
+  }
+`
+
 
 const OrderHistory:React.FC = () => {
   const orderGet = useGetOrderQuery({ limit: '12', offset: '0' , role: 'admin'});
   console.log(orderGet)
+  const dispatch = useAppDispatch()
 
   return (
-    <Container>
+    <ContainerStyle>
       <Box>
-        <div>
+        <TitleCategory>История заказов</TitleCategory>
+        <ContentCategory>
           <ButtonBox>
             <Button>
               <Link href={"/account/profile"}>
@@ -98,14 +141,14 @@ const OrderHistory:React.FC = () => {
               В этом разделе вы можете просмотреть свою историю заказов
             </span>
           </Title>
-        </div>
+        </ContentCategory>
         <OverlayScrollbarsComponent>
           <BoxOrder>
             {
               orderGet?.data?.orders.map((obj: Order) => {
                 console.log(obj.status)
               return (
-                <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`}>
+                <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`} >
                   <CardOrder {...obj} status={statusCategories[obj.status]}/>
                 </Link>
               )
@@ -114,7 +157,7 @@ const OrderHistory:React.FC = () => {
           </BoxOrder>
         </OverlayScrollbarsComponent>
       </Box>
-    </Container>
+    </ContainerStyle>
   );
 }
 
