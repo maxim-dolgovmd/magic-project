@@ -69,7 +69,7 @@ const InfoCardOrder: React.FC<ModalType> = (props) => {
   return (
     <Window onClick={() => closedModal()}>
       <OrderContent onClick={(e) => e.stopPropagation()}>
-        <DinamickPath closedModal={closedModal}  {...orderObject} status={statusCategories[orderObject.status]}/>
+        <DinamickPath closedModal={closedModal}  props={orderObject} status={statusCategories[orderObject.status]}/>
       </OrderContent>
     </Window>
   );

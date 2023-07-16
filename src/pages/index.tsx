@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
+// import {Reorder} from 'framer-motion';
 
 import CardBurger from "../components/objectCart/cardBurger";
 import Tab from "../components/tabs/tab";
@@ -19,8 +20,8 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import useDeviceDetect from "../utils/useDeviceDetect";
-import useDeviceHeight from "../utils/useDeviceHeight";
+import useDeviceDetect from "../hooks/useDeviceDetect";
+import useDeviceHeight from "../hooks/useDeviceHeight";
 import { useRouter } from "next/router";
 
 import {
@@ -205,8 +206,8 @@ const BoxView = styled.div`
 `
 
 type categoryType = {
+    id: number,
     category: string,
-    id: string,
 }
 
 const ContentContainer = styled(Container)`
@@ -247,17 +248,17 @@ const Constructor: React.FC = () => {
     // const orderGet = useGetOrderQuery({limit: 12, offset: 0})
 
     const [filterIngr, setFilterIngr] = React.useState({
-        id: '1',
+        id: Number(1),
         category: "Все",
     });
-    console.log(filterIngr)
+    console.log(typeof(filterIngr.id))
 
     const dispatch = useAppDispatch();
     const { sumProduct, addProduct, activeIngr, activeOrder, cartActive } = useSelector(AddCartSelect);
 
     const hasBunds = addProduct.find((product: IIngredient) => product.category === 'Булки')
 
-    const addMap = (id: string) => {
+    const addMap = (id: number) => {
         return getCountFromCart(addProduct).get(id)
     }
 
@@ -275,8 +276,8 @@ const Constructor: React.FC = () => {
                     <GridColumns>
                         <ColumnsIngr>
                             <GridTab>
-                                {categories?.data?.map((obj: categoryType, index: number) => {
-                                    console.log(obj.category)
+                                {categories?.data?.map((obj: categoryType, index) => {
+                                    console.log(obj)
                                     return (
                                         <Tab
                                             key={index}
@@ -294,14 +295,41 @@ const Constructor: React.FC = () => {
                                 <ScrollHeight heightScrollIngr={heightScrollIngr}>
                                     <TitleBlock>{filterIngr?.category}</TitleBlock>
                                     <GridMenu>
-                                        {arrayProduct.data
-                                            ?.filter((obj: categoryType) => {
+                                        {
+                                            arrayProduct.data?.reduce((acc: any, ingredient) => {
+                                                if (filterIngr?.category === 'Все') {
+                                                    acc?.push(<Ingridient
+                                                        key={ingredient.id}
+                                                        nameItem={ingredient?.name}
+                                                        photo={ingredient?.largePhotoUrl}
+                                                        price={ingredient?.price}
+                                                        objIngredient={ingredient}
+                                                        hasBunds={hasBunds}
+                                                        addMap={addMap(ingredient.id)}
+                                                    />)
+                                                }
+                                                if (ingredient?.category === filterIngr?.category) {
+                                                    acc?.push(<Ingridient
+                                                        key={ingredient.id}
+                                                        nameItem={ingredient?.name}
+                                                        photo={ingredient?.largePhotoUrl}
+                                                        price={ingredient?.price}
+                                                        objIngredient={ingredient}
+                                                        hasBunds={hasBunds}
+                                                        addMap={addMap(ingredient.id)}
+                                                    />)
+                                                }
+                                                return acc 
+                                            }, [])
+                                        }
+                                        {/* {arrayProduct.data
+                                            ?.filter((obj) => {
                                                 if (filterIngr?.category === "Все") {
                                                     return obj
                                                 }
                                                 return obj.category === filterIngr?.category
                                             })
-                                            ?.map((objIngredient: IIngredient) => {
+                                            ?.map((objIngredient) => {
                                                 return (
                                                     <Ingridient
                                                         key={objIngredient.id}
@@ -313,7 +341,7 @@ const Constructor: React.FC = () => {
                                                         addMap={addMap(objIngredient.id)}
                                                     />
                                                 );
-                                            })}
+                                            })} */}
                                     </GridMenu>
                                 </ScrollHeight>
                             </OverlayScrollbarsComponent>
@@ -323,7 +351,7 @@ const Constructor: React.FC = () => {
                             <OverlayScrollbarsComponent>
                                 <GridBurger heightScrollCart={heightScrollCart}>
                                     {addProduct.length > 0 ? (
-                                        <CardBurger />
+                                        <CardBurger addProduct={addProduct}/>
                                     ) : (
                                         <div>Ваша корзина пуста</div>
                                     )}

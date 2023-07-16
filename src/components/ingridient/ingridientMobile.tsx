@@ -71,28 +71,25 @@ const BoxName = styled.div`
   max-width: 100vp;
 `;
 
+interface IngredientPropsType {
+    ingredient: IngredientPropsTypes
+}
 
-const IngridientMobile: React.FC<IngredientPropsTypes> = ({
-    photo,
-    price,
-    nameItem,
-    objIngredient,
-    hasBunds,
-    addMap,
-}) => {
+const IngridientMobile: React.FC<IngredientPropsType> = ({ingredient}) => {
+    console.log(ingredient)
 
     const dispatch = useAppDispatch();
 
     const addProductCart = () => {
-        if (!hasBunds && objIngredient.category !== 'Булки') {
+        if (!ingredient?.hasBunds && ingredient?.objIngredient.category !== 'Булки') {
             window.alert('Выберите булку, для добавления ингридиента')
             return
         }
-        dispatch(setAddProduct(objIngredient));
+        dispatch(setAddProduct(ingredient?.objIngredient));
     };
 
     const activeModal = (status: boolean) => {
-        dispatch(setProductInfo(objIngredient));
+        dispatch(setProductInfo(ingredient?.objIngredient));
         dispatch(setActiveIngr(status))
     };
 
@@ -102,7 +99,7 @@ const IngridientMobile: React.FC<IngredientPropsTypes> = ({
                 <BoxImage>
                     <div style={{ cursor: "pointer" }} onClick={() => activeModal(true)}>
                         <Image
-                            src={photo}
+                            src={ingredient?.photo}
                             width={144}
                             height={72}
                             alt="Image"
@@ -111,15 +108,15 @@ const IngridientMobile: React.FC<IngredientPropsTypes> = ({
                     </div>
                     <Counter> 
                         {
-                            addMap ? addMap : 0
+                            ingredient.addMap ? ingredient.addMap : 0
                         }
                     </Counter>
                 </BoxImage>
                 <Box>
-                    <div>{price}</div>
+                    <div>{ingredient?.price}</div>
                     <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
                 </Box>
-                <BoxName>{nameItem}</BoxName>
+                <BoxName>{ingredient?.nameItem}</BoxName>
                 <ButtonText onClick={addProductCart} size='small'>Добавить</ButtonText>
             </Block>
         // </Wrapper>

@@ -49,9 +49,13 @@ type IngredientTypeBurgers = {
     category: string
 }
 
-const CardBurger: React.FC = () => {
+interface IngrBurgerTypes {
+    addProduct: IIngredient[]
+}
+
+const CardBurger: React.FC<IngrBurgerTypes> = ({addProduct}) => {
    
-    const addProduct = useSelector(AddProductSelect)
+    // const addProduct = useSelector(AddProductSelect)
 
     return addProduct.map((obj, index) => {
       

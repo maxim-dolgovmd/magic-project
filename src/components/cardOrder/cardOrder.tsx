@@ -200,7 +200,14 @@ const Count = styled.div`
     /* opacity: 1; */
 `
 
-const CardOrder: React.FC<Order> = (props:Order) => {
+type OrdersPropsType = {
+  orders: Order,
+  status: string
+}
+
+const CardOrder: React.FC<OrdersPropsType> = (orders) => {
+
+  console.log(orders)
 
     const {
       order_number,
@@ -209,7 +216,7 @@ const CardOrder: React.FC<Order> = (props:Order) => {
       status,
       price,
       ingredients,
-    } = props
+    } = orders.orders
    
     const dispatch = useAppDispatch()
 
@@ -221,7 +228,7 @@ const CardOrder: React.FC<Order> = (props:Order) => {
     const timeOrderStr = date_created?.split('T', 2)[1].split(':', 2).join(":")
   return (
     <OrderBlock onClick={() => {
-      dispatch(setOrderModal(props))
+      dispatch(setOrderModal(orders))
     }}>
       <OrderNumber>
         <Number>#{order_number}</Number>
@@ -230,7 +237,7 @@ const CardOrder: React.FC<Order> = (props:Order) => {
       <StatusOrder>
         <Title >{name}</Title>
         <Status>
-          {status}
+          {orders.status}
         </Status>
       </StatusOrder>
       <ImageOrders>

@@ -16,9 +16,10 @@ import { statusCategories } from "@/components/components/statusCategories/statu
 import { AddCartSelect, Order, setActiveIngr } from "@/components/redux/slices/addCartSlice";
 import Tab from "@/components/components/tabs/tab";
 import { device, size } from "@/components/components/device/device";
-import useDeviceDetect from "@/components/utils/useDeviceDetect";
+import useDeviceDetect from "@/components/hooks/useDeviceDetect";
 import { useAppDispatch } from "@/components/redux/store";
 import { useSelector } from "react-redux";
+import useDeviceHeight from "@/components/hooks/useDeviceHeight";
 
 const Box = styled.div`
   padding-top: 150px;
@@ -55,11 +56,21 @@ const GridColumn = styled.div`
   }
 `;
 
+type ScrollHistoryType = {
+  heightScroll: number
+}
+
 const BoxOrder = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height: 700px;
+  height: auto;
+
+  ${(props: ScrollHistoryType) => {
+    return props.heightScroll && {
+      height: `${props.heightScroll}px`
+    }
+  }};
 
   @media ${device.tablet} {
     height: auto;
@@ -90,7 +101,7 @@ const TextStatus = styled.div`
 const BoxInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 68px;
+  gap: 32px;
 
   @media ${device.laptop} {
     flex-direction: row;
@@ -121,7 +132,7 @@ const BlockForToday = styled.div`
 const NumbersOfOrder = styled.div`
   color: #f2f2f3;
   font-weight: 400;
-  font-size: 144px;
+  font-size: 122px;
   line-height: 120px;
   text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
     0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
@@ -170,6 +181,25 @@ const LinkStyle = styled(Link)`
   width: 100%;
 `
 
+const tsStatus = {
+  'closed': 'Закрытые',
+  'canceled': 'Отмененные',
+  'handed over to courier': 'Переданные курьеру',
+  'in preparation': 'в работе',
+  'ready': 'готовые',
+
+}
+
+const tabMenu = [
+  {
+    id: 0,
+    category: 'Заказы',
+  },
+  {
+    id: 1,
+    category: 'Статистика',
+  }
+]
 
 const OrderFeet: React.FC = () => {
 
@@ -179,31 +209,8 @@ const OrderFeet: React.FC = () => {
   const today = new Date().toISOString().split("T")[0];
   const day = orders?.filter((obj: Order) => obj.date_created.split("T")[0] === today);
 
-  // const statuses = [
-  //   {"closed": 'Закрытые'},
-  //   {"canceled": 'Отмененные'},
-  //   {"handed over to courier": 'Переданные курьеру'},
-  // ];
-
-  const tsStatus = {
-    'closed': 'Закрытые',
-    'canceled': 'Отмененные',
-    'handed over to courier': 'Переданные курьеру',
-    'in preparation': 'в работе',
-    'ready': 'готовые',
-
-  }
-
-  const tabMenu = [
-    {
-      id: 0,
-      category: 'Заказы',
-    },
-    {
-      id: 1,
-      category: 'Статистика',
-    }
-  ]
+  const { heightMobile } = useDeviceHeight()
+  const heightScroll = Number(heightMobile) - 206
 
  
   const { isMobile } = useDeviceDetect()
@@ -238,12 +245,12 @@ const OrderFeet: React.FC = () => {
                 (statusActive.category === 'Заказы' ?
                   <div>
                     <OverlayScrollbarsComponent>
-                      <BoxOrder>
-                        {orders?.map((obj: Order) => {
+                      <BoxOrder heightScroll={heightScroll}>
+                        {orders?.map((obj) => {
                           console.log(obj)
                           return (
                             <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
-                              <CardOrder {...obj} status={statusCategories[obj.status]} />
+                              <CardOrder orders={obj} status={statusCategories[obj.status]} />
                             </Link>
                           );
                         })}
@@ -270,12 +277,12 @@ const OrderFeet: React.FC = () => {
                 <>
                   <div>
                     <OverlayScrollbarsComponent>
-                      <BoxOrder>
-                        {orders?.map((obj: Order) => {
+                      <BoxOrder heightScroll={heightScroll}>
+                        {orders?.map((obj) => {
                           console.log(obj)
                           return (
                             <Link key={obj.order_number} href={`/feed/${obj.order_number}`}>
-                              <CardOrder {...obj} status={statusCategories[obj.status]} />
+                              <CardOrder orders={obj} status={statusCategories[obj.status]} />
                             </Link>
                           );
                         })}

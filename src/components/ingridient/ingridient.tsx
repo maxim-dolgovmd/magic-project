@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import { useDispatch } from "react-redux";
-import useDeviceDetect from "@/components/utils/useDeviceDetect";
+import useDeviceDetect from "@/components/hooks/useDeviceDetect";
 
 import IngridientMobile from "./ingridientMobile";
 
@@ -106,7 +106,7 @@ const Ingridient: React.FC<IngredientPropsTypes> = (props) => {
 
   return (
     <Wrapper >
-      {isMobile ? <IngridientMobile {...props}/> : 
+      {isMobile ? <IngridientMobile ingredient = {props}/> : 
         <Block>
         <BoxImage>
           <div style={{ cursor: "pointer" }} onClick={() => activeModal(true)}>

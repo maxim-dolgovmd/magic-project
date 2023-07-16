@@ -9,8 +9,9 @@ import { useRouter } from "next/router";
 import { useGetOrderQuery } from "../../../services/ordersApi";
 
 import { useSelector, useDispatch } from "react-redux";
+import useDeviceHeight from "@/components/hooks/useDeviceHeight";
 
-import { AddCartSelect, Order, setActiveIngr,  } from "../../../redux/slices/addCartSlice";
+import { AddCartSelect, Order, setActiveIngr, } from "../../../redux/slices/addCartSlice";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
 import { useAppDispatch } from "@/components/redux/store";
 import { device, size } from "@/components/components/device/device";
@@ -76,11 +77,21 @@ const Title = styled.div`
   }
 `;
 
+type ScrollHistoryType = {
+  heightScroll: number
+}
+
 const BoxOrder = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height: 700px;
+  height: auto;
+
+  ${(props: ScrollHistoryType) => {
+    return props.heightScroll && {
+      height: `${props.heightScroll}px`
+    }
+  }};
 
   @media ${device.mobileL} {
     height: auto;
@@ -113,10 +124,13 @@ const ContainerStyle = styled(Container)`
 `
 
 
-const OrderHistory:React.FC = () => {
-  const orderGet = useGetOrderQuery({ limit: '12', offset: '0' , role: 'admin'});
+const OrderHistory: React.FC = () => {
+  const orderGet = useGetOrderQuery({ limit: '12', offset: '0', role: 'admin' });
   console.log(orderGet)
   const dispatch = useAppDispatch()
+  
+  const { heightMobile } = useDeviceHeight()
+  const heightScroll = Number(heightMobile) - 150
 
   return (
     <ContainerStyle>
@@ -143,15 +157,15 @@ const OrderHistory:React.FC = () => {
           </Title>
         </ContentCategory>
         <OverlayScrollbarsComponent>
-          <BoxOrder>
+          <BoxOrder heightScroll={heightScroll}>
             {
               orderGet?.data?.orders.map((obj: Order) => {
                 console.log(obj.status)
-              return (
-                <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`} >
-                  <CardOrder {...obj} status={statusCategories[obj.status]}/>
-                </Link>
-              )
+                return (
+                  <Link key={obj.order_number} href={`/account/order-history/${obj.order_number}`} >
+                    <CardOrder orders={obj} status={statusCategories[obj.status]} />
+                  </Link>
+                )
               })
             }
           </BoxOrder>

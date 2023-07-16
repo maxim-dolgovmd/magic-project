@@ -518,8 +518,19 @@ const CloseIngr = styled.div`
 //   }
 // } 
 
+interface OrderPropsType {
+  props: any,
+  closedModal: () => void,
+  status: string
+}
 
-const DinamickPath: React.FC = (orderObject: any) => {
+const DinamickPath: React.FC<OrderPropsType> = ({
+  props,
+  closedModal,
+  status
+}) => {
+
+  console.log(props)
 
   const dispatch = useAppDispatch()
 
@@ -529,20 +540,20 @@ const DinamickPath: React.FC = (orderObject: any) => {
     <BlockOrder>
       <TitleIngr>
         {/* <Title>Детали ингредиента</Title> */}
-        <CloseIngr onClick={() => { orderObject.closedModal() }}>
+        <CloseIngr onClick={() => { closedModal() }}>
           <Image src='/close.svg' width={18} height={18} alt="CloseSvg" />
         </CloseIngr>
       </TitleIngr>
-      <Identificator>#{orderObject?.order_number}</Identificator>
+      <Identificator>#{props?.order_number}</Identificator>
       <BlockStatus>
-        <StatusTitle>{orderObject?.name}</StatusTitle>
-        <Status>{orderObject?.status}</Status>
+        <StatusTitle>{props?.name}</StatusTitle>
+        <Status>{status}</Status>
       </BlockStatus>
       <CompoundBlock>
         <CompoundTitle>Состав:</CompoundTitle>
         <OverlayScrollbarsComponent>
           <BoxCompound>
-            {orderObject?.ingredients?.map((obj: IIngredient) => {
+            {props?.ingredients?.map((obj: IIngredient) => {
               return (
                 <>
                   <IngridientOrder
@@ -559,10 +570,10 @@ const DinamickPath: React.FC = (orderObject: any) => {
       </CompoundBlock>
       <BoxTime>
         <TimeOrder>
-          {new Date(orderObject?.date_created).toLocaleString()}
+          {new Date(props?.date_created).toLocaleString()}
         </TimeOrder>
         <PriceSum>
-          <Price>{orderObject?.price}</Price>
+          <Price>{props?.price}</Price>
           <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
         </PriceSum>
       </BoxTime>

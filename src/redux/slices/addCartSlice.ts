@@ -2,7 +2,7 @@ import {PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store';
 
 export interface IIngredient {
-    id: string,
+    id: number,
     largePhotoUrl: string,
     normalPhotoUrl: string,
     mobilePhotoUrl: string,
@@ -27,7 +27,7 @@ export interface Order {
 
 export type OrderIngridients = {
     category: string,
-    id: string,
+    id: number,
     largePhotoUrl: string,
     mobilePhotoUrl: string,
     name: string,
