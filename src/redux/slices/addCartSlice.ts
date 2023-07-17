@@ -13,7 +13,7 @@ export interface IIngredient {
     quantity: number,
 }
 
-// type StatusType = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+// type StatusTypeEn = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
 export type StatusType = 'Закрытые' | 'Отмененные' | 'Переданные курьеру' | 'в работе' | 'готовые';
   
 export interface Order {
@@ -150,6 +150,11 @@ const cartSlice = createSlice({
         },
 
         setIsMenuClicked(state, action: PayloadAction<boolean>) {
+            if (action.payload) {
+                document.body.style.overflow = 'hidden'
+            } else {
+                document.body.style.overflow = 'auto'
+            }
             state.isMenuClicked = action.payload
         },
 

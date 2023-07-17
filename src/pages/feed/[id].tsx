@@ -5,7 +5,7 @@ import DinamickPath, { orders } from "@/components/components/dinamickPath/dinam
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
 import { device } from "@/components/components/device/device";
 import { useAppDispatch } from "@/components/redux/store";
-import { setActiveIngr } from "@/components/redux/slices/addCartSlice";
+import { IIngredient, setActiveIngr } from "@/components/redux/slices/addCartSlice";
 
 const Window = styled.div`
     position: fixed;
@@ -48,15 +48,25 @@ interface ContextType {
   defaultLocale: any,
 }
 
+type StatusTypeEn = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+  
+interface Order {
+    order_number: number;
+    date_created: string;
+    name: string;
+    price: number;
+    status: StatusTypeEn;
+    ingredients: IIngredient[];
+}
+
 interface ModalType {
-  order: string,
+  order: Order
 }
 
 const InfoCardOrder: React.FC<ModalType> = (props) => {
   console.log(props)
 
-  const orderParse = JSON.parse(props?.order)
-  const orderObject = orderParse?.[0]
+  const orderObject = props?.order
   console.log(orderObject)
 
   const router = useRouter()
@@ -80,16 +90,14 @@ export default InfoCardOrder;
 export const getStaticProps = async (context: ContextType) => {
   const id = context?.params?.id
 
-  const respData = orders?.filter((order) => {
+  const respData = orders?.find((order) => {
      if ( String(order.order_number) === id) {
       return order
      }
   })
 
-  const data = JSON.stringify(respData)
-
   return {
-    props: {order: data}
+    props: {order: respData}
   }
 } 
 

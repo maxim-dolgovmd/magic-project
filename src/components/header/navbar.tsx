@@ -119,7 +119,7 @@ const Navbar = () => {
     const [activeList, setActiveList] = useState(false)
 
     return (
-        <Window>
+        <Window >
             <Block>
                 <div>
                     <AccountBox onClick={() => setActiveList(!activeList)}>

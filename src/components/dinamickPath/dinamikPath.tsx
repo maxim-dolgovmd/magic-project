@@ -17,7 +17,7 @@ function generateRandomDate(start: Date, end: Date) {
   const startTime = start.getTime();
   const endTime = end.getTime();
   const randomTime = startTime + Math.random() * (endTime - startTime);
-  return new Date(randomTime);
+  return ''+new Date(randomTime);
 }
 
 export const orders = [

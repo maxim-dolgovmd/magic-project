@@ -37,8 +37,6 @@ import CardBurgerMobile from "./cart-order";
 const Box = styled.div`
     display: flex;
     flex-direction: column;
-    /* width: 100%; */
-    /* height: 100%; */
 `
 
 const TopMargin = styled.div`
@@ -254,7 +252,7 @@ const Constructor: React.FC = () => {
     console.log(typeof(filterIngr.id))
 
     const dispatch = useAppDispatch();
-    const { sumProduct, addProduct, activeIngr, activeOrder, cartActive } = useSelector(AddCartSelect);
+    const { sumProduct, addProduct, activeIngr, activeOrder, cartActive, isMenuClicked} = useSelector(AddCartSelect);
 
     const hasBunds = addProduct.find((product: IIngredient) => product.category === 'Булки')
 

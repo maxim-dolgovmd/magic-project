@@ -1,4 +1,6 @@
+import { AddCartSelect } from '@/components/redux/slices/addCartSlice';
 import React from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
 
 const Container = styled.div`
