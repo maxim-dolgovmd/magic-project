@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import DinamickPath, { orders } from "@/components/components/dinamickPath/dinamikPath";
+import DinamickPath, { orders } from "@/components/components/dinamickPath/dinamickPath";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
 import { device } from "@/components/components/device/device";
 import { useAppDispatch } from "@/components/redux/store";
@@ -70,7 +70,6 @@ const InfoCardOrder: React.FC<ModalType> = (props) => {
   console.log(orderObject)
 
   const router = useRouter()
-  const dispatch = useAppDispatch()
 
   const closedModal = () => {
     router.push('/feed')
@@ -79,15 +78,17 @@ const InfoCardOrder: React.FC<ModalType> = (props) => {
   return (
     <Window onClick={() => closedModal()}>
       <OrderContent onClick={(e) => e.stopPropagation()}>
-        <DinamickPath closedModal={closedModal}  props={orderObject} status={statusCategories[orderObject.status]}/>
+        {/* <DinamickPath closedModal={closedModal}/> */}
+        <DinamickPath closedModal={closedModal}  order={orderObject} status={statusCategories[orderObject?.status]}/>
       </OrderContent>
     </Window>
   );
-};
+}
 
 export default InfoCardOrder;
 
 export const getStaticProps = async (context: ContextType) => {
+  console.log(context)
   const id = context?.params?.id
 
   const respData = orders?.find((order) => {
@@ -104,6 +105,7 @@ export const getStaticProps = async (context: ContextType) => {
 export const getStaticPaths = () => {
 
   const paths = orders?.map((order) => {
+    // console.log(order)
     return {
       params: {id: String(order?.order_number)}
     }

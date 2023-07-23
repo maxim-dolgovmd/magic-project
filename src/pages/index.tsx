@@ -266,6 +266,19 @@ const Constructor: React.FC = () => {
     }
     console.log(addProduct)
 
+    const arrIngrReduce = arrayProduct.data?.reduce((acc: any, ingredient, index, arr) => {
+        if (filterIngr?.category === 'Все') {
+            acc?.push(ingredient)
+        }
+        if (ingredient?.category === filterIngr?.category) {
+            acc?.push(ingredient)
+        }
+        console.log(index)
+        return acc
+    }, [])
+
+    console.log(arrIngrReduce)
+
     return (
         <Box>
             <ContentContainer>
@@ -294,31 +307,20 @@ const Constructor: React.FC = () => {
                                     <TitleBlock>{filterIngr?.category}</TitleBlock>
                                     <GridMenu>
                                         {
-                                            arrayProduct.data?.reduce((acc: any, ingredient) => {
-                                                if (filterIngr?.category === 'Все') {
-                                                    acc?.push(<Ingridient
-                                                        key={ingredient.id}
-                                                        nameItem={ingredient?.name}
-                                                        photo={ingredient?.largePhotoUrl}
-                                                        price={ingredient?.price}
-                                                        objIngredient={ingredient}
+                                            arrIngrReduce?.map((ingr: IIngredient) => {
+                                                return (
+                                                    <Ingridient
+                                                        key={ingr?.id}
+                                                        nameItem={ingr?.name}
+                                                        photo={ingr?.largePhotoUrl}
+                                                        price={ingr?.price}
+                                                        objIngredient={ingr}
                                                         hasBunds={hasBunds}
-                                                        addMap={addMap(ingredient.id)}
-                                                    />)
-                                                }
-                                                if (ingredient?.category === filterIngr?.category) {
-                                                    acc?.push(<Ingridient
-                                                        key={ingredient.id}
-                                                        nameItem={ingredient?.name}
-                                                        photo={ingredient?.largePhotoUrl}
-                                                        price={ingredient?.price}
-                                                        objIngredient={ingredient}
-                                                        hasBunds={hasBunds}
-                                                        addMap={addMap(ingredient.id)}
-                                                    />)
-                                                }
-                                                return acc 
-                                            }, [])
+                                                        addMap={addMap(ingr?.id)}
+                                                    />
+                                                )
+                                            })
+                                            
                                         }
                                         {/* {arrayProduct.data
                                             ?.filter((obj) => {
@@ -339,7 +341,9 @@ const Constructor: React.FC = () => {
                                                         addMap={addMap(objIngredient.id)}
                                                     />
                                                 );
-                                            })} */}
+                                            })
+                                        } */}
+                                       
                                     </GridMenu>
                                 </ScrollHeight>
                             </OverlayScrollbarsComponent>

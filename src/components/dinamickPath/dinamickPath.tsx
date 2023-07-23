@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import IngridientOrder from "../../components/ingridient/ingridientOrder";
+import IngridientOrder from "../ingridient/ingridientOrder";
 import Image from "next/image";
 
-import { IIngredient, setActiveIngr } from "@/components/redux/slices/addCartSlice";
+import { IIngredient, StatusType, setActiveIngr } from "@/components/redux/slices/addCartSlice";
 import { device, size } from "../device/device";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@/components/redux/store";
+import { statusCategories } from "../statusCategories/statusCategories";
 
 const startDate = new Date('2023-01-01');
 const endDate = new Date('2023-12-31');
@@ -520,17 +521,42 @@ const CloseIngr = styled.div`
 
 interface OrderPropsType {
   props: any,
-  closedModal: () => void,
-  status: string
+  // closedModal: () => void,
+  // status: string
 }
 
-const DinamickPath: React.FC<OrderPropsType> = ({
-  props,
-  closedModal,
-  status
-}) => {
+type IdNumberType = {
+  id: string,
+}
+
+interface ContextType {
+  params: IdNumberType,
+  locales: any,
+  locale: any,
+  defaultLocale: any,
+}
+
+type StatusTypeEn = 'ready' | 'in preparation' | 'handed over to courier' | 'canceled' | 'closed';
+  
+interface Order {
+    order_number: number;
+    date_created: string;
+    name: string;
+    price: number;
+    status: StatusTypeEn;
+    ingredients: IIngredient[];
+}
+
+interface ModalType {
+  order: Order,
+  closedModal: () => void,
+  status: StatusType
+}
+
+const DinamickPath: React.FC<ModalType> = (props) => {
 
   console.log(props)
+  const orderObject = props?.order
 
   const dispatch = useAppDispatch()
 
@@ -540,20 +566,20 @@ const DinamickPath: React.FC<OrderPropsType> = ({
     <BlockOrder>
       <TitleIngr>
         {/* <Title>Детали ингредиента</Title> */}
-        <CloseIngr onClick={() => { closedModal() }}>
+        <CloseIngr onClick={props?.closedModal}>
           <Image src='/close.svg' width={18} height={18} alt="CloseSvg" />
         </CloseIngr>
       </TitleIngr>
-      <Identificator>#{props?.order_number}</Identificator>
+      <Identificator>#{orderObject?.order_number}</Identificator>
       <BlockStatus>
-        <StatusTitle>{props?.name}</StatusTitle>
-        <Status>{status}</Status>
+        <StatusTitle>{orderObject?.name}</StatusTitle>
+        <Status>{props?.status}</Status>
       </BlockStatus>
       <CompoundBlock>
         <CompoundTitle>Состав:</CompoundTitle>
         <OverlayScrollbarsComponent>
           <BoxCompound>
-            {props?.ingredients?.map((obj: IIngredient) => {
+            {orderObject?.ingredients?.map((obj: IIngredient) => {
               return (
                 <>
                   <IngridientOrder
@@ -570,10 +596,10 @@ const DinamickPath: React.FC<OrderPropsType> = ({
       </CompoundBlock>
       <BoxTime>
         <TimeOrder>
-          {new Date(props?.date_created).toLocaleString()}
+          {new Date(orderObject?.date_created).toLocaleString()}
         </TimeOrder>
         <PriceSum>
-          <Price>{props?.price}</Price>
+          <Price>{orderObject?.price}</Price>
           <Image src="/price.svg" width={24} height={24} alt="PriceSvg" />
         </PriceSum>
       </BoxTime>
@@ -582,4 +608,13 @@ const DinamickPath: React.FC<OrderPropsType> = ({
 };
 
 export default DinamickPath;
+
+
+
+
+
+
+
+
+
 

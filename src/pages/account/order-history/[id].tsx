@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import DinamickPath, { orders } from "@/components/components/dinamickPath/dinamikPath";
+import DinamickPath, { orders } from "@/components/components/dinamickPath/dinamickPath";
 import { statusCategories } from "@/components/components/statusCategories/statusCategories";
 import { useAppDispatch } from "@/components/redux/store";
 import { IIngredient, setActiveIngr } from "@/components/redux/slices/addCartSlice";
@@ -66,12 +66,10 @@ interface ModalType {
 const InfoCardOrder: React.FC<ModalType> = (props) => {
   console.log(props)
 
-  // const orderParse = JSON.parse(props?.order)
   const orderObject = props?.order
   console.log(orderObject)
 
   const router = useRouter()
-  const dispatch = useAppDispatch()
 
   const closedModal = () => {
     router.push('/account/order-history')
@@ -80,7 +78,8 @@ const InfoCardOrder: React.FC<ModalType> = (props) => {
   return (
     <Window onClick={() => closedModal()}>
       <OrderContent onClick={(e) => e.stopPropagation()}>
-        <DinamickPath closedModal={closedModal}  props={orderObject} status={statusCategories[orderObject.status]}/>
+        {/* <DinamickPath closedModal={closedModal}/> */}
+        <DinamickPath closedModal={closedModal}  order={orderObject} status={statusCategories[orderObject.status]}/>
       </OrderContent>
     </Window>
   );
