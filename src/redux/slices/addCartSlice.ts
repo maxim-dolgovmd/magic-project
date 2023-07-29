@@ -1,5 +1,6 @@
 import {PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store';
+import { CardFromLockalStorage } from '../../utils/cardFromLockalStorage';
 
 export interface IIngredient {
     id: number,

@@ -252,9 +252,9 @@ const Constructor: React.FC = () => {
     console.log(typeof(filterIngr.id))
 
     const dispatch = useAppDispatch();
-    const { sumProduct, addProduct, activeIngr, activeOrder, cartActive, isMenuClicked} = useSelector(AddCartSelect);
+    const { sumProduct, addProduct, activeIngr, activeOrder} = useSelector(AddCartSelect);
 
-    const hasBunds = addProduct.find((product: IIngredient) => product.category === 'Булки')
+    const hasBunds = addProduct?.find((product: IIngredient) => product.category === 'Булки')
 
     const addMap = (id: number) => {
         return getCountFromCart(addProduct).get(id)
@@ -352,7 +352,7 @@ const Constructor: React.FC = () => {
                             <HeaderCard>Корзина</HeaderCard>
                             <OverlayScrollbarsComponent>
                                 <GridBurger heightScrollCart={heightScrollCart}>
-                                    {addProduct.length > 0 ? (
+                                    {addProduct?.length > 0 ? (
                                         <CardBurger addProduct={addProduct}/>
                                     ) : (
                                         <div>Ваша корзина пуста</div>
@@ -371,7 +371,7 @@ const Constructor: React.FC = () => {
                                         dispatch(setDeleteOrder())
                                         createOrder(isProduct)
                                     }}
-                                    disabled={addProduct.length === 0}
+                                    disabled={addProduct?.length === 0}
                                 >
                                     Оформить заказ
                                 </Button>
@@ -404,7 +404,7 @@ const Constructor: React.FC = () => {
                             // dispatch(setDeleteOrder())
                             // createOrder(isProduct)
                         }}
-                        disabled={addProduct.length === 0}
+                        disabled={addProduct?.length === 0}
                     >
                         Смотреть заказ
                     </Button>
